@@ -1,0 +1,12 @@
+.dashboard_layout{
+  display:flex;
+  min-height: 100vh;
+}
+
+.dashboard_content{
+ flex: 1;
+}
+
+.dashboard_main{
+
+}
