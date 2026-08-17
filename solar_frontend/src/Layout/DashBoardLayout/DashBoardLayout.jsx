@@ -9,7 +9,7 @@ function DashBoardLayout(){
         <>
            <div className="dashboard_layout">
               <SideBar/>
-              <div className="dashboard_Content">
+              <div className="dashboard_content">
                 <TopBar/>
                 <main className="dashboard_main">
                     <Outlet/>
