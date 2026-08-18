@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink } from "react-router";
 import {
     Home,
     Users,
@@ -22,14 +23,6 @@ import {
 import "./SideBar.css";
 
 function SideBar() {
-
-    // Controls which dropdown is open
-    // const [openMenu, setOpenMenu] = useState("lead");
-    // const [collapsed, setCollapsed] = useState(false);
-
-    // const toggleMenu = (menuName) => {
-    //     setOpenMenu(openMenu === menuName ? null : menuName);
-    // };
      
     const [openMenu, setOpenMenu] = useState("lead");
     const [collapsed, setCollapsed] = useState(false);
@@ -80,13 +73,13 @@ const toggleMenu = (menuName) => {
 
 
             {/* ================= DASHBOARD ================= */}
-            <div className="menu-item active">
+            <NavLink to='/' className="menu-item active"style={{marginTop:'5px'}}>
 
                 <Home size={25} />
 
                 <span>Dashboard</span>
 
-            </div>
+            </NavLink>
 
 
             {/* =================================================
@@ -120,40 +113,42 @@ const toggleMenu = (menuName) => {
 
                     <div className="submenu">
 
-                        <div className="submenu-item">
+                        <NavLink  
+                        to='/dashboard/add-inquiry' 
+                        className="submenu-item">
                             <Plus size={20} />
                             <span>Add Inquiry</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to='/dashboard/view-inquiry' className="submenu-item">
                             <Eye size={20} />
                             <span>View Inquiry</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to='/dashboard/re-followup' className="submenu-item">
                             <Phone size={20} />
                             <span>Re Followup</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to='/dashboard/visit' className="submenu-item">
                             <ClipboardList size={20} />
                             <span>Visit</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to='/dashboard/future-client' className="submenu-item">
                             <Users size={20} />
                             <span>Future Client</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to='/dashboard/schedule-client' className="submenu-item">
                             <Calendar size={20} />
                             <span>Schedule Client</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to='/dashboard/quotations' className="submenu-item">
                             <FileText size={20} />
                             <span>Quotations</span>
-                        </div>
+                        </NavLink>
 
                     </div>
 

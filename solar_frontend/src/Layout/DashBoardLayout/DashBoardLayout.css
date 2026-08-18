@@ -47,6 +47,9 @@
 
 .dashboard_main{
   flex: 1;
+  
+  padding: 24px 24px 40px;
+  color: #26345f;
 
     min-width: 0;
     min-height: 0;
