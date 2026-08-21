@@ -11,6 +11,9 @@ import FutureClient from './Views/Leads_Management/Future_Clients/FutureClients.
 import ScheduleClient from './Views/Leads_Management/Schedule_Client/ScheduleClient.jsx';
 import Quotation from './Views/Leads_Management/Quotation/Quotation.jsx';
 
+//===========Users======================
+import ViewUsers from "./Views/Users/View_Users/ViewUsers.jsx";
+
 import './App.css'
 
 function App() {
@@ -31,6 +34,9 @@ function App() {
             <Route path='dashboard/future-client' element={<FutureClient/>}/>
             <Route path='dashboard/schedule-client' element={<ScheduleClient/>}/>
             <Route path='dashboard/quotations' element={<Quotation/>}/>
+
+            {/* Users */}
+            <Route path='dashboard/view-users' element={<ViewUsers/>}/>
            
           </Route>
         </Routes>

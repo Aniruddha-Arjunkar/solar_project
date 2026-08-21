@@ -4,7 +4,7 @@
     
     position: relative;
 
-    width: 300px;
+    width: 305px;
     height: 100vh;
 
     flex-shrink: 0;
@@ -350,7 +350,7 @@
 /* ============= GLASS SCROLLBAR ===============*/
 
 .sidebar {
-    scrollbar-width: thin;
+    scrollbar-width:thin;
 
     scrollbar-color:
         rgba(255, 255, 255, 0.20)
@@ -361,7 +361,7 @@
 /* Chrome / Edge / Safari */
 
 .sidebar::-webkit-scrollbar {
-    width: 5px;
+    width: 3px;
 }
 
 

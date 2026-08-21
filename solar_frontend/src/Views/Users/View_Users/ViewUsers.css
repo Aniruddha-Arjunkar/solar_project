@@ -1,0 +1,519 @@
+/* =========================================
+   ADD USER FORM OVERLAY
+========================================= */
+
+.user-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+
+    backdrop-filter: blur(4px);
+}
+
+
+/* =========================================
+   FORM CONTAINER
+========================================= */
+
+.user-form-container {
+    width: 450px;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    padding: 28px 30px;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+
+    animation: userFormAppear 0.2s ease-out;
+}
+
+
+/* =========================================
+   FORM ANIMATION
+========================================= */
+
+@keyframes userFormAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* =========================================
+   FORM HEADER
+========================================= */
+
+.user-form-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+}
+
+.user-form-header h2 {
+    margin: 0;
+
+    font-size: 27px;
+
+    font-weight: 600;
+
+    color: #1e3a70;
+}
+
+
+/* Close Button */
+
+.close-form-button {
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #64748b;
+}
+
+.close-form-button:hover {
+    background: #f1f5f9;
+
+    color: #1e3a70;
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    font-size: 17px;
+
+    font-weight: 600;
+
+    color: #334155;
+
+    margin-bottom: 7px;
+}
+
+.form-group input {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 11px 13px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 20px;
+
+    font-family: inherit;
+
+    transition: 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #20b7b5;
+
+    box-shadow: 0 0 0 3px rgba(32, 183, 181, 0.12);
+}
+
+.form-group input::placeholder {
+    color: #94a3b8;
+}
+
+
+/* =========================================
+   FORM BUTTONS
+========================================= */
+
+.user-form-buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+/* Cancel */
+
+.cancel-button {
+    padding: 10px 20px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #475569;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background: #f8fafc;
+}
+
+
+/* Add User */
+
+.save-user-button {
+    padding: 10px 20px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #20bcb9;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.save-user-button:hover {
+    background: #18a7a5;
+}
+
+/* =========================================
+   USERS TABLE SECTION
+========================================= */
+
+.users-table-section {
+    margin-top: 30px;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.06);
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.users-table-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 22px 25px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.users-table-header h2 {
+    margin: 0 0 5px 0;
+
+    font-size: 21px;
+
+    font-weight: 600;
+
+    color: #1e3a70;
+}
+
+.users-table-header p {
+    margin: 0;
+
+    font-size: 14px;
+
+    color: #64748b;
+}
+
+
+/* User Count */
+
+.user-count {
+    padding: 7px 13px;
+
+    border-radius: 20px;
+
+    background: #e8fafa;
+
+    color: #159c9a;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   TABLE WRAPPER
+========================================= */
+
+.users-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.users-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 750px;
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.users-table thead {
+    background: #f8fafc;
+}
+
+.users-table th {
+    padding: 15px 20px;
+
+    text-align: left;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #64748b;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.users-table td {
+    padding: 17px 20px;
+
+    font-size: 14px;
+
+    color: #334155;
+
+    border-bottom: 1px solid #eef2f7;
+}
+
+.users-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.users-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================
+   USER ID
+========================================= */
+
+.user-id {
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #64748b;
+}
+
+
+/* =========================================
+   USER NAME
+========================================= */
+
+.user-name-cell {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    font-weight: 600;
+
+    color: #1e293b;
+}
+
+
+/* Avatar */
+
+.user-avatar {
+    width: 35px;
+
+    height: 35px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #e8fafa;
+
+    color: #159c9a;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.user-actions {
+    display: flex;
+
+    gap: 8px;
+}
+
+
+/* Edit */
+
+.edit-user-button {
+    padding: 7px 13px;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 6px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.edit-user-button:hover {
+    background: #dbeafe;
+}
+
+
+/* Delete */
+
+.delete-user-button {
+    padding: 7px 13px;
+
+    border: 1px solid #fee2e2;
+
+    border-radius: 6px;
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.delete-user-button:hover {
+    background: #fee2e2;
+}
+
+
+/* =========================================
+   NO USERS
+========================================= */
+
+.no-users {
+    text-align: center !important;
+
+    padding: 45px 20px !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 14px !important;
+}

@@ -458,10 +458,10 @@ const toggleMenu = (menuName) => {
 
                     <div className="submenu">
 
-                        <div className="submenu-item">
+                        <NavLink  to='dashboard/view-users' className="submenu-item">
                             <Eye size={20} />
                             <span>View Users</span>
-                        </div>
+                        </NavLink>
 
                     </div>
 
