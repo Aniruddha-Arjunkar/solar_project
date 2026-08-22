@@ -4,6 +4,8 @@ import {
     X
 } from "lucide-react";
 
+import axios from "axios";
+
 import { useState , useEffect } from "react";
 
 import "./ViewUsers.css";
@@ -13,18 +15,159 @@ function ViewUsers() {
     const [showForm, setShowForm] = useState(false);
     const [users, setUsers] = useState([]);
 
-     useEffect(() => {
+    const [editingUserId, setEditingUserId] = useState(null);
 
-        fetch("http://localhost:8080/api/users")
-            .then(response => response.json())
-            .then(data => {
-                setUsers(data);
+    const [formData, setFormData] = useState({
+    name: "",
+    contact: "",
+    email: "",
+    password: ""
+});
+
+
+    const resetForm = () => {
+
+    setFormData({
+        name: "",
+        contact: "",
+        email: "",
+        password: ""
+    });
+
+    setEditingUserId(null);
+    setShowForm(false);
+};
+
+    //============= GET all Users =================
+    useEffect(() => {
+
+    axios
+        .get("http://localhost:8080/api/users")
+        .then(response => {
+            setUsers(response.data);
+        })
+        .catch(error => {
+            console.error("Error fetching users:", error);
+        });
+
+         }, []);
+
+       const handleInputChange = (event) => {
+          const { name, value } = event.target;
+          setFormData({
+            ...formData,
+          [name]: value
+    });
+   };
+   
+   //============= Create User & Update User ==========================
+    const handleSubmitUser = (event) => {
+
+    event.preventDefault();
+
+    if (editingUserId) {
+
+        // UPDATE USER
+        axios
+            .put(
+                `http://localhost:8080/api/users/${editingUserId}`,
+                formData
+            )
+            .then(response => {
+
+                console.log("User updated:", response.data);
+
+                setUsers(
+                    users.map(user =>
+                        user.id === editingUserId
+                            ? response.data
+                            : user
+                    )
+                );
+
+                resetForm();
+
             })
             .catch(error => {
-                console.error("Error fetching users:", error);
+
+                console.error("Error updating user:", error);
+
             });
 
-    }, []);
+    } else {
+
+        // CREATE USER
+        axios
+            .post(
+                "http://localhost:8080/api/users",
+                formData
+            )
+            .then(response => {
+
+                console.log("User created:", response.data);
+
+                setUsers([
+                    ...users,
+                    response.data
+                ]);
+
+                resetForm();
+
+            })
+            .catch(error => {
+
+                console.error("Error creating user:", error);
+
+            });
+
+    }
+
+};
+
+
+    //================= Edit User ========================
+     const handleEditUser = (user) => {
+
+    setEditingUserId(user.id);
+
+    setFormData({
+        name: user.name,
+        contact: user.contact,
+        email: user.email,
+        password: user.password
+    });
+
+    setShowForm(true);
+
+};
+
+    //================ Delete User ==============================
+    const handleDeleteUser = (id) => {
+
+    const confirmDelete = window.confirm(
+        "Are you sure you want to delete this user?"
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    axios
+        .delete(`http://localhost:8080/api/users/${id}`)
+        .then(() => {
+
+            console.log("User deleted");
+
+            setUsers(
+                users.filter(user => user.id !== id)
+            );
+
+        })
+        .catch(error => {
+            console.error("Error deleting user:", error);
+        });
+
+    };
 
     return (
         <section className="view-users-page">
@@ -53,8 +196,18 @@ function ViewUsers() {
 
                     <button
                         className="top-div-button"
-                        onClick={() => setShowForm(true)}
-                    >
+                        onClick={() => {
+                              setEditingUserId(null);
+
+                              setFormData({
+                                 name: "",
+                                 contact: "",
+                                 email: "",
+                                 password: ""
+                                });
+
+                               setShowForm(true);
+                               }}>
                         <UserRoundPlus size={22} />
                         Add User
                     </button>
@@ -64,7 +217,7 @@ function ViewUsers() {
             </div>
 
 
-            {/* -------- Add User Modal -------- */}
+            {/*=========== Add User Modal ============= */}
 
             {showForm && (
 
@@ -72,17 +225,17 @@ function ViewUsers() {
 
                     <div className="user-form-container">
 
-                        {/* Form Header */}
+                        {/*==== Form Header =======*/}
 
                         <div className="user-form-header">
 
-                            <h2>Add New User</h2>
+                            <h2>{editingUserId ? 
+                            "Edit User" : "Add New User"}</h2>
 
                             <button
                                 className="close-form-button"
-                                onClick={() => setShowForm(false)}
-                            >
-                                <X size={22} />
+                                onClick={resetForm}>
+                               <X size={22} />
                             </button>
 
                         </div>
@@ -90,7 +243,7 @@ function ViewUsers() {
 
                         {/* Form */}
 
-                        <form>
+                        <form onSubmit={handleSubmitUser}>
 
                             {/* Name */}
 
@@ -103,12 +256,14 @@ function ViewUsers() {
                                 <input
                                     type="text"
                                     id="name"
+                                    name="name"
                                     placeholder="Enter user name"
-                                />
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    required
+                                    />
 
                             </div>
-
-
                             {/* Contact Number */}
 
                             <div className="form-group">
@@ -118,14 +273,16 @@ function ViewUsers() {
                                 </label>
 
                                 <input
-                                    type="tel"
-                                    id="contact"
-                                    placeholder="Enter contact number"
-                                />
+                                  type="tel"
+                                  id="contact"
+                                  name="contact"
+                                  placeholder="Enter contact number"
+                                  value={formData.contact}
+                                  onChange={handleInputChange}
+                                  required
+                                 />
 
                             </div>
-
-
                             {/* Email */}
 
                             <div className="form-group">
@@ -135,14 +292,16 @@ function ViewUsers() {
                                 </label>
 
                                 <input
-                                    type="email"
-                                    id="email"
-                                    placeholder="Enter email address"
-                                />
+                                  type="email"
+                                  id="email"
+                                  name="email"
+                                  placeholder="Enter email address"
+                                  value={formData.email}
+                                  onChange={handleInputChange}
+                                  required
+                                  />
 
                             </div>
-
-
                             {/* Password */}
 
                             <div className="form-group">
@@ -154,39 +313,36 @@ function ViewUsers() {
                                 <input
                                     type="password"
                                     id="password"
+                                    name="password"
                                     placeholder="Enter password"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                    required
                                 />
 
                             </div>
 
 
                             {/* Buttons */}
-
                             <div className="user-form-buttons">
 
                                 <button
-                                    type="button"
-                                    className="cancel-button"
-                                    onClick={() => setShowForm(false)}
-                                >
-                                    Cancel
+                                   type="button"
+                                   className="cancel-button"
+                                   onClick={resetForm}>
+                                   Cancel
                                 </button>
 
                                 <button
                                     type="submit"
                                     className="save-user-button"
                                 >
-                                    Add User
+                                {editingUserId ? "Update User" : "Add User"}
                                 </button>
-
                             </div>
-
                         </form>
-
                     </div>
-
                 </div>
-
             )}
         {/*-- Table --*/}
            {/* -------- Users Table -------- */}
@@ -221,22 +377,16 @@ function ViewUsers() {
 
 
             <tbody>
-
                 {users.length > 0 ? (
-
                     users.map(user => (
-
                         <tr key={user.id}>
-
                             <td>
                                 <span className="user-id">
-                                    #{user.id}
+                                    {user.id}
                                 </span>
                             </td>
-
                             <td>
                                 <div className="user-name-cell">
-
                                     <div className="user-avatar">
                                         {user.name?.charAt(0).toUpperCase()}
                                     </div>
@@ -244,38 +394,33 @@ function ViewUsers() {
                                     <span>
                                         {user.name}
                                     </span>
-
                                 </div>
                             </td>
-
                             <td>
                                 {user.contact}
                             </td>
-
                             <td>
                                 {user.email}
                             </td>
-
                             <td>
 
-                                <div className="user-actions">
+                              <div className="user-actions">
+                                <button
+                                 className="edit-user-button"
+                                 onClick={() => handleEditUser(user)}>
+                                  Edit
+                                 </button>
 
-                                    <button className="edit-user-button">
-                                        Edit
-                                    </button>
+                                 <button
+                                   className="delete-user-button"
+                                   onClick={() => handleDeleteUser(user.id)}>
+                                   Delete
+                                 </button>
 
-                                    <button className="delete-user-button">
-                                        Delete
-                                    </button>
-
-                                </div>
-
+                              </div>
                             </td>
-
                         </tr>
-
                     ))
-
                 ) : (
 
                     <tr>
@@ -285,13 +430,9 @@ function ViewUsers() {
                     </tr>
 
                 )}
-
             </tbody>
-
         </table>
-
     </div>
-
 </div>
         </section>
     );
