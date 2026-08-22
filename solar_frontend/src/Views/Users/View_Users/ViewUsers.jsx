@@ -15,6 +15,8 @@ function ViewUsers() {
     const [showForm, setShowForm] = useState(false);
     const [users, setUsers] = useState([]);
 
+    const [searchTerm, setSearchTerm] = useState("");
+
     const [editingUserId, setEditingUserId] = useState(null);
 
     const [formData, setFormData] = useState({
@@ -168,6 +170,17 @@ function ViewUsers() {
         });
 
     };
+    
+    //================== Filter User ===================
+    const filteredUsers = users.filter((user) => {
+    const search = searchTerm.toLowerCase();
+
+    return (
+        user.name?.toLowerCase().includes(search) ||
+        user.contact?.toLowerCase().includes(search) ||
+        user.email?.toLowerCase().includes(search)
+    );
+});
 
     return (
         <section className="view-users-page">
@@ -347,17 +360,29 @@ function ViewUsers() {
         {/*-- Table --*/}
            {/* -------- Users Table -------- */}
 
-<div className="users-table-section">
+        <div className="users-table-section">
 
-    <div className="users-table-header">
-        <div>
-            <h2>All Users</h2>
-            <p>Manage users registered in the system.</p>
+           <div className="users-table-header">
+
+              <div>
+                 <h2>All Users</h2>
+                 <p>Manage users registered in the system.</p>
+              </div>
+
+        <div className="users-table-controls">
+            <div className="user-search-box">
+              <input
+                type="text"
+                placeholder="Search users..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}/>
+            </div>
+
+            <span className="user-count">
+               {filteredUsers.length} Users
+            </span>
+
         </div>
-
-        <span className="user-count">
-            {users.length} Users
-        </span>
     </div>
 
 
@@ -377,8 +402,8 @@ function ViewUsers() {
 
 
             <tbody>
-                {users.length > 0 ? (
-                    users.map(user => (
+                {filteredUsers.length > 0 ? (
+                    filteredUsers.map(user => (
                         <tr key={user.id}>
                             <td>
                                 <span className="user-id">
@@ -425,10 +450,12 @@ function ViewUsers() {
 
                     <tr>
                         <td colSpan="5" className="no-users">
-                            No users found.
+                           {searchTerm
+                           ? "No users found matching your search."
+                           : "No users found."
+                              }
                         </td>
                     </tr>
-
                 )}
             </tbody>
         </table>
