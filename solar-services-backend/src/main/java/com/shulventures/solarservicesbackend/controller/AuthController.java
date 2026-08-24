@@ -1,6 +1,7 @@
 package com.shulventures.solarservicesbackend.controller;
 
 import com.shulventures.solarservicesbackend.dto.LoginRequest;
+import com.shulventures.solarservicesbackend.dto.LoginResponse;
 import com.shulventures.solarservicesbackend.entity.User;
 import com.shulventures.solarservicesbackend.repository.UserRepository;
 
@@ -12,30 +13,62 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserRepository userRepo;
+    private final UserRepository userRepository;
 
-    public AuthController(UserRepository userRepo) {
-        this.userRepo = userRepo;
+    public AuthController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(
+            @RequestBody LoginRequest loginRequest
+    ) {
 
-        User user = userRepo.findByEmail(loginRequest.getEmail())
+        User user = userRepository
+                .findByEmail(loginRequest.getEmail())
                 .orElse(null);
 
+        // User not found
         if (user == null) {
+
+            LoginResponse response = new LoginResponse(
+                    false,
+                    "Invalid email or password",
+                    null,
+                    null,
+                    null
+            );
+
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid email or password");
+                    .body(response);
         }
 
+        // Password doesn't match
         if (!user.getPassword().equals(loginRequest.getPassword())) {
+
+            LoginResponse response = new LoginResponse(
+                    false,
+                    "Invalid email or password",
+                    null,
+                    null,
+                    null
+            );
+
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid email or password");
+                    .body(response);
         }
 
-        return ResponseEntity.ok("Login successful");
+        // Login successful
+        LoginResponse response = new LoginResponse(
+                true,
+                "Login successful",
+                user.getId(),
+                user.getName(),
+                user.getEmail()
+        );
+
+        return ResponseEntity.ok(response);
     }
 }
