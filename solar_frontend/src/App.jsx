@@ -11,8 +11,11 @@ import FutureClient from './Views/Leads_Management/Future_Clients/FutureClients.
 import ScheduleClient from './Views/Leads_Management/Schedule_Client/ScheduleClient.jsx';
 import Quotation from './Views/Leads_Management/Quotation/Quotation.jsx';
 
-//===========Users======================
+//=========== Users ======================
 import ViewUsers from "./Views/Users/View_Users/ViewUsers.jsx";
+
+//============ User Admin =============
+import Login from './pages/Login/Login.jsx';
 
 import './App.css'
 
@@ -21,6 +24,12 @@ function App() {
   return (
     <>
         <Routes>
+
+          {/*========== Admin Login ===============*/}
+            <Route path='/login' element={<Login/>}/>
+
+
+          {/*======== Layout =================*/}
           <Route path='/' element={<Layout/>}>
 
             {/* DashBoard */}
