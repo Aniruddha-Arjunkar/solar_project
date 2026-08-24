@@ -1,0 +1,239 @@
+/* =========================================
+   TABLE SECTION
+========================================= */
+
+.lead-table-section {
+
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 11px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.05);
+
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.lead-table-header {
+
+    padding: 18px 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 1px solid #e2e8f0;
+
+}
+
+
+.lead-table-header h2 {
+
+    margin: 0;
+
+    font-size: 20px;
+
+    color: #1e3a70;
+
+}
+
+
+.lead-table-header p {
+
+    margin: 5px 0 0;
+
+    font-size: 13px;
+
+    color: #64748b;
+
+}
+
+
+.lead-record-count {
+
+    background: #eafafa;
+
+    color: #159c9a;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   TABLE WRAPPER
+========================================= */
+
+.lead-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.lead-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+
+.lead-table th {
+
+    background: #f8fafc;
+
+    color: #475569;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    padding: 13px 15px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    white-space: nowrap;
+
+}
+
+
+.lead-table td {
+
+    padding: 14px 15px;
+
+    font-size: 13px;
+
+    color: #334155;
+
+    border-bottom: 1px solid #edf2f7;
+
+    white-space: nowrap;
+
+}
+
+
+.lead-table tbody tr {
+
+    transition: background 0.15s ease;
+
+}
+
+
+.lead-table tbody tr:hover {
+
+    background: #f8fafc;
+
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.lead-actions {
+
+    display: flex;
+
+    gap: 7px;
+
+}
+
+
+.lead-edit-btn,
+.lead-delete-btn {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 6px 10px;
+
+    border-radius: 5px;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    font-weight: 500;
+
+}
+
+
+.lead-edit-btn {
+
+    color: #2563eb;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+
+}
+
+
+.lead-edit-btn:hover {
+
+    background: #dbeafe;
+
+}
+
+
+.lead-delete-btn {
+
+    color: #dc2626;
+
+    background: #fff1f2;
+
+    border: 1px solid #fecdd3;
+
+}
+
+
+.lead-delete-btn:hover {
+
+    background: #ffe4e6;
+
+}
+
+
+/* =========================================
+   NO DATA
+========================================= */
+
+.lead-no-data {
+
+    text-align: center !important;
+
+    padding: 35px !important;
+
+    color: #94a3b8 !important;
+
+}

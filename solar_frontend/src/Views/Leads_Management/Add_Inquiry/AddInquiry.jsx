@@ -199,40 +199,42 @@ function AddInquiry() {
 
                             <div className="form-group">
 
-                                <label htmlFor="service">
-                                    Service <span>*</span>
+                               <label htmlFor="solarServiceType">
+                                  Solar Service Type <span>*</span>
                                 </label>
 
-                                <div className="input-wrapper select-wrapper">
-                                    <BriefcaseBusiness size={18} />
-
-                                    <select id="service">
-
-                                        <option value="">
-                                            Select service
-                                        </option>
-
-                                        <option value="solar">
-                                            Solar Solutions
-                                        </option>
-
-                                        <option value="electrical">
-                                            Electrical Services
-                                        </option>
-
-                                        <option value="pest-control">
-                                            Pest Control
-                                        </option>
-
-                                        <option value="training">
-                                            Training & Development
-                                        </option>
-
-                                    </select>
-
-                                </div>
+                             <div className="input-wrapper select-wrapper">
+                                <BriefcaseBusiness size={18} />
+                                <select id="solarServiceType">
+                                   <option value="">
+                                     Select solar service
+                                   </option>
+                                   <option value="installation">
+                                    Solar Panel Installation
+                                   </option>
+                                   <option value="maintenance">
+                                     Solar Panel Maintenance
+                                   </option>
+                                   <option value="repair">
+                                     Solar Panel Repair
+                                   </option>
+                                   <option value="site-survey">
+                                     Solar Site Survey
+                                   </option>
+                                   <option value="consultation">
+                                     Solar Consultation
+                                   </option>
+                                   <option value="upgrade">
+                                     Solar System Upgrade
+                                   </option>
+                                   <option value="other">
+                                    Other
+                                   </option>
+                               </select>
 
                             </div>
+
+                        </div>
 
 
                             {/* Inquiry Date */}

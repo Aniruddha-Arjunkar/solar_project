@@ -20,6 +20,9 @@ import Login from './pages/Login/Login.jsx';
 //==========Protected Rotes ==========
 import ProjectedRoute from './Components/ProtectedRoutes.jsx';
 
+//========= LoginRoute.jsx===============
+// import LoginRoute from './Components/LoginRoute.jsx';
+
 import './App.css'
 
 function App() {
