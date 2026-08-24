@@ -280,8 +280,26 @@
         box-shadow 0.2s;
 }
 
-/* =============== CLEAR BUTTON ============== */
+/* ============== LOGIN MESSAGE ========== */
 
+.login-message {
+    margin: 5px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Successful login */
+.login-message.success {
+    color: #16a34a;
+}
+
+/* Failed login */
+
+.login-message.error {
+    color: #dc2626;
+}
+
+/* =============== CLEAR BUTTON ============== */
 .admin-clear-btn {
     padding: 0 17px;
     border: 1px solid #d7dee7;
@@ -316,6 +334,12 @@
 
 .admin-login-btn:active {
     transform: translateY(0);
+}
+
+.admin-login-btn:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
 }
 
 /* ======= RESPONSIVE ================ */
@@ -405,3 +429,4 @@
         flex: 1;
     }
 }
+

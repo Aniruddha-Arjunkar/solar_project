@@ -17,6 +17,9 @@ import ViewUsers from "./Views/Users/View_Users/ViewUsers.jsx";
 //============ User Admin =============
 import Login from './pages/Login/Login.jsx';
 
+//==========Protected Rotes ==========
+import ProjectedRoute from './Components/ProtectedRoutes.jsx';
+
 import './App.css'
 
 function App() {
@@ -27,7 +30,9 @@ function App() {
 
           {/*========== Admin Login ===============*/}
             <Route path='/login' element={<Login/>}/>
-
+          
+          {/* ===== protected Routes ============= */}
+          <Route element={<ProjectedRoute/>}>
 
           {/*======== Layout =================*/}
           <Route path='/' element={<Layout/>}>
@@ -47,6 +52,7 @@ function App() {
             {/* Users */}
             <Route path='dashboard/view-users' element={<ViewUsers/>}/>
            
+          </Route>
           </Route>
         </Routes>
     </>
