@@ -10,12 +10,27 @@ import {
     User
 } from "lucide-react";
 
+import { useNavigate } from "react-router";
+
 import "./TopBar.css";
 
 
 function Topbar() {
 
     const [profileOpen, setProfileOpen] = useState(false);
+    const navigate = useNavigate();
+
+    // Get Logged-In User
+      const storedUser = localStorage.getItem("user");
+      const user = storedUser
+        ? JSON.parse(storedUser) : null;
+    
+    /* ===== USER DETAILS =========*/
+
+    const userName = user?.name || "Admin";
+    const userEmail = user?.email || "";
+    const userInitial = userName.charAt(0).toUpperCase();
+
 
     // Current date
     const currentDate = new Date().toLocaleDateString("en-IN", {
@@ -23,6 +38,22 @@ function Topbar() {
         month: "short",
         year: "numeric"
     });
+
+    /* =========== LOGOUT ======= */
+    const handleLogout = () => {
+
+        // Remove authentication information
+        localStorage.removeItem("isLoggedIn");
+
+        // Remove logged-in user
+        localStorage.removeItem("user");
+
+        // Close dropdown
+        setProfileOpen(false);
+
+        // Go to login page
+        navigate("/login", { replace: true });
+    };
 
 
     return (
@@ -115,13 +146,13 @@ function Topbar() {
                     >
 
                         <div className="profile-avatar">
-                            A
+                             {userInitial}
                         </div>
 
                         <div className="profile-info">
 
                             <span className="profile-name">
-                                Admin
+                                {userName}
                             </span>
 
                             <span className="profile-role">
@@ -149,12 +180,12 @@ function Topbar() {
                             <div className="dropdown-user">
 
                                 <div className="profile-avatar large">
-                                    A
+                                     {userInitial}
                                 </div>
 
                                 <div>
                                     <strong>
-                                        Admin
+                                        {userName}
                                     </strong>
 
                                     <span>
@@ -179,14 +210,13 @@ function Topbar() {
                             </button>
 
 
-                            <button className="dropdown-item logout">
-
+                            <button className="dropdown-item logout"
+                            type="button"
+                            onClick={handleLogout}>
                                 <LogOut size={22} />
-
                                 <span>
                                     Logout
                                 </span>
-
                             </button>
 
                         </div>

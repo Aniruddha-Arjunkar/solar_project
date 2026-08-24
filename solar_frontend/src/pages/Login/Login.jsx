@@ -81,7 +81,16 @@ function Login() {
                 setLoginSuccess(true);
                 localStorage.setItem("isLoggedIn", "true");
                 setMessage(data.message);
-                console.log("Login successful:", data);
+                console.log("Login successful:", data); 
+                // Save logged-in user
+                localStorage.setItem(
+                "user",
+                  JSON.stringify({
+                  id: data.id,
+                  name: data.name,
+                  email: data.email
+                 }));
+
                 navigate("/");
                 // We will add dashboard navigation here later.
             } else {
