@@ -2,7 +2,7 @@ import {
     Pencil,
     Trash2
 } from "lucide-react";
-
+import TableAction from "./../TableAction/TableAction.jsx";
 import "./ModuleTable.css";
 
 function ModuleTable({columns,data}){
@@ -54,18 +54,7 @@ function ModuleTable({columns,data}){
                                     ))}
                                     <td>
                                         <div className="module-table-action-btn">
-                                            <button
-                                                className="module-table-edit-btn"
-                                            >
-                                                <Pencil size={15} />
-                                                Edit
-                                            </button>
-
-                                            <button
-                                                className="module-table-delete-btn">
-                                                <Trash2 size={15} />
-                                                Delete
-                                            </button>
+                                            < TableAction row={item}/>
                                         </div>
                                     </td>
                                 </tr>
