@@ -2,126 +2,100 @@
    LEAD PAGE HEADER
 ========================================= */
 
-.lead-page-header {
-
+.module-page-header {
     display: flex;
-
     justify-content: space-between;
-
     align-items: flex-start;
-
     width: 100%;
-
-    margin-bottom: 22px;
-
+    margin-bottom: 25px;
 }
 
 
-/* =========================================
-   HEADING SECTION
-========================================= */
+/* ===== HEADING SECTION =========== */
 
-.lead-page-heading {
-
+.module-page-heading {
     display: flex;
-
     flex-direction: column;
-
 }
 
 
-.lead-breadcrumb {
-
-    font-size: 13px;
-
+.module-currectPage-location {
+    font-size: 14px;
+    font-weight: lighter;
     color: #64748b;
-
     margin-bottom: 7px;
-
 }
 
 
-.lead-breadcrumb span {
-
+.module-currectPage-location span {
     margin: 0 8px;
-
     color: #94a3b8;
-
 }
 
-
-.lead-page-heading h1 {
+.module-page-heading h1 {
+   display: flex;
+    align-items: center;
+    gap: 10px;
 
     margin: 0;
 
-    font-size: 28px;
+    color: #1f315f;
 
-    font-weight: 600;
-
-    color: #1e3a70;
-
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
+.module-page-heading h1 svg{
+    color:#1f315f;
+}
 
-.lead-page-heading p {
-
-    margin: 7px 0 0;
-
-    font-size: 13px;
-
+.module-page-heading p {
+    margin: 7px 0 0 50px;
+    font-size: 15px;
     color: #64748b;
-
 }
 
 
-/* =========================================
-   BUTTON SECTION
-========================================= */
+/* ======== BUTTON SECTION =================== */
 
-.lead-page-header-button {
-
+.module-page-header-button {
     display: flex;
-
     align-items: center;
-
 }
 
-
-.lead-header-btn {
-
+.module-header-btn {
+    margin-top: 30px;
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 8px;
-
     border: none;
-
     border-radius: 7px;
-
-    padding: 11px 18px;
-
-    background: #20bcb9;
-
+    padding: 13px 18px;
+    background:linear-gradient(
+        135deg,
+        rgba(20, 202, 190, 0.85),
+        rgba(13, 181, 173, 0.70)
+    );
     color: #ffffff;
-
-    font-size: 14px;
-
+    font-size: 15px;
     font-weight: 600;
-
     cursor: pointer;
-
-    transition: 0.2s ease;
-
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 
-.lead-header-btn:hover {
-
-    background: #18a7a5;
-
+.module-header-btn:hover {
+    background:linear-gradient(
+        135deg,
+        rgba(20, 202, 190, 0.95),
+        rgba(13, 181, 173, 0.82)
+    );
     transform: translateY(-1px);
 
+    box-shadow: 0 5px 14px rgba(80, 75, 180, 0.20);
 }

@@ -1,5 +1,4 @@
 import {
-    List,
     UserRoundPlus,
     User,
     Phone,
@@ -12,7 +11,7 @@ import {
     X
 } from "lucide-react";
 
-import { NavLink } from "react-router";
+import MuduleHeader from "./../../../Components/ModulePageHeader/ModulePageHeader.jsx";
 
 import "./AddInquiry.css";
 
@@ -24,40 +23,12 @@ function AddInquiry() {
 
             {/* ========== PAGE HEADER ========= */}
 
-            <div className="page-top-div">
-
-                <div className="top-div-heading-section">
-
-                    <div className="breadcrumb">
-                        Dashboard <span>/</span> Add Inquiry
-                    </div>
-
-                    <h1>
-                        <UserRoundPlus size={42} strokeWidth={1.8} />
-                        Add New Inquiry
-                    </h1>
-
-                    <p>
-                        Create a new customer inquiry and keep track of the lead details.
-                    </p>
-
-                </div>
-
-
-                <div className="top-div-button-section">
-
-                    <NavLink
-                        to="/dashboard/view-inquiry"
-                        className="top-div-button"
-                    >
-                        <List size={22} />
-                        View Inquiries
-                    </NavLink>
-
-                </div>
-
-            </div>
-
+            <MuduleHeader
+              currectPage="Add Inquiry"
+              title="Add New Inquiry"
+              description="Create a new Customer Inquiry and Keep track of the Lead Details."
+              buttonType="view"
+              icon={UserRoundPlus}/>
 
             {/* ========== INQUIRY FORM ============ */}
 

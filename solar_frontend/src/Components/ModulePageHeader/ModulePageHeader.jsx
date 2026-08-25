@@ -5,100 +5,64 @@ import {
 
 import { useNavigate } from "react-router";
 
-import "./LeadPageHeader.css";
+import "./ModulePageHeader.css";
 
 
-function LeadPageHeader({
-    breadcrumb,
-    title,
-    description,
-    buttonType = "view"
-}) {
+function ModulePageHeader({currectPage,title,description,
+                            buttonType , icon : Icon}) {
 
     const navigate = useNavigate();
 
-
     const handleButtonClick = () => {
-
         if (buttonType === "add") {
-
             navigate("/dashboard/add-inquiry");
-
         } else {
-
             navigate("/dashboard/view-inquiry");
-
         }
-
     };
-
 
     return (
 
-        <div className="lead-page-header">
-
-            {/* ================= LEFT ================= */}
-
-            <div className="lead-page-heading">
-
-                <div className="lead-breadcrumb">
-
+        <div className="module-page-header">
+            {/* ==== LEFT ================= */}
+            <div className="module-page-heading">
+                <div className="module-currectPage-location">
                     Dashboard
                     <span>/</span>
-                    {breadcrumb}
-
+                    {currectPage}
                 </div>
 
-
                 <h1>
+                    {
+                        Icon && (<Icon size={35} strokeWidth={1.8}/>)
+                    }
                     {title}
                 </h1>
-
 
                 <p>
                     {description}
                 </p>
-
             </div>
-
 
             {/* ================= RIGHT ================= */}
-
-            <div className="lead-page-header-button">
-
+            <div className="module-page-header-button">
                 {buttonType === "add" ? (
-
                     <button
-                        className="lead-header-btn"
-                        onClick={handleButtonClick}
-                    >
-
+                        className="module-header-btn"
+                        onClick={handleButtonClick}>
                         <Plus size={19} />
-
                         Add Lead
-
                     </button>
-
                 ) : (
-
                     <button
-                        className="lead-header-btn"
-                        onClick={handleButtonClick}
-                    >
-
+                        className="module-header-btn"
+                        onClick={handleButtonClick} >
                         <List size={19} />
-
                         View Inquiries
-
                     </button>
-
                 )}
-
             </div>
-
         </div>
     );
 }
-
-
-export default LeadPageHeader;
+export default ModulePageHeader;
