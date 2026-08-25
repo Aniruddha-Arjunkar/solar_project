@@ -5,7 +5,7 @@ import {
 import TableAction from "./../TableAction/TableAction.jsx";
 import "./ModuleTable.css";
 
-function ModuleTable({columns,data}){
+function ModuleTable({columns, data , onAction}){
 
     return (
 
@@ -54,7 +54,7 @@ function ModuleTable({columns,data}){
                                     ))}
                                     <td>
                                         <div className="module-table-action-btn">
-                                            < TableAction row={item}/>
+                                            <TableAction row={item} onAction={onAction}/>
                                         </div>
                                     </td>
                                 </tr>

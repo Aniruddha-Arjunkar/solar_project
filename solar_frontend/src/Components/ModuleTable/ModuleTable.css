@@ -68,6 +68,7 @@
     color: #334155;
     border-bottom: 1px solid #edf2f7;
     white-space: nowrap;
+    height:50px;
 }
 
 .module-data-table tbody tr {

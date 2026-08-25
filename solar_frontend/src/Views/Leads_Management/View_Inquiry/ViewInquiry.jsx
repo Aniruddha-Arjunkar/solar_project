@@ -2,13 +2,39 @@ import ModuleHeader from "./../../../Components/ModulePageHeader/ModulePageHeade
 import ModuleStats from "./../../../Components/LeadStats/LeadStats.jsx";
 import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
 
+//====== ACTION BUTTON FORMS ===============
+import VisitForm from "./../../../Components/LeadForms/VitisForm/VisitForm.jsx";
+import ReFollowUpForm from "./../../../Components/LeadForms/ReFollowupForm/ReFollowupForm.jsx";
+
 import { Users } from "lucide-react";
 
-import "./ViewInquiry.css"
+import { useState } from "react";
 
-function ViewInquiry(){
+import "./ViewInquiry.css";
 
-     const stats = [
+
+function ViewInquiry() {
+
+    const [selectedLead, setSelectedLead] = useState(null);
+    const [activeAction, setActiveAction] = useState(null);
+
+
+    /* ================= ACTION HANDLER ================= */
+
+    const handleAction = (action, lead) => {
+
+        console.log("Action:", action);
+        console.log("Selected Lead:", lead);
+
+        setSelectedLead(lead);
+        setActiveAction(action);
+
+    };
+
+
+    /* ================= STATS ================= */
+
+    const stats = [
 
         {
             title: "Total Inquiry",
@@ -28,37 +54,49 @@ function ViewInquiry(){
     ];
 
 
+    /* ================= TABLE COLUMNS ================= */
+
     const columns = [
+
         {
             key: "id",
             label: "ID"
         },
+
         {
             key: "name",
             label: "Name"
         },
+
         {
             key: "contact",
             label: "Contact"
         },
+
         {
             key: "email",
             label: "Email"
         },
+
         {
             key: "address",
             label: "Address"
         },
+
         {
             key: "message",
             label: "Message"
         },
+
         {
             key: "date",
             label: "Date"
         }
+
     ];
 
+
+    /* ================= TEMPORARY DATA ================= */
 
     const inquiries = [
 
@@ -94,27 +132,66 @@ function ViewInquiry(){
 
     ];
 
-    return(
+
+    /* ================= CLOSE FORM ================= */
+
+    const handleCloseForm = () => {
+
+        setActiveAction(null);
+        setSelectedLead(null);
+
+    };
+
+
+    return (
+
         <section className="view_inquiry-page">
 
-          {/* ================= HEADER ================= */}
+            {/* ================= HEADER ================= */}
+
             <ModuleHeader
                 currectPage="View Inquiry"
                 title="Inquiry Management"
                 description="View and manage customer inquiries."
                 buttonType="add"
-                icon={Users}/>
+                icon={Users}
+            />
+
 
             {/* ================= STATS ================= */}
+
             <ModuleStats
                 stats={stats}
             />
 
+
             {/* ================= TABLE ================= */}
+
             <ModuleTable
                 columns={columns}
-                data={inquiries}/>
+                data={inquiries}
+                onAction={handleAction}
+            />
+
+
+            {/* ================= RE-FOLLOWUP FORM ================= */}
+            {activeAction === "refollowup" && (
+                <ReFollowUpForm
+                    lead={selectedLead}
+                    onClose={handleCloseForm}/>
+            )}
+
+            {/* ================= VISIT FORM ================= */}
+              {activeAction === "visit" && (
+                <VisitForm
+                lead={selectedLead}
+                onClose={handleCloseForm}/>
+                )}
+
         </section>
-    )
+
+    );
 }
+
+
 export default ViewInquiry;

@@ -7,18 +7,32 @@ import {
     FileText,
     Trash2
 } from "lucide-react";
+
 import { useState } from "react";
+
 import "./TableAction.css";
 
 
-function TableAction({ row }) {
+function TableAction({ row, onAction }) {
 
     const [open, setOpen] = useState(false);
 
 
+    /* ================= ACTION ================= */
+
     const handleAction = (action) => {
-        console.log(action, row);
+
+        console.log("Selected Action:", action);
+        console.log("Selected Row:", row);
+
+        // Close dropdown
         setOpen(false);
+
+        // Send action + selected lead to parent
+        if (onAction) {
+            onAction(action, row);
+        }
+
     };
 
 
@@ -26,104 +40,160 @@ function TableAction({ row }) {
 
         <div className="table-action-container">
 
+
             {/* ================= ACTION BUTTON ================= */}
+
             <button
                 type="button"
                 className="table-action-button"
-                onClick={() => setOpen(!open)}>
+                onClick={() => setOpen(!open)}
+            >
+
                 <span>
                     Action
                 </span>
+
                 <ChevronDown
-                    size={15}
-                    className={open ? "action-arrow-open" : ""}
+                    size={20}
+                    className={
+                        open
+                            ? "action-arrow-open"
+                            : ""
+                    }
                 />
+
             </button>
 
 
             {/* ================= ACTION MENU ================= */}
+
             {open && (
+
                 <div className="table-action-menu">
-                    {/* Re Followup */}
+
+
+                    {/* ========== RE FOLLOWUP ========== */}
+
                     <button
                         type="button"
                         onClick={() =>
-                            handleAction("re-followup")
-                        }>
-                        <RotateCcw size={17} />
+                            handleAction("refollowup")
+                        }
+                    >
+
+                        <RotateCcw size={20} />
+
                         <span>
                             Re Followup
                         </span>
+
                     </button>
 
-                    {/* Visit */}
+
+                    {/* ========== VISIT ========== */}
+
                     <button
                         type="button"
                         onClick={() =>
                             handleAction("visit")
-                        }>
-                        <MapPin size={17} />
+                        }
+                    >
+
+                        <MapPin size={20} />
+
                         <span>
                             Visit
                         </span>
+
                     </button>
 
-                    {/* Service */}
+
+                    {/* ========== SERVICE ========== */}
+
                     <button
                         type="button"
                         onClick={() =>
                             handleAction("service")
-                        }>
-                        <Wrench size={17} />
+                        }
+                    >
+
+                        <Wrench size={20} />
+
                         <span>
                             Service
                         </span>
+
                     </button>
 
-                    {/* Schedule */}
+
+                    {/* ========== SCHEDULE ========== */}
+
                     <button
                         type="button"
                         onClick={() =>
                             handleAction("schedule")
-                        }>
-                        <CalendarDays size={17} />
+                        }
+                    >
+
+                        <CalendarDays size={20} />
+
                         <span>
                             Schedule
                         </span>
+
                     </button>
 
-                    {/* Divider */}
+
+                    {/* ========== DIVIDER ========== */}
+
                     <div className="table-action-divider"></div>
 
-                    {/* Send Quotation */}
+
+                    {/* ========== QUOTATION ========== */}
+
                     <button
                         type="button"
                         onClick={() =>
                             handleAction("quotation")
-                        }>
-                        <FileText size={17} />
+                        }
+                    >
+
+                        <FileText size={20} />
+
                         <span>
                             Send Quotation
                         </span>
+
                     </button>
 
-                    {/* Delete */}
+
+                    {/* ========== DELETE ========== */}
+
                     <button
                         type="button"
                         className="table-action-delete"
                         onClick={() =>
                             handleAction("delete")
-                        }>
+                        }
+                    >
 
-                        <Trash2 size={17} />
+                        <Trash2 size={20} />
+
                         <span>
                             Delete
                         </span>
+
                     </button>
+
+
                 </div>
+
             )}
+
         </div>
+
     );
 }
-export default TableAction;
 
+
+export default TableAction;
