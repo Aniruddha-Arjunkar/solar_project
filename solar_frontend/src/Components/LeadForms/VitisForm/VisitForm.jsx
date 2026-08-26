@@ -174,7 +174,10 @@ function VisitForm({ lead, onClose }) {
                     </div>
 
 
-                    <form>
+                    <form 
+                    onSubmit={(e)=>{
+                      e.preventDefault();
+                      window.alert("ReFollowUp is Created Successfully..")}}>
 
                         <div className="lead-form-grid">
 

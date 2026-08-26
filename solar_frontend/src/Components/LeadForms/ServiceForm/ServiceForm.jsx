@@ -137,7 +137,10 @@ function ServiceForm({ lead, onClose }) {
                     </div>
 
 
-                    <form>
+                    <form
+                       onSubmit={(e)=>{
+                       e.preventDefault();
+                       window.alert("Service is Created Successfully..")}}>
 
                         <div className="service-form-grid">
 

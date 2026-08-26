@@ -174,7 +174,9 @@ function ScheduleForm({ lead, onClose }) {
                     </div>
 
 
-                    <form>
+                    <form onSubmit={(e)=>{
+                      e.preventDefault();
+                      window.alert("ReFollowUp is Created Successfully..")}}>
 
                         <div className="schedule-form-grid">
 
