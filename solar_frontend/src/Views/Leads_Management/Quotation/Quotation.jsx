@@ -10,7 +10,7 @@ function Quotation(){
     const Stats = [
            {
              title:"Total Quotation Sended",
-             value:3
+             value:0
            }
     ];
 
@@ -41,35 +41,7 @@ function Quotation(){
         }
     ];
 
-    const Data = [
-
-        {
-            id: 1,
-            name: "Sumit",
-            contact: "7889455612",
-            email: "sumit@gmail.com",
-            date: "24 Aug 2026",
-            pdf:""
-        },
-
-        {
-            id: 2,
-            name: "Aniket Warhate",
-            contact: "7845269856",
-            email: "aniket@gmail.com",
-            date: "24 Aug 2026",
-            pdf:""
-        },
-        {
-            id: 3,
-            name: "Uday",
-            contact: "7128316701",
-            email: "uday@gmail.com",
-            date: "23 Aug 2026",
-            pdf:""
-        }
-
-    ];
+    const Data = [];
 
     return (
         <section className="quotation">
@@ -89,7 +61,8 @@ function Quotation(){
             {/* ================= TABLE ================= */}
             <ModuleTable
                 columns={Columns}
-                data={Data}/>
+                data={Data}
+                showAction={false}/>
         </section>
     )
 }

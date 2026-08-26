@@ -1,11 +1,8 @@
-import {
-    Pencil,
-    Trash2
-} from "lucide-react";
+
 import TableAction from "./../TableAction/TableAction.jsx";
 import "./ModuleTable.css";
 
-function ModuleTable({columns, data , onAction}){
+function ModuleTable({columns, data , onAction , showAction=true}){
 
     return (
 
@@ -38,9 +35,9 @@ function ModuleTable({columns, data , onAction}){
                                     {column.label}
                                 </th>
                             ))}
-                            <th>
+                            {showAction && (<th>
                                 Action
-                            </th>
+                            </th>)}
                         </tr>
                     </thead>
                     <tbody>
@@ -52,17 +49,18 @@ function ModuleTable({columns, data , onAction}){
                                             {item[column.key]}
                                         </td>
                                     ))}
-                                    <td>
+
+                                    {showAction  && (<td>
                                         <div className="module-table-action-btn">
                                             <TableAction row={item} onAction={onAction}/>
                                         </div>
-                                    </td>
+                                    </td>)}
                                 </tr>
                             ))
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={columns.length + 1}
+                                    colSpan={showAction ? columns.length + 1 : columns.length}
                                     className="lead-no-data">
                                     No records found.
                                 </td>
