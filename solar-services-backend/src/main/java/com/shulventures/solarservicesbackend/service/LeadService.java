@@ -100,7 +100,7 @@ public class LeadService {
         leadRepository.deleteById(id);
     }
 
-//================= Action Buttons ============================================
+//=== Action Buttons (Existing Leads is updating Instead of Creating New Lead) ============================================
 
 //================= Add First Action Schedule ===================================
     public Lead scheduleLead(Long id, Lead scheduleData) {
@@ -136,4 +136,23 @@ public class LeadService {
 
         return leadRepository.save(lead);
     }
+
+    // ================= CREATE VISIT OF EXISTING LEAD =================
+
+    public Lead visitLead(Long id, Lead visitData) {
+
+        Lead lead = leadRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Lead not found with id: " + id)
+                );
+
+        lead.setVisitDate(visitData.getVisitDate());
+        lead.setVisitTime(visitData.getVisitTime());
+        lead.setRemarks(visitData.getRemarks());
+        lead.setStatus("VISIT");
+
+        return leadRepository.save(lead);
+    }
+
+    
 }
