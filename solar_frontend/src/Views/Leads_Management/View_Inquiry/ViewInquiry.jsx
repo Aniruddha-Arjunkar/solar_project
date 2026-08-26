@@ -5,6 +5,8 @@ import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
 //====== ACTION BUTTON FORMS ===============
 import VisitForm from "./../../../Components/LeadForms/VitisForm/VisitForm.jsx";
 import ReFollowUpForm from "./../../../Components/LeadForms/ReFollowupForm/ReFollowupForm.jsx";
+import ServiceForm from "./../../../Components/LeadForms/ServiceForm/ServiceForm.jsx"
+import ScheduleForm from "./../../../Components/LeadForms/ScheduleForm/ScheduleForm.jsx";
 
 import { Users } from "lucide-react";
 
@@ -187,6 +189,27 @@ function ViewInquiry() {
                 lead={selectedLead}
                 onClose={handleCloseForm}/>
                 )}
+
+            {/* ================= SERVICE FORM ================= */}
+               {activeAction === "service" && (
+                 <ServiceForm
+                  lead={selectedLead}
+                  onClose={() => {
+                  setActiveAction(null);
+                  setSelectedLead(null);
+                }}/>
+             )}
+
+
+        {/* ================= SCHEDULE FORM ================= */}
+            {activeAction === "schedule" && (
+              <ScheduleForm
+              lead={selectedLead}
+              onClose={() => {
+             setActiveAction(null);
+             setSelectedLead(null);
+          }}/>
+       )}
 
         </section>
 
