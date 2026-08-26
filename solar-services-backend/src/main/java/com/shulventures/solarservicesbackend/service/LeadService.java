@@ -154,5 +154,22 @@ public class LeadService {
         return leadRepository.save(lead);
     }
 
-    
+    // ================= CREATE SERVICE OF EXISTING LEAD =================
+
+    public Lead serviceLead(Long id, Lead serviceData) {
+        Lead lead = leadRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Lead not found with id: " + id
+                        )
+                );
+
+        lead.setServiceDate(serviceData.getServiceDate());
+        lead.setServiceTime(serviceData.getServiceTime());
+        lead.setServiceType(serviceData.getServiceType());
+        lead.setServiceRequirement(serviceData.getServiceRequirement());
+        lead.setRemarks(serviceData.getRemarks());
+        lead.setStatus("SERVICE");
+        return leadRepository.save(lead);
+    }
 }

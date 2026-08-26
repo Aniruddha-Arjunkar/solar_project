@@ -134,4 +134,18 @@ public class LeadController {
         return ResponseEntity.ok(updatedLead);
     }
 
+    // ================= SERVICE API =================
+
+    @PostMapping("/{id}/service")
+    public ResponseEntity<Lead> serviceLead(
+            @PathVariable Long id,
+            @RequestBody Lead serviceData
+    ) {
+
+        Lead updatedLead =
+                leadService.serviceLead(id, serviceData);
+
+        return ResponseEntity.ok(updatedLead);
+    }
+
 }
