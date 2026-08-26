@@ -94,8 +94,9 @@ public class LeadController {
         return ResponseEntity.noContent().build();
     }
 
+    //=============== Action Button Api's =============================
 
-    //================== Add Aschedule API ==============
+    //======= Add Schedule API For Action Button > Schedule=================
     @PostMapping("/{id}/schedule")
     public ResponseEntity<Lead> scheduleLead(
             @PathVariable Long id,
@@ -108,5 +109,17 @@ public class LeadController {
         return ResponseEntity.ok(scheduledLead);
     }
 
-    
+    // ================= RE-FOLLOWUP API =================
+
+    @PostMapping("/{id}/refollowup")
+    public ResponseEntity<Lead> reFollowUpLead(
+            @PathVariable Long id,
+            @RequestBody Lead followUpData
+    ) {
+
+        Lead updatedLead = leadService.reFollowUpLead(id, followUpData);
+
+        return ResponseEntity.ok(updatedLead);
+    }
+
 }

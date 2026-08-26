@@ -100,6 +100,8 @@ public class LeadService {
         leadRepository.deleteById(id);
     }
 
+//================= Action Buttons ============================================
+
 //================= Add First Action Schedule ===================================
     public Lead scheduleLead(Long id, Lead scheduleData) {
         Lead lead = leadRepository.findById(id)
@@ -113,6 +115,24 @@ public class LeadService {
         lead.setScheduleType(scheduleData.getScheduleType());
         lead.setRemarks(scheduleData.getRemarks());
         lead.setStatus("SCHEDULED");
+
+        return leadRepository.save(lead);
+    }
+
+    //============== Create FollowUp of Existing Lead =================
+
+    public Lead reFollowUpLead(Long id, Lead followUpData) {
+        Lead lead = leadRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Lead not found with id: " + id
+                        )
+                );
+        lead.setFollowUpDate(followUpData.getFollowUpDate());
+
+        lead.setRemarks(followUpData.getRemarks());
+
+        lead.setStatus("FOLLOW_UP");
 
         return leadRepository.save(lead);
     }
