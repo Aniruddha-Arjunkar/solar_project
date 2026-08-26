@@ -1,12 +1,34 @@
-
+import { useState } from "react";
 import ModuleHeader from "./../../../Components/ModulePageHeader/ModulePageHeader.jsx";
 import ModuleStats from "./../../../Components/LeadStats/LeadStats.jsx";
 import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
 import { PhoneCall } from "lucide-react";
 
+//============== Action Button Forms ==================
+import VisitForm from "./../../../Components/LeadForms/VitisForm/VisitForm.jsx";
+import ScheduleForm from "../../../Components/LeadForms/ScheduleForm/ScheduleForm.jsx";
+import ServiceForm from "../../../Components/LeadForms/ServiceForm/ServiceForm.jsx";
+import ReFollowUpForm from "../../../Components/LeadForms/ReFollowupForm/ReFollowupForm.jsx";
+
+
 import "./FollowUp.css";
 
 function FollowUp(){
+
+     const [selectedLead, setSelectedLead] = useState(null);
+     const[activeAction , setActiveAction] = useState(null);
+
+     //============== ACTION HANDLER ==============
+
+     const handleACtion = (action , lead) =>{
+
+        console.log("Action:", action);
+        console.log("Select Lead:", lead);
+
+        setSelectedLead(lead);
+        setActiveAction(action);
+     }
+
      const Stats = [
         {
             title: "Pending Follow-ups",
@@ -88,6 +110,12 @@ function FollowUp(){
         }
     ];
 
+    //============== Close Form ==============
+      const handleCloseForm = () =>{
+          setActiveAction(null);
+          setSelectedLead(null);
+      }
+
     return (
         <section className="follow_up">
             {/* ================= HEADER ================= */}
@@ -104,7 +132,36 @@ function FollowUp(){
             />
 
             {/* ================= TABLE ================= */}
-            <ModuleTable columns={Columns} data={Data}/>
+            <ModuleTable columns={Columns} data={Data}
+              onAction={handleACtion}/>
+
+            {/* ========= RE-FollowUp Form ============= */}
+              {activeAction === "refollowup" && (
+                <ReFollowUpForm
+                    lead={selectedLead}
+                    onClose={handleCloseForm}/>
+            )}
+
+            {/* ================= VISIT FORM ================= */}
+              {activeAction === "visit" && (
+                <VisitForm
+                lead={selectedLead}
+                onClose={handleCloseForm}/>
+                )}
+
+            {/* ================= SERVICE FORM ================= */}
+               {activeAction === "service" && (
+                 <ServiceForm
+                  lead={selectedLead}
+                  onClose={handleCloseForm}/>
+             )}
+
+           {/* ================= SCHEDULE FORM ================= */}
+              {activeAction === "schedule" && (
+              <ScheduleForm
+              lead={selectedLead}
+              onClose={handleCloseForm}/>
+       )}
         </section>
     )
 }

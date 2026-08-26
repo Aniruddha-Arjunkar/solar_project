@@ -12,9 +12,7 @@ import {
 
 import "./ServiceForm.css";
 
-
 function ServiceForm({ lead, onClose }) {
-
     if (!lead) {
         return null;
     }
@@ -289,36 +287,26 @@ function ServiceForm({ lead, onClose }) {
                                         placeholder="Enter service remarks..."
                                         rows="4"
                                     />
-
                                 </div>
-
                             </div>
-
                         </div>
 
 
                         {/* ================= FOOTER ================= */}
-
                         <div className="service-form-footer">
 
                             <button
                                 type="button"
                                 className="service-form-cancel"
-                                onClick={onClose}
-                            >
+                                onClick={onClose}>
                                 Cancel
                             </button>
 
-
                             <button
                                 type="submit"
-                                className="service-form-save"
-                            >
-
+                                className="service-form-save">
                                 <Wrench size={17} />
-
                                 Schedule Service
-
                             </button>
 
                         </div>

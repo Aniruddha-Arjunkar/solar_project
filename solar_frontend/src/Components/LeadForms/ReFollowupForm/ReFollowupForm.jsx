@@ -117,7 +117,11 @@ function ReFollowUpForm({ lead, onClose }) {
                         </h3>
                     </div>
 
-                    <form>
+        {/*==================== Form =====================*/}
+                    <form onSubmit={(e)=>{
+                      e.preventDefault();
+                      window.alert("ReFollowUp is Created Successfully..")
+                    }}>
 
                         <div className="lead-form-grid">
 
@@ -180,8 +184,7 @@ function ReFollowUpForm({ lead, onClose }) {
 
                             <button
                                 type="submit"
-                                className="lead-form-save"
-                            >
+                                className="lead-form-save">
                                 Schedule Follow-up
                             </button>
                         </div>

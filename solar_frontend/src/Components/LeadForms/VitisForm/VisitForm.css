@@ -42,13 +42,10 @@
     to {
 
         opacity: 1;
-
         transform:
             translateY(0)
             scale(1);
-
     }
-
 }
 
 
@@ -57,11 +54,8 @@
 ========================================= */
 
 @media (max-width: 650px) {
-
     .visit-form-container {
-
         max-height: 95vh;
-
     }
 
 }

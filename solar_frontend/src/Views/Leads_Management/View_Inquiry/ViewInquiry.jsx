@@ -136,12 +136,9 @@ function ViewInquiry() {
 
 
     /* ================= CLOSE FORM ================= */
-
     const handleCloseForm = () => {
-
         setActiveAction(null);
         setSelectedLead(null);
-
     };
 
 
@@ -165,7 +162,6 @@ function ViewInquiry() {
             <ModuleStats
                 stats={stats}
             />
-
 
             {/* ================= TABLE ================= */}
 
@@ -194,10 +190,7 @@ function ViewInquiry() {
                {activeAction === "service" && (
                  <ServiceForm
                   lead={selectedLead}
-                  onClose={() => {
-                  setActiveAction(null);
-                  setSelectedLead(null);
-                }}/>
+                  onClose={handleCloseForm}/>
              )}
 
 
@@ -205,10 +198,7 @@ function ViewInquiry() {
             {activeAction === "schedule" && (
               <ScheduleForm
               lead={selectedLead}
-              onClose={() => {
-             setActiveAction(null);
-             setSelectedLead(null);
-          }}/>
+              onClose={handleCloseForm}/>
        )}
 
         </section>
