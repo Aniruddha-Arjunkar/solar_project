@@ -16,9 +16,9 @@ function ModulePageHeader({currectPage,title,description,
     const handleButtonClick = () => {
         if (buttonType === "add") {
             navigate("/dashboard/add-inquiry");
-        } else {
+        } else{
             navigate("/dashboard/view-inquiry");
-        }
+        } 
     };
 
     return (

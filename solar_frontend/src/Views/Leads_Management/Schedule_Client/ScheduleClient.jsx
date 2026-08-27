@@ -138,7 +138,8 @@ function ScheduleClient(){
 
             {/* ================= TABLE ================= */}
             <ModuleTable columns={Columns} 
-            data={Data} onAction={handleAction}/>
+            data={Data} 
+            onAction={handleAction}/>
 
             {/* ================= RE-FOLLOWUP FORM ================= */}
             {activeAction === "refollowup" && (
