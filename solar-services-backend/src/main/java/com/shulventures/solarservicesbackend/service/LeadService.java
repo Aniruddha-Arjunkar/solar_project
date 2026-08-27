@@ -60,7 +60,7 @@ public class LeadService {
         existingLead.setEmail(updatedLead.getEmail());
         existingLead.setAddress(updatedLead.getAddress());
         existingLead.setMessage(updatedLead.getMessage());
-
+        existingLead.setInquiryDate(updatedLead.getInquiryDate());
         existingLead.setStatus(updatedLead.getStatus());
 
         existingLead.setFollowUpDate(updatedLead.getFollowUpDate());

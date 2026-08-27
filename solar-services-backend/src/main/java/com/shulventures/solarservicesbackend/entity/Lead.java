@@ -25,6 +25,7 @@ public class Lead {
     @Column(columnDefinition = "TEXT")
     private String message;
 
+    private LocalDate inquiryDate;
     private String status;
 
     private LocalDate followUpDate;
@@ -61,6 +62,17 @@ public class Lead {
 
     private LocalDateTime updatedAt;
 
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     // ================= GETTERS AND SETTERS =================
 
@@ -110,6 +122,14 @@ public class Lead {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public LocalDate getInquiryDate() {
+        return inquiryDate;
+    }
+
+    public void setInquiryDate(LocalDate inquiryDate) {
+        this.inquiryDate = inquiryDate;
     }
 
     public String getStatus() {
