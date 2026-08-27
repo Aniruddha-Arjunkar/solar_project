@@ -51,6 +51,8 @@ public class Lead {
     @Column(columnDefinition = "TEXT")
     private String remarks;
 
+    private LocalDate quotationDate;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -184,6 +186,12 @@ public class Lead {
 
     public void setScheduleTime(LocalTime scheduleTime) {
         this.scheduleTime = scheduleTime;
+    }
+
+    public LocalDate getQuotationDate() { return quotationDate;}
+
+    public void setQuotationDate(LocalDate quotationDate) {
+        this.quotationDate = quotationDate;
     }
 
     public String getScheduleType() {

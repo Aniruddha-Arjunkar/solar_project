@@ -172,4 +172,20 @@ public class LeadService {
         lead.setStatus("SERVICE");
         return leadRepository.save(lead);
     }
+
+    // ========================== QUOTATION ==============================================
+
+    public Lead quotationLead(Long id, Lead quotationData) {
+
+        Lead lead = leadRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Lead not found with id: " + id));
+
+        lead.setQuotationDate(quotationData.getQuotationDate());
+        lead.setRemarks(quotationData.getRemarks());
+        lead.setStatus("QUOTATION");
+
+        return leadRepository.save(lead);
+    }
+
 }

@@ -148,4 +148,15 @@ public class LeadController {
         return ResponseEntity.ok(updatedLead);
     }
 
+    // ==================== QUOTATION API =================
+
+    @PostMapping("/{id}/quotation")
+    public ResponseEntity<Lead> quotationLead(
+            @PathVariable Long id,
+            @RequestBody Lead quotationData
+    ) {
+        Lead updatedLead = leadService.quotationLead(id, quotationData);
+
+        return ResponseEntity.ok(updatedLead);
+    }
 }
