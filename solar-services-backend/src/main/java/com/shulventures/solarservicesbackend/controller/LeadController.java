@@ -51,6 +51,13 @@ public class LeadController {
         return ResponseEntity.ok(leads);
     }
 
+    // ================= GET QUOTATION LEADS ===================
+
+    @GetMapping("/quotations")
+    public ResponseEntity<List<Lead>> getQuotationLeads() {
+        List<Lead> quotations = leadService.getQuotationLeads();
+        return ResponseEntity.ok(quotations);
+    }
 
     // ================= GET LEAD BY ID =================
 

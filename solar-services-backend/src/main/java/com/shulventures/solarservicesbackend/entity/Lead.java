@@ -53,6 +53,10 @@ public class Lead {
 
     private LocalDate quotationDate;
 
+    private String quotationStatus;
+
+    private String quotationPdf;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -192,6 +196,22 @@ public class Lead {
 
     public void setQuotationDate(LocalDate quotationDate) {
         this.quotationDate = quotationDate;
+    }
+
+    public String getQuotationStatus() {
+        return quotationStatus;
+    }
+
+    public void setQuotationStatus(String quotationStatus) {
+        this.quotationStatus = quotationStatus;
+    }
+
+    public String getQuotationPdf() {
+        return quotationPdf;
+    }
+
+    public void setQuotationPdf(String quotationPdf) {
+        this.quotationPdf = quotationPdf;
     }
 
     public String getScheduleType() {

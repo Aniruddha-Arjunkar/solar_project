@@ -188,4 +188,10 @@ public class LeadService {
         return leadRepository.save(lead);
     }
 
+    // ================= GET QUOTATION LEADS =================
+
+    public List<Lead> getQuotationLeads() {
+        return leadRepository.findByStatus("QUOTATION");
+    }
+
 }
