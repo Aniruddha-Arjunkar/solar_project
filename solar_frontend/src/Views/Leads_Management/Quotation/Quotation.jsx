@@ -1,16 +1,40 @@
+import { useEffect , useState } from "react";
 
 import ModuleStats from "./../../../Components/LeadStats/LeadStats.jsx";
 import ModuleHeader from "./../../../Components/ModulePageHeader/ModulePageHeader.jsx";
 import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
 import { FileText} from "lucide-react";
 
+
 import "./Quotation.css";
 
 function Quotation(){
+
+   const [Data , setData] = useState([]);
+
+   //===== Fetch Quotations from the leads Table ============
+    useEffect(() => {
+
+    fetch("http://localhost:8080/api/leads/quotations")
+        .then((response) => {
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch quotations");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            setData(data);
+        })
+        .catch((error) => {
+            window.alert("Error fetching quotations:", error);
+        });
+}, []);
+
     const Stats = [
            {
              title:"Total Quotation Sended",
-             value:0
+             value:Data.length
            }
     ];
 
@@ -32,7 +56,7 @@ function Quotation(){
             label: "Email"
         },
         {
-            key: "date",
+            key: "quotationDate",
             label: "Quotation Date"
         },
         {
@@ -40,8 +64,6 @@ function Quotation(){
             label:"PDF"
         }
     ];
-
-    const Data = [];
 
     return (
         <section className="quotation">

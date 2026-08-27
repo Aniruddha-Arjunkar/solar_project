@@ -1,3 +1,5 @@
+import { useState , useEffect } from "react";
+
 import ModuleHeader from "./../../../Components/ModulePageHeader/ModulePageHeader.jsx";
 import ModuleStats from "./../../../Components/LeadStats/LeadStats.jsx";
 import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
@@ -10,8 +12,6 @@ import ScheduleForm from "./../../../Components/LeadForms/ScheduleForm/ScheduleF
 
 import { Users } from "lucide-react";
 
-import { useState } from "react";
-
 import "./ViewInquiry.css";
 
 
@@ -19,6 +19,24 @@ function ViewInquiry() {
 
     const [selectedLead, setSelectedLead] = useState(null);
     const [activeAction, setActiveAction] = useState(null);
+    const [LeadData , setLeadData] = useState([]);
+
+
+    useEffect(() => {
+        fetch("http://localhost:8080/api/leads")
+        .then((responce) => {
+            if(!responce.ok){
+                throw new Error("Failed to Fetch Leads")
+            }
+            return responce.json();
+        })
+        .then((data) => {
+            setLeadData(data);
+        })
+        .catch((error) => {
+            window.alert("Fail to Fetch Leads",error);
+        })
+    },[]);
 
 
     /* ================= ACTION HANDLER ================= */
@@ -40,7 +58,7 @@ function ViewInquiry() {
 
         {
             title: "Total Inquiry",
-            value: 3
+            value: LeadData.length
         },
 
         {
@@ -50,7 +68,7 @@ function ViewInquiry() {
 
         {
             title: "Pending Inquiry",
-            value: 2
+            value: LeadData.length
         }
 
     ];
@@ -84,52 +102,21 @@ function ViewInquiry() {
             key: "address",
             label: "Address"
         },
-
+        {
+            key:"serviceType",
+            label:"Interested Servive"
+        },
         {
             key: "message",
             label: "Message"
         },
-
         {
-            key: "date",
+            key:"status",
+            label:"Status"
+        },
+        {
+            key: "inquiryDate",
             label: "Date"
-        }
-
-    ];
-
-
-    /* ================= TEMPORARY DATA ================= */
-
-    const inquiries = [
-
-        {
-            id: 1,
-            name: "Sumit",
-            contact: "7889455612",
-            email: "sumit@gmail.com",
-            address: "Pune",
-            message: "Solar panel installation",
-            date: "24 Aug 2026"
-        },
-
-        {
-            id: 2,
-            name: "Aniket Warhate",
-            contact: "7845269856",
-            email: "aniket@gmail.com",
-            address: "Pune",
-            message: "Solar consultation",
-            date: "24 Aug 2026"
-        },
-
-        {
-            id: 3,
-            name: "Uday",
-            contact: "7128316701",
-            email: "uday@gmail.com",
-            address: "Mumbai",
-            message: "Solar maintenance",
-            date: "23 Aug 2026"
         }
 
     ];
@@ -167,7 +154,7 @@ function ViewInquiry() {
 
             <ModuleTable
                 columns={columns}
-                data={inquiries}
+                data={LeadData}
                 onAction={handleAction}
             />
 

@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useNavigate } from "react-router";
+
 import {
     UserRoundPlus,
     User,
@@ -18,17 +21,130 @@ import "./AddInquiry.css";
 
 function AddInquiry() {
 
+    const navigate = useNavigate();
+
+    // ================= FORM STATE =================
+
+    const [formData, setFormData] = useState({
+        name: "",
+        contact: "",
+        email: "",
+        address: "",
+        serviceType: "",
+        inquiryDate: "",
+        serviceRequirement: ""
+    });
+
+
+    // ================= HANDLE INPUT =================
+
+    const handleChange = (event) => {
+        const { id, value } = event.target;
+
+        setFormData((previousData) => ({
+            ...previousData,
+            [id]: value
+        }));
+    };
+
+
+    // ================= SUBMIT FORM =================
+
+    const handleSubmit = async (event) => {
+
+        event.preventDefault();
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:8080/api/leads",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        name: formData.name,
+                        contact: formData.contact,
+                        email: formData.email,
+                        address: formData.address,
+                        serviceType: formData.serviceType,
+                        inquiryDate:formData.inquiryDate,
+                        message:
+                            formData.serviceRequirement,
+
+                        status: "NEW"
+                    })
+                }
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to create inquiry"
+                );
+            }
+
+
+            const savedLead = await response.json();
+
+            // console.log("Inquiry created:", savedLead);
+
+
+            alert("Inquiry added successfully!");
+
+
+            // Redirect to View Inquiry
+
+           navigate("/dashboard/view-inquiry");
+
+        } catch (error) {
+
+            console.error(
+                "Error creating inquiry:",
+                error
+            );
+
+            alert(
+                "Failed to add inquiry. Please try again."
+            );
+        }
+    };
+
+
+    // ================= CANCEL =================
+
+    const handleCancel = () => {
+
+        setFormData({
+            name: "",
+            contact: "",
+            email: "",
+            address: "",
+            serviceType: "",
+            inquiryDate: "",
+            serviceRequirement: ""
+        });
+    };
+
+
     return (
+
         <section className="add_inquiry">
 
             {/* ========== PAGE HEADER ========= */}
 
             <MuduleHeader
-              currectPage="Add Inquiry"
-              title="Add New Inquiry"
-              description="Create a new Customer Inquiry and Keep track of the Lead Details."
-              buttonType="view"
-              icon={UserRoundPlus}/>
+                currectPage="Add Inquiry"
+                title="Add New Inquiry"
+                description="Create a new Customer Inquiry and Keep track of the Lead Details."
+                buttonType="view"
+                icon={UserRoundPlus}
+            />
+
 
             {/* ========== INQUIRY FORM ============ */}
 
@@ -37,21 +153,27 @@ function AddInquiry() {
                 <div className="form-card-header">
 
                     <div>
-                        <h2>Inquiry Information</h2>
+
+                        <h2>
+                            Inquiry Information
+                        </h2>
 
                         <p>
                             Enter the customer's information and inquiry details below.
                         </p>
                     </div>
 
+
                     <div className="form-required-text">
                         <span>*</span> Required fields
                     </div>
-
                 </div>
 
 
-                <form className="inquiry-form">
+                <form
+                    className="inquiry-form"
+                    onSubmit={handleSubmit}
+                >
 
 
                     {/* ========== CUSTOMER DETAILS ======= */}
@@ -60,7 +182,9 @@ function AddInquiry() {
 
                         <div className="form-section-title">
                             <User size={19} />
-                            <h3>Customer Details</h3>
+                            <h3>
+                                Customer Details
+                            </h3>
                         </div>
 
 
@@ -69,191 +193,186 @@ function AddInquiry() {
                             {/* Customer Name */}
 
                             <div className="form-group">
-
-                                <label htmlFor="customerName">
+                                <label htmlFor="name">
                                     Customer Name <span>*</span>
                                 </label>
 
                                 <div className="input-wrapper">
                                     <User size={18} />
-
                                     <input
-                                        id="customerName"
+                                        id="name"
                                         type="text"
                                         placeholder="Enter customer name"
-                                    />
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required/>
                                 </div>
-
                             </div>
 
 
                             {/* Mobile Number */}
 
                             <div className="form-group">
-
-                                <label htmlFor="mobile">
+                                <label htmlFor="contact">
                                     Mobile Number <span>*</span>
                                 </label>
 
                                 <div className="input-wrapper">
                                     <Phone size={18} />
-
                                     <input
-                                        id="mobile"
+                                        id="contact"
                                         type="tel"
                                         placeholder="Enter mobile number"
-                                    />
+                                        value={formData.contact}
+                                        onChange={handleChange}
+                                        required />
                                 </div>
-
                             </div>
-
 
                             {/* Email */}
 
                             <div className="form-group">
-
                                 <label htmlFor="email">
                                     Email Address
                                 </label>
 
                                 <div className="input-wrapper">
                                     <Mail size={18} />
-
                                     <input
                                         id="email"
                                         type="email"
                                         placeholder="Enter email address"
-                                    />
+                                        value={formData.email}
+                                        onChange={handleChange}/>
                                 </div>
-
                             </div>
 
 
                             {/* Location */}
 
                             <div className="form-group">
-
-                                <label htmlFor="location">
+                                <label htmlFor="address">
                                     Location <span>*</span>
                                 </label>
 
                                 <div className="input-wrapper">
                                     <MapPin size={18} />
-
                                     <input
-                                        id="location"
+                                        id="address"
                                         type="text"
                                         placeholder="Enter customer location"
-                                    />
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        required/>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
 
 
                     {/* ======== INQUIRY DETAILS ========= */}
 
                     <div className="form-section">
-
                         <div className="form-section-title">
                             <BriefcaseBusiness size={19} />
-                            <h3>Inquiry Details</h3>
+                            <h3>
+                                Inquiry Details
+                            </h3>
                         </div>
-
-
                         <div className="form-grid">
+
 
                             {/* Service */}
 
                             <div className="form-group">
-
-                               <label htmlFor="solarServiceType">
-                                  Solar Service Type <span>*</span>
+                                <label htmlFor="serviceType">
+                                    Solar Service Type
+                                    <span>*</span>
                                 </label>
 
-                             <div className="input-wrapper select-wrapper">
-                                <BriefcaseBusiness size={18} />
-                                <select id="solarServiceType">
-                                   <option value="">
-                                     Select solar service
-                                   </option>
-                                   <option value="installation">
-                                    Solar Panel Installation
-                                   </option>
-                                   <option value="maintenance">
-                                     Solar Panel Maintenance
-                                   </option>
-                                   <option value="repair">
-                                     Solar Panel Repair
-                                   </option>
-                                   <option value="site-survey">
-                                     Solar Site Survey
-                                   </option>
-                                   <option value="consultation">
-                                     Solar Consultation
-                                   </option>
-                                   <option value="upgrade">
-                                     Solar System Upgrade
-                                   </option>
-                                   <option value="other">
-                                    Other
-                                   </option>
-                               </select>
+                                <div className="input-wrapper select-wrapper">
+                                    <BriefcaseBusiness size={18} />
+                                    <select
+                                        id="serviceType"
+                                        value={formData.serviceType}
+                                        onChange={handleChange}
+                                        required>
 
+                                        <option value="">
+                                            Select solar service
+                                        </option>
+
+                                        <option value="Solar Panel Installation">
+                                            Solar Panel Installation
+                                        </option>
+
+                                        <option value="Solar Panel Maintenance">
+                                            Solar Panel Maintenance
+                                        </option>
+
+                                        <option value="Solar Panel Repair">
+                                            Solar Panel Repair
+                                        </option>
+
+                                        <option value="Solar Site Survey">
+                                            Solar Site Survey
+                                        </option>
+
+                                        <option value="Solar Consultation">
+                                            Solar Consultation
+                                        </option>
+
+                                        <option value="Solar System Upgrade">
+                                            Solar System Upgrade
+                                        </option>
+
+                                        <option value="Other">
+                                            Other
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
-
-                        </div>
 
 
                             {/* Inquiry Date */}
 
                             <div className="form-group">
-
                                 <label htmlFor="inquiryDate">
-                                    Inquiry Date <span>*</span>
+                                    Inquiry Date
+                                    <span>*</span>
                                 </label>
 
                                 <div className="input-wrapper">
-
                                     <CalendarDays size={18} />
-
                                     <input
                                         id="inquiryDate"
                                         type="date"
-                                    />
-
+                                        value={formData.inquiryDate}
+                                        onChange={handleChange}
+                                        required/>
                                 </div>
-
                             </div>
-
 
                             {/* Requirement */}
 
                             <div className="form-group form-group-full">
-
-                                <label htmlFor="requirement">
-                                    Customer Requirement <span>*</span>
+                                <label htmlFor="serviceRequirement">
+                                    Customer Requirement
+                                    <span>*</span>
                                 </label>
 
                                 <div className="textarea-wrapper">
-
                                     <MessageSquare size={18} />
-
                                     <textarea
-                                        id="requirement"
+                                        id="serviceRequirement"
                                         rows="4"
                                         placeholder="Describe the customer's requirement..."
-                                    />
-
+                                        value={formData.serviceRequirement}
+                                        onChange={handleChange}
+                                        required/>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
 
 
@@ -264,26 +383,21 @@ function AddInquiry() {
                         <button
                             type="button"
                             className="cancel-button"
-                        >
+                            onClick={handleCancel}>
                             <X size={18} />
                             Cancel
                         </button>
 
-
                         <button
                             type="submit"
-                            className="save-button"
-                        >
+                            className="save-button">
+
                             <Save size={18} />
                             Save Inquiry
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
-
         </section>
     );
 }
