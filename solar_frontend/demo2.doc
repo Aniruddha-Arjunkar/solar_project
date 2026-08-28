@@ -1,0 +1,8 @@
+In  
+1.ViewClient (id , name , contact , email , address, Service , Amount , 
+AddBy [Me (Admin) , Vendor],Vendor [VendorName], Action [View Detail, 
+Edit Client, Delete Client]).
+2.GST Client (id , name , contact , email , address , Service , 
+Service Date , Action [view Detail, Generate Invoice , Update Client]).
+3.PendingWork (id ,Client Name , Work Discription , Assign to , Due date ,
+ Status , Action [Update Work , Mark Complete , Delete])

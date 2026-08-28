@@ -236,20 +236,20 @@ const toggleMenu = (menuName) => {
 
                     <div className="submenu">
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/view-client" className="submenu-item">
                             <Eye size={20} />
                             <span>View Client</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/gst-client" className="submenu-item">
                             <FileText size={20} />
                             <span>GST Client</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/pending-work" className="submenu-item">
                             <ClipboardList size={20} />
                             <span>Pending Work</span>
-                        </div>
+                        </NavLink>
 
                     </div>
 

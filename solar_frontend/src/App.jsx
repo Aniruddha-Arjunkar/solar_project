@@ -14,6 +14,12 @@ import Quotation from './Views/Leads_Management/Quotation/Quotation.jsx';
 //=========== Vendor Mangement ============
 import AddVendor from "./Views/Vendor_Management/Add_Vendor/AddVendor.jsx";
 import ViewVendor from "./Views/Vendor_Management/View_Vendor/ViewVendor.jsx";
+
+//========== Clients Managements ==========
+import ViewClient from "./Views/Client_Management/ViewClients/ViewClient.jsx"
+import GSTClient from "./Views/Client_Management/GSTClients/GSTClient.jsx";
+import PendingWork from "./Views/Client_Management/PendingWork/PendingWork.jsx"
+
 //=========== Users ======================
 import ViewUsers from "./Views/Users/View_Users/ViewUsers.jsx";
 
@@ -59,9 +65,14 @@ function App() {
             <Route path="dasboard/add-vendor" element={<AddVendor/>}/>
             <Route path="dashboard/view-vendor" element={<ViewVendor/>}/>
 
+            {/* Client Management */}
+            <Route path="dashboard/view-client" element={<ViewClient/>}/>
+            <Route path="dashboard/gst-client" element={<GSTClient/>}/>
+            <Route path="dashboard/pending-work" element={<PendingWork/>}/>
+
             {/* Users */}
             <Route path='dashboard/view-users' element={<ViewUsers/>}/>
-           
+         
           </Route>
           </Route>
         </Routes>
