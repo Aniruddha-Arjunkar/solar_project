@@ -16,32 +16,19 @@ import VendorTable
 import AddClient
     from "./../../../Components/VendorForms/Add_Clients/AddClient.jsx";
 
+import ShowVendorDetail from "./../../../Components/VendorForms/ShowVendorDetail/ShowVendorDetail.jsx";
 import "./ViewVendor.css";
 
 
 function ViewVendor() {
 
-
-    /* =========================================
-       SELECTED VENDOR
-    ========================================= */
-
     const [selectedVendor, setSelectedVendor] = useState(null);
-
-
-    /* =========================================
-       ACTIVE ACTION
-    ========================================= */
-
     const [activeAction, setActiveAction] = useState(null);
+    const [clientData, setClientData] = useState([]);
 
-
-    /* =========================================
-       STATIC VENDOR DATA
-    ========================================= */
-
+     
+    /* ============== STATIC VENDOR DATA ========== */
     const VendorData = [
-
         {
             id: 1,
             name: "Sumit",
@@ -50,7 +37,6 @@ function ViewVendor() {
             address: "Pune",
             remarks: "Solar panel installation vendor"
         },
-
         {
             id: 2,
             name: "Aniket Warhate",
@@ -59,7 +45,6 @@ function ViewVendor() {
             address: "Pune",
             remarks: "Electrical equipment supplier"
         },
-
         {
             id: 3,
             name: "Uday",
@@ -71,89 +56,66 @@ function ViewVendor() {
 
     ];
 
-
-    /* =========================================
-       ACTION HANDLER
-    ========================================= */
-
+    /* =========== ACTION HANDLER =============*/
     const handleVendorAction = (action, vendor) => {
-
         console.log("Action:", action);
         console.log("Selected Vendor:", vendor);
-
         setSelectedVendor(vendor);
         setActiveAction(action);
-
     };
 
-
-    /* =========================================
-       CLOSE ACTION
-    ========================================= */
-
+    /* ========= CLOSE ACTION ========== */
     const handleCloseAction = () => {
-
         setActiveAction(null);
         setSelectedVendor(null);
-
     };
 
-
-    /* =========================================
-       VENDOR STATS
-    ========================================= */
-
+    /* ========== VENDOR STATS =========== */
     const Stats = [
-
         {
             title: "Total Vendors",
             value: VendorData.length
         }
-
     ];
 
-
-    /* =========================================
-       TABLE COLUMNS
-    ========================================= */
-
+    /* ============= TABLE COLUMNS ============= */
     const Columns = [
-
         {
             key: "id",
             label: "ID"
         },
-
         {
             key: "name",
             label: "Vendor Name"
         },
-
         {
             key: "contact",
             label: "Contact"
         },
-
         {
             key: "email",
             label: "Email"
         },
-
         {
             key: "address",
             label: "Address"
         },
-
         {
             key: "remarks",
             label: "Additional Remarks"
         }
-
     ];
 
+    const handleClientAdded = (client) => {
+    setClientData((previousClients) => [
+        ...previousClients,
+        client
+    ]);
+    setActiveAction(null);
+    setSelectedVendor(null);
+    };
 
     return (
-
         <section className="view-vendor-page">
 
 
@@ -164,9 +126,7 @@ function ViewVendor() {
                 title="Vendor Management"
                 description="View and manage all registered vendors."
                 buttonType="add"
-                icon={UsersRound}
-            />
-
+                icon={UsersRound}/>
 
             {/* ================= STATS ================= */}
 
@@ -174,50 +134,31 @@ function ViewVendor() {
                 stats={Stats}
             />
 
-
-            {/* ================= VENDOR TABLE ================= */}
+            {/* ================= VENDOR TABLE ============ */}
 
             <VendorTable
                 columns={Columns}
                 data={VendorData}
                 onAction={handleVendorAction}
-                showAction={true}
-            />
+                showAction={true}/>
 
-
-            {/* =========================================
-                ADD CLIENT FORM
-            ========================================= */}
-
+            {/* ============= ADD CLIENT FORM ============= */}
             {activeAction === "add_client" && (
-
-                <AddClient
+              <AddClient
                     vendor={selectedVendor}
-                    onClose={handleCloseAction}
-                />
+                    onClientAdded={handleClientAdded}
+                    onClose={handleCloseAction}/>
+                    )}
 
-            )}
-
-
-            {/* =========================================
-                VIEW VENDOR DETAILS
-            ========================================= */}
-
+            {/* ======== VIEW VENDOR DETAILS ========= */}
             {activeAction === "show_details" && (
-
-                <ViewVendorDetails
-                    vendor={selectedVendor}
-                    onClose={handleCloseAction}
-                />
-
+             <ShowVendorDetail
+                   vendor={selectedVendor}
+                   clients={clientData.filter(
+                   (client) => client.vendorId === selectedVendor?.id)}
+                   onClose={handleCloseAction}/>
             )}
-
-
         </section>
-
     );
-
 }
-
-
 export default ViewVendor;
