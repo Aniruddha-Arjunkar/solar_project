@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {
     X,
     User,
@@ -14,10 +15,74 @@ import "./ScheduleForm.css";
 
 
 function ScheduleForm({ lead, onClose }) {
+    
+        const [formData, setFormData] = useState({
+        scheduleDate: "",
+        scheduleTime: "",
+        scheduleType: "",
+        remarks: ""
+    });
+
+    const [loading, setLoading] = useState(false);
 
     if (!lead) {
         return null;
     }
+
+    // ================= Handle Change =================
+
+        const handleChange = (event) => {
+        const { id, value } = event.target;
+        setFormData((previousData) => ({
+            ...previousData,
+            [id]: value
+        }));
+    };
+
+    // ================= Handle Submit =================
+        const handleSubmit = async (event) => {
+
+        event.preventDefault();
+        setLoading(true);
+
+        try {
+
+            const response = await fetch(
+                `http://localhost:8080/api/leads/${lead.id}/schedule`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        scheduleDate: formData.scheduleDate,
+                        scheduleTime: formData.scheduleTime,
+                        scheduleType: formData.scheduleType,
+                        remarks: formData.remarks
+                    })
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to schedule lead");
+            }
+
+            const updatedLead = await response.json();
+            window.alert(
+                "Lead scheduled successfully!"
+            );
+
+            onClose();
+
+        } catch (error) {
+            window.alert(
+                "Failed to schedule lead. Please try again."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     return (
@@ -174,174 +239,127 @@ function ScheduleForm({ lead, onClose }) {
                     </div>
 
 
-                    <form onSubmit={(e)=>{
-                      e.preventDefault();
-                      window.alert("ReFollowUp is Created Successfully..")}}>
-
+                    <form onSubmit={handleSubmit}>
                         <div className="schedule-form-grid">
 
                             {/* Date */}
-
                             <div className="schedule-form-group">
-
                                 <label htmlFor="schedule-date">
-
                                     Schedule Date
                                     <span>*</span>
-
                                 </label>
 
                                 <div className="schedule-input-wrapper">
-
                                     <CalendarDays size={17} />
-
                                     <input
-                                        id="schedule-date"
-                                        type="date"
-                                        required
-                                    />
-
+                                       id="scheduleDate"
+                                       type="date"
+                                       value={formData.scheduleDate}
+                                       onChange={handleChange}
+                                       required/>
                                 </div>
-
                             </div>
-
 
                             {/* Time */}
 
                             <div className="schedule-form-group">
-
                                 <label htmlFor="schedule-time">
-
                                     Schedule Time
                                     <span>*</span>
-
                                 </label>
 
                                 <div className="schedule-input-wrapper">
-
                                     <Clock size={17} />
-
                                     <input
-                                        id="schedule-time"
-                                        type="time"
-                                        required
-                                    />
-
+                                      id="scheduleTime"
+                                      type="time"
+                                      value={formData.scheduleTime}
+                                      onChange={handleChange}
+                                      required/>
                                 </div>
-
                             </div>
-
 
                             {/* Schedule Type */}
-
                             <div className="schedule-form-group full-width">
-
                                 <label htmlFor="schedule-type">
-
                                     Schedule Type
                                     <span>*</span>
-
                                 </label>
 
                                 <div className="schedule-input-wrapper">
-
                                     <ClipboardList size={17} />
-
                                     <select
-                                        id="schedule-type"
-                                        required
-                                    >
+                                       id="scheduleType"
+                                       value={formData.scheduleType}
+                                       onChange={handleChange}
+                                       required>
+                                
+                                          <option value="">
+                                              Select schedule type
+                                          </option>
 
-                                        <option value="">
-                                            Select schedule type
-                                        </option>
+                                          <option value="followup">
+                                               Follow-up
+                                           </option>
 
-                                        <option value="followup">
-                                            Follow-up
-                                        </option>
+                                           <option value="visit">
+                                               Site Visit
+                                           </option>
 
-                                        <option value="visit">
-                                            Site Visit
-                                        </option>
+                                           <option value="service">
+                                                Solar Service
+                                           </option>
 
-                                        <option value="service">
-                                            Solar Service
-                                        </option>
+                                           <option value="quotation">
+                                                Quotation Discussion
+                                           </option>
 
-                                        <option value="quotation">
-                                            Quotation Discussion
-                                        </option>
-
-                                        <option value="other">
-                                            Other
-                                        </option>
-
+                                           <option value="other">
+                                               Other
+                                           </option>
                                     </select>
-
                                 </div>
-
                             </div>
 
-
                             {/* Remarks */}
-
                             <div className="schedule-form-group full-width">
-
                                 <label htmlFor="schedule-remarks">
-
                                     Remarks
-
                                 </label>
 
                                 <div className="schedule-textarea-wrapper">
-
                                     <MessageSquare size={17} />
-
                                     <textarea
-                                        id="schedule-remarks"
-                                        placeholder="Enter schedule remarks..."
-                                        rows="4"
-                                    />
-
+                                       id="remarks"
+                                       placeholder="Enter schedule remarks..."
+                                       value={formData.remarks}
+                                       onChange={handleChange}
+                                       rows="4"/>
                                 </div>
-
                             </div>
-
                         </div>
 
-
                         {/* ================= FOOTER ================= */}
-
                         <div className="schedule-form-footer">
 
                             <button
                                 type="button"
                                 className="schedule-form-cancel"
-                                onClick={onClose}
-                            >
+                                onClick={onClose}>
                                 Cancel
                             </button>
-
 
                             <button
                                 type="submit"
                                 className="schedule-form-save"
-                            >
-
-                                <CalendarDays size={17} />
-
-                                Schedule Lead
-
-                            </button>
-
+                                disabled={loading}>
+                              <CalendarDays size={17} />
+                               {loading ? "Scheduling..." : "Schedule Lead"}
+                             </button>
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
-
         </div>
     );
 }
