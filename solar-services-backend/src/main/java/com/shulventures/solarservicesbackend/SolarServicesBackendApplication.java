@@ -7,6 +7,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SolarServicesBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(SolarServicesBackendApplication.class, args);
-        
     }
 }
