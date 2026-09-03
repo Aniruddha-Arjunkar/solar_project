@@ -22,8 +22,8 @@ function TableAction({ row, onAction }) {
 
     const handleAction = (action) => {
 
-        console.log("Selected Action:", action);
-        console.log("Selected Row:", row);
+        // console.log("Selected Action:", action);
+        // console.log("Selected Row:", row);
 
         // Close dropdown
         setOpen(false);
@@ -46,22 +46,18 @@ function TableAction({ row, onAction }) {
             <button
                 type="button"
                 className="table-action-button"
-                onClick={() => setOpen(!open)}
-            >
+                onClick={() => setOpen(!open)}>
 
                 <span>
                     Action
                 </span>
-
                 <ChevronDown
                     size={20}
                     className={
                         open
                             ? "action-arrow-open"
                             : ""
-                    }
-                />
-
+                    }/>
             </button>
 
 
@@ -71,22 +67,17 @@ function TableAction({ row, onAction }) {
 
                 <div className="table-action-menu">
 
-
                     {/* ========== RE FOLLOWUP ========== */}
 
                     <button
                         type="button"
                         onClick={() =>
                             handleAction("refollowup")
-                        }
-                    >
-
+                        }>
                         <RotateCcw size={20} />
-
                         <span>
                             Re Followup
                         </span>
-
                     </button>
 
 
@@ -96,15 +87,11 @@ function TableAction({ row, onAction }) {
                         type="button"
                         onClick={() =>
                             handleAction("visit")
-                        }
-                    >
-
+                        }>
                         <MapPin size={20} />
-
                         <span>
                             Visit
                         </span>
-
                     </button>
 
 
@@ -114,15 +101,11 @@ function TableAction({ row, onAction }) {
                         type="button"
                         onClick={() =>
                             handleAction("service")
-                        }
-                    >
-
+                        }>
                         <Wrench size={20} />
-
                         <span>
                             Service
                         </span>
-
                     </button>
 
 
@@ -132,38 +115,31 @@ function TableAction({ row, onAction }) {
                         type="button"
                         onClick={() =>
                             handleAction("schedule")
-                        }
-                    >
+                        }>
 
                         <CalendarDays size={20} />
-
                         <span>
                             Schedule
                         </span>
-
                     </button>
 
 
-                    {/* ========== DIVIDER ========== */}
 
                     <div className="table-action-divider"></div>
 
 
-                    {/* ========== QUOTATION ========== */}
+                    {/* ========== Send Quotation ========== */}
 
                     <button
                         type="button"
                         onClick={() =>
                             handleAction("quotation")
-                        }
-                    >
+                        }>
 
                         <FileText size={20} />
-
                         <span>
                             Send Quotation
                         </span>
-
                     </button>
 
 
@@ -174,26 +150,18 @@ function TableAction({ row, onAction }) {
                         className="table-action-delete"
                         onClick={() =>
                             handleAction("delete")
-                        }
-                    >
+                        }>
 
                         <Trash2 size={20} />
-
                         <span>
                             Delete
                         </span>
-
                     </button>
 
-
                 </div>
-
             )}
 
         </div>
-
     );
 }
-
-
 export default TableAction;

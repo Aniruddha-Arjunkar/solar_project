@@ -13,6 +13,7 @@ import ScheduleForm from "./../../../Components/LeadForms/ScheduleForm/ScheduleF
 import { Users } from "lucide-react";
 
 import "./ViewInquiry.css";
+import {  useNavigate } from "react-router";
 
 
 function ViewInquiry() {
@@ -20,6 +21,8 @@ function ViewInquiry() {
     const [selectedLead, setSelectedLead] = useState(null);
     const [activeAction, setActiveAction] = useState(null);
     const [LeadData , setLeadData] = useState([]);
+
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -43,8 +46,16 @@ function ViewInquiry() {
 
     const handleAction = (action, lead) => {
 
-        console.log("Action:", action);
-        console.log("Selected Lead:", lead);
+        // console.log("Action:", action);
+        // console.log("Selected Lead:", lead);
+
+        if(action === "quotation"){
+
+             navigate(
+            `/dashboard/add-quotation/${lead.id}`
+        );
+        return;
+        }
 
         setSelectedLead(lead);
         setActiveAction(action);
