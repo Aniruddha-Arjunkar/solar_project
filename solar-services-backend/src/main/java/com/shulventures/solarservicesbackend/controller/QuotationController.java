@@ -1,10 +1,15 @@
 package com.shulventures.solarservicesbackend.controller;
 
 import com.shulventures.solarservicesbackend.entity.Quotation;
+import com.shulventures.solarservicesbackend.service.QuotationPdfService;
 import com.shulventures.solarservicesbackend.service.QuotationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+// import for Pdf
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import java.util.List;
 
@@ -15,8 +20,15 @@ public class QuotationController {
 
     private final QuotationService quotationService;
 
-    public QuotationController(QuotationService quotationService) {
+    //inject Pdf Related Service Class
+    private final QuotationPdfService quotationPdfService;
+
+    public QuotationController(QuotationService quotationService,
+                               QuotationPdfService quotationPdfService) {
+
         this.quotationService = quotationService;
+
+        this.quotationPdfService = quotationPdfService;
     }
 
 
@@ -68,5 +80,23 @@ public class QuotationController {
         return ResponseEntity.ok(
                 quotationService.getQuotationsByLead(leadId)
         );
+    }
+
+   // End point to get pdf
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<byte[]> generateQuotationPdf(
+            @PathVariable Long id
+    ) {
+
+        byte[] pdf =
+                quotationPdfService.generateQuotationPdf(id);
+
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=quotation-" + id + ".pdf"
+                )
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
     }
 }

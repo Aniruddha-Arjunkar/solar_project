@@ -31,7 +31,6 @@ public class Lead {
     private LocalDate followUpDate;
 
     private LocalDate visitDate;
-
     private LocalTime visitTime;
 
     private LocalDate serviceDate;
