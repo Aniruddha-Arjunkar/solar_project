@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { ArrowBigLeft, StepBack } from "lucide-react";
+import { ArrowBigLeft } from "lucide-react";
 
 import "./AddQuotation.css";
 
@@ -56,57 +56,49 @@ function AddQuotation() {
             itemName: "Solar Panels",
             specification: "",
             make: "",
-            quantity: "",
-            standard: ""
+            quantity: ""
         },
         {
             itemName: "Inverter",
             specification: "",
             make: "",
-            quantity: "",
-            standard: ""
+            quantity: ""
         },
         {
             itemName: "Cables/Wires",
             specification: "",
             make: "",
-            quantity: "",
-            standard: ""
+            quantity: ""
         },
         {
             itemName: "Mounting Structure",
             specification: "",
             make: "",
-            quantity: "",
-            standard: ""
+            quantity: ""
         },
         {
             itemName: "DC Junction Box",
             specification: "",
             make: "",
-            quantity: "",
-            standard: ""
+            quantity: ""
         },
         {
             itemName: "AC Distribution Board",
             specification: "",
             make: "",
-            quantity: "",
-            standard: ""
+            quantity: ""
         },
         {
             itemName: "Earthing",
             specification: "",
             make: "",
-            quantity: "",
-            standard: ""
+            quantity: ""
         },
         {
             itemName: "Net Meter",
             specification: "",
             make: "",
-            quantity: "",
-            standard: ""
+            quantity: ""
         }
     ]);
 
@@ -128,7 +120,6 @@ function AddQuotation() {
 
                 setLead(data);
 
-                // Automatically fill client information
                 setFormData((previousData) => ({
                     ...previousData,
 
@@ -142,6 +133,7 @@ function AddQuotation() {
             .catch((error) => {
 
                 console.error("Error fetching lead:", error);
+
                 alert("Unable to load lead information.");
 
             })
@@ -197,8 +189,7 @@ function AddQuotation() {
                 itemName: "",
                 specification: "",
                 make: "",
-                quantity: "",
-                standard: ""
+                quantity: ""
             }
         ]);
     };
@@ -209,7 +200,9 @@ function AddQuotation() {
     const removeItem = (index) => {
 
         setItems((previousItems) =>
-            previousItems.filter((_, itemIndex) => itemIndex !== index)
+            previousItems.filter(
+                (_, itemIndex) => itemIndex !== index
+            )
         );
     };
 
@@ -257,34 +250,40 @@ function AddQuotation() {
                 ? Number(formData.minAnnualSaving)
                 : null,
 
-            investmentRecoveryYears: formData.investmentRecoveryYears
-                ? Number(formData.investmentRecoveryYears)
-                : null,
+            investmentRecoveryYears:
+                formData.investmentRecoveryYears
+                    ? Number(formData.investmentRecoveryYears)
+                    : null,
 
-            supplyInstallation: formData.supplyInstallation
-                ? Number(formData.supplyInstallation)
-                : null,
+            supplyInstallation:
+                formData.supplyInstallation
+                    ? Number(formData.supplyInstallation)
+                    : null,
 
-            commercialTotal: formData.commercialTotal
-                ? Number(formData.commercialTotal)
-                : null,
+            commercialTotal:
+                formData.commercialTotal
+                    ? Number(formData.commercialTotal)
+                    : null,
 
-            actualProjectCost: formData.actualProjectCost
-                ? Number(formData.actualProjectCost)
-                : null,
+            actualProjectCost:
+                formData.actualProjectCost
+                    ? Number(formData.actualProjectCost)
+                    : null,
 
-            gstAmount: formData.gstAmount
-                ? Number(formData.gstAmount)
-                : null,
+            gstAmount:
+                formData.gstAmount
+                    ? Number(formData.gstAmount)
+                    : null,
 
-            govtSubsidy: formData.govtSubsidy
-                ? Number(formData.govtSubsidy)
-                : null,
+            govtSubsidy:
+                formData.govtSubsidy
+                    ? Number(formData.govtSubsidy)
+                    : null,
 
             status: "DRAFT",
 
-            items: items.filter((item) =>
-                item.itemName.trim() !== ""
+            items: items.filter(
+                (item) => item.itemName.trim() !== ""
             )
         };
 
@@ -324,7 +323,6 @@ function AddQuotation() {
             alert("Quotation saved successfully!");
 
 
-            // Go back to quotation leads
             navigate("/dashboard/quotations");
 
 
@@ -351,7 +349,7 @@ function AddQuotation() {
     if (loading) {
 
         return (
-            <div className="quotation-loading">
+            <div className="add-quotationpage-loading">
                 Loading customer information...
             </div>
         );
@@ -363,8 +361,11 @@ function AddQuotation() {
     if (!lead) {
 
         return (
-            <div className="quotation-error">
-                <h2>Lead not found</h2>
+            <div className="add-quotationpage-error">
+
+                <h2>
+                    Lead not found
+                </h2>
 
                 <button
                     type="button"
@@ -374,63 +375,68 @@ function AddQuotation() {
                 >
                     Back to View Inquiry
                 </button>
+
             </div>
         );
     }
 
 
-  
-
     return (
 
-        <section className="add-quotation-page">
+        <section className="add-quotationpage-page">
 
             {/* ================= PAGE HEADER ================= */}
 
-            <div className="quotation-page-header">
+            <div className="add-quotationpage-header">
 
                 <div>
-                    <p className="breadcrumb">
+
+                    <p className="add-quotationpage-breadcrumb">
                         Dashboard / Leads Management / Add Quotation
                     </p>
 
                     <h1>
                         Add Quotation
                     </h1>
+
                 </div>
+
 
                 <button
                     type="button"
-                    className="back-button"
+                    className="add-quotationpage-back-button"
                     onClick={() =>
                         navigate("/dashboard/view-inquiry")
-                    }>
-                     <ArrowBigLeft size={20} />   
-                     Back
+                    }
+                >
+                    <ArrowBigLeft size={20} />
+                    Back
                 </button>
 
             </div>
 
 
             <form
-                className="quotation-form"
+                className="add-quotationpage-form"
                 onSubmit={handleSubmit}
             >
 
-                {/* ============= QUOTATION INFO ===================== */}
+                {/* ================= QUOTATION INFO ================= */}
 
-                <div className="quotation-section">
+                <div className="add-quotationpage-section">
 
-                    <div className="section-title">
+                    <div className="add-quotationpage-section-title">
+
                         <h2>
                             Quotation Info
                         </h2>
+
                     </div>
 
 
-                    <div className="form-grid">
+                    <div className="add-quotationpage-form-grid">
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Ref No
@@ -448,7 +454,7 @@ function AddQuotation() {
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Quotation Date
@@ -461,17 +467,20 @@ function AddQuotation() {
                                 onChange={handleChange}
                                 required
                             />
+
                         </div>
+
                     </div>
 
                 </div>
 
 
-                {/* ========CLIENT DETAILS============= */}
+                {/* ================= CLIENT DETAILS ================= */}
 
-                <div className="quotation-section">
+                <div className="add-quotationpage-section">
 
-                    <div className="section-title">
+                    <div className="add-quotationpage-section-title">
+
                         <h2>
                             Client Details
                         </h2>
@@ -479,12 +488,13 @@ function AddQuotation() {
                         <span>
                             Lead #{lead.id}
                         </span>
+
                     </div>
 
 
-                    <div className="form-grid">
+                    <div className="add-quotationpage-form-grid">
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Client Name
@@ -501,7 +511,7 @@ function AddQuotation() {
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Phone
@@ -518,7 +528,7 @@ function AddQuotation() {
                         </div>
 
 
-                        <div className="form-group full-width">
+                        <div className="add-quotationpage-form-group add-quotationpage-full-width">
 
                             <label>
                                 Address
@@ -535,7 +545,7 @@ function AddQuotation() {
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Phase Type
@@ -545,18 +555,19 @@ function AddQuotation() {
                                 name="phaseType"
                                 value={formData.phaseType}
                                 onChange={handleChange}
-                                required>
+                                required
+                            >
 
                                 <option value="">
                                     Select Phase
                                 </option>
 
                                 <option value="Residential - Single Phase">
-                                   Residential - Single Phase
+                                    Residential - Single Phase
                                 </option>
 
                                 <option value="Residential - 3 Phase">
-                                   Residential - 3 Phase
+                                    Residential - 3 Phase
                                 </option>
 
                                 <option value="Commercial - Single Phase">
@@ -566,11 +577,13 @@ function AddQuotation() {
                                 <option value="Commercial - 3 Phase">
                                     Commercial - 3 Phase
                                 </option>
+
                             </select>
+
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Quotation Subject
@@ -582,29 +595,32 @@ function AddQuotation() {
                                 value={formData.subject}
                                 onChange={handleChange}
                                 placeholder="Solar PV Installation"
-                                required/>
+                                required
+                            />
 
                         </div>
 
                     </div>
+
                 </div>
 
 
-                {/* ============ SUMMARY OF PROPOSAL =============== */}
+                {/* ================= SUMMARY OF PROPOSAL ================= */}
 
-                <div className="quotation-section">
+                <div className="add-quotationpage-section">
 
-                    <div className="section-title">
+                    <div className="add-quotationpage-section-title">
 
                         <h2>
                             Summary of Proposal
                         </h2>
+
                     </div>
 
 
-                    <div className="form-grid">
+                    <div className="add-quotationpage-form-grid">
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Proposed PV Plant Size (KWp)
@@ -622,23 +638,23 @@ function AddQuotation() {
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
-                                GST Included
+                                GST
                             </label>
 
-                                <input
-                                    type="text"
-                                    name="gstIncluded"
-                                    checked={formData.gstIncluded}
-                                    onChange={handleChange}
-                                    value="Included"
-                                    readonly/>
+                            <input
+                                type="text"
+                                name="gstIncluded"
+                                value="Included"
+                                readOnly
+                            />
+
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 System Type
@@ -666,11 +682,13 @@ function AddQuotation() {
                                 <option value="Hybrid">
                                     Hybrid
                                 </option>
+
                             </select>
+
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Power Generation / Month (kWh)
@@ -681,12 +699,13 @@ function AddQuotation() {
                                 step="0.01"
                                 name="powerGenerationMonth"
                                 value={formData.powerGenerationMonth}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                            />
 
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Power Generation / Year (kWh)
@@ -697,11 +716,13 @@ function AddQuotation() {
                                 step="0.01"
                                 name="powerGenerationYear"
                                 value={formData.powerGenerationYear}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                            />
 
                         </div>
-                        
-                        <div className="form-group">
+
+
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Min. Annual Saving (₹)
@@ -712,10 +733,13 @@ function AddQuotation() {
                                 step="0.01"
                                 name="minAnnualSaving"
                                 value={formData.minAnnualSaving}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                            />
+
                         </div>
 
-                        <div className="form-group">
+
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Total System Cost (₹)
@@ -727,11 +751,13 @@ function AddQuotation() {
                                 name="totalSystemCost"
                                 value={formData.totalSystemCost}
                                 onChange={handleChange}
-                                required/>
+                                required
+                            />
+
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
 
                             <label>
                                 Investment Recovery (Years)
@@ -742,17 +768,21 @@ function AddQuotation() {
                                 step="0.01"
                                 name="investmentRecoveryYears"
                                 value={formData.investmentRecoveryYears}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                            />
+
                         </div>
+
                     </div>
+
                 </div>
 
 
-                {/* ======== COMPONENT DETAILS ========================== */}
+                {/* ================= COMPONENT DETAILS ================= */}
 
-                <div className="quotation-section">
+                <div className="add-quotationpage-section">
 
-                    <div className="section-title">
+                    <div className="add-quotationpage-section-title">
 
                         <h2>
                             Component Details
@@ -760,44 +790,58 @@ function AddQuotation() {
 
                         <button
                             type="button"
-                            className="add-item-button"
-                            onClick={addItem}>
+                            className="add-quotationpage-add-item-button"
+                            onClick={addItem}
+                        >
                             + Add Item
                         </button>
 
                     </div>
 
 
-                    <div className="quotation-items-wrapper">
+                    <div className="add-quotationpage-items-wrapper">
 
-                        <table className="quotation-items-table">
+                        <table className="add-quotationpage-items-table">
+
                             <thead>
+
                                 <tr>
-                                    <th>
+
+                                    <th className="add-quotationpage-item-column">
                                         Item
                                     </th>
-                                    <th>
+
+                                    <th className="add-quotationpage-specification-column">
                                         Specification
                                     </th>
-                                    <th>
+
+                                    <th className="add-quotationpage-make-column">
                                         Make
                                     </th>
-                                    <th>
-                                        Quantity
+
+                                    <th className="add-quotationpage-quantity-standard-column">
+                                        Quantity / Standard
                                     </th>
-                                    <th>
-                                        Standard
-                                    </th>
-                                    <th>
+
+                                    <th className="add-quotationpage-action-column">
                                         Action
                                     </th>
+
                                 </tr>
+
                             </thead>
 
+
                             <tbody>
+
                                 {items.map((item, index) => (
+
                                     <tr key={index}>
+
+                                        {/* ITEM */}
+
                                         <td>
+
                                             <input
                                                 type="text"
                                                 name="itemName"
@@ -807,11 +851,16 @@ function AddQuotation() {
                                                         index,
                                                         event
                                                     )
-                                                }/>
+                                                }
+                                            />
+
                                         </td>
 
 
+                                        {/* SPECIFICATION */}
+
                                         <td>
+
                                             <input
                                                 type="text"
                                                 name="specification"
@@ -821,8 +870,15 @@ function AddQuotation() {
                                                         index,
                                                         event
                                                     )
-                                                }/>
+                                                }
+                                                placeholder="Enter specification"
+                                                className="add-quotationpage-specification-input"
+                                            />
+
                                         </td>
+
+
+                                        {/* MAKE */}
 
                                         <td>
 
@@ -835,10 +891,17 @@ function AddQuotation() {
                                                         index,
                                                         event
                                                     )
-                                                }/>
+                                                }
+                                                placeholder="Make"
+                                            />
+
                                         </td>
 
+
+                                        {/* QUANTITY / STANDARD */}
+
                                         <td>
+
                                             <input
                                                 type="text"
                                                 name="quantity"
@@ -849,51 +912,56 @@ function AddQuotation() {
                                                         event
                                                     )
                                                 }/>
+
                                         </td>
 
-                                        <td>
-                                            <input
-                                                type="text"
-                                                name="standard"
-                                                value={item.standard}
-                                                onChange={(event) =>
-                                                    handleItemChange(
-                                                        index,
-                                                        event
-                                                    )
-                                                }/>
-                                        </td>
+
+                                        {/* ACTION */}
 
                                         <td>
+
                                             <button
                                                 type="button"
-                                                className="remove-item-button"
+                                                className="add-quotationpage-remove-item-button"
                                                 onClick={() =>
                                                     removeItem(index)
-                                                }>
+                                                }
+                                            >
                                                 Remove
                                             </button>
+
                                         </td>
+
                                     </tr>
+
                                 ))}
+
                             </tbody>
+
                         </table>
+
                     </div>
+
                 </div>
 
 
-                {/* ============ COMMERCIAL ================== */}
+                {/* ================= COMMERCIAL ================= */}
 
-                <div className="quotation-section">
-                    <div className="section-title">
+                <div className="add-quotationpage-section">
+
+                    <div className="add-quotationpage-section-title">
+
                         <h2>
                             Commercial
                         </h2>
+
                     </div>
 
 
-                    <div className="form-grid">
-                        <div className="form-group">
+                    <div className="add-quotationpage-form-grid">
+
+                        <div className="add-quotationpage-form-group">
+
                             <label>
                                 Supply / Installation (₹)
                             </label>
@@ -903,10 +971,14 @@ function AddQuotation() {
                                 step="0.01"
                                 name="supplyInstallation"
                                 value={formData.supplyInstallation}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                            />
+
                         </div>
 
-                        <div className="form-group">
+
+                        <div className="add-quotationpage-form-group">
+
                             <label>
                                 Commercial Total (₹)
                             </label>
@@ -916,10 +988,14 @@ function AddQuotation() {
                                 step="0.01"
                                 name="commercialTotal"
                                 value={formData.commercialTotal}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                            />
+
                         </div>
 
-                        <div className="form-group">
+
+                        <div className="add-quotationpage-form-group">
+
                             <label>
                                 Government Subsidy (₹)
                             </label>
@@ -929,11 +1005,14 @@ function AddQuotation() {
                                 step="0.01"
                                 name="govtSubsidy"
                                 value={formData.govtSubsidy}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                            />
+
                         </div>
 
 
-                        <div className="form-group">
+                        <div className="add-quotationpage-form-group">
+
                             <label>
                                 GST @ 5% (₹)
                             </label>
@@ -943,10 +1022,14 @@ function AddQuotation() {
                                 step="0.01"
                                 name="gstAmount"
                                 value={formData.gstAmount}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                            />
+
                         </div>
-                        
-                         <div className="form-group">
+
+
+                        <div className="add-quotationpage-form-group">
+
                             <label>
                                 Actual Project Cost (₹)
                             </label>
@@ -956,31 +1039,36 @@ function AddQuotation() {
                                 step="0.01"
                                 name="actualProjectCost"
                                 value={formData.actualProjectCost}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                            />
+
                         </div>
 
-                        
                     </div>
+
                 </div>
 
 
-                {/* ==========SUBMIT =========== */}
+                {/* ================= SUBMIT ================= */}
 
-                <div className="quotation-submit-section">
+                <div className="add-quotationpage-submit-section">
 
                     <button
                         type="button"
-                        className="cancel-button"
+                        className="add-quotationpage-cancel-button"
                         onClick={() =>
                             navigate("/dashboard/view-inquiry")
-                        }>
+                        }
+                    >
                         Cancel
                     </button>
 
+
                     <button
                         type="submit"
-                        className="save-quotation-button"
-                        disabled={saving}>
+                        className="add-quotationpage-save-quotation-button"
+                        disabled={saving}
+                    >
 
                         {saving
                             ? "Saving..."
@@ -988,9 +1076,13 @@ function AddQuotation() {
                         }
 
                     </button>
+
                 </div>
+
             </form>
+
         </section>
     );
 }
+
 export default AddQuotation;
