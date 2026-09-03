@@ -31,7 +31,7 @@ function AddQuotation() {
         subject: "",
 
         pvPlantSize: "",
-        gstIncluded: false,
+        gstIncluded:true,
         systemType: "",
         powerGenerationMonth: "",
         powerGenerationYear: "",
@@ -314,11 +314,6 @@ function AddQuotation() {
 
             const savedQuotation = await response.json();
 
-            console.log(
-                "Quotation saved:",
-                savedQuotation
-            );
-
 
             alert("Quotation saved successfully!");
 
@@ -328,10 +323,6 @@ function AddQuotation() {
 
         } catch (error) {
 
-            console.error(
-                "Quotation save error:",
-                error
-            );
 
             alert(
                 "Failed to save quotation. Please try again."

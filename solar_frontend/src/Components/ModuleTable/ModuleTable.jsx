@@ -1,19 +1,25 @@
-
 import TableAction from "./../TableAction/TableAction.jsx";
+
 import "./ModuleTable.css";
 
-function ModuleTable({columns, data , onAction , showAction=true}){
+
+function ModuleTable({
+    columns,
+    data,
+    onAction,
+    showAction = true
+}) {
 
     return (
 
         <div className="module-table-section">
+
             {/* =========== TABLE HEADER ============ */}
             <div className="module-table-header">
                 <div>
                     <h2>
                         All Records
                     </h2>
-
                     <p>
                         Manage lead information and details.
                     </p>
@@ -26,41 +32,73 @@ function ModuleTable({columns, data , onAction , showAction=true}){
 
             {/* ================= TABLE ================= */}
             <div className="module-table-wrapper">
+
                 <table className="module-data-table">
                     <thead>
                         <tr>
                             {columns.map((column) => (
-
                                 <th key={column.key}>
                                     {column.label}
                                 </th>
                             ))}
-                            {showAction && (<th>
-                                Action
-                            </th>)}
+                            {showAction && (
+                                <th>
+                                    Action
+                                </th>
+                            )}
                         </tr>
                     </thead>
+
                     <tbody>
                         {data.length > 0 ? (
                             data.map((item) => (
                                 <tr key={item.id}>
                                     {columns.map((column) => (
                                         <td key={column.key}>
-                                            {item[column.key]}
+
+                                            {/* ================= PDF BUTTON ================= */}
+
+                                            {column.type === "pdf" ? (
+
+                                                <button
+                                                    type="button"
+                                                    className="module-table-pdf-btn"
+                                                    onClick={() =>
+                                                        column.onClick(item)
+                                                    }>
+                                                    <span>
+                                                        View PDF
+                                                    </span>
+
+                                                </button>
+                                            ) : (
+                                                item[column.key]
+                                            )}
                                         </td>
                                     ))}
 
-                                    {showAction  && (<td>
-                                        <div className="module-table-action-btn">
-                                            <TableAction row={item} onAction={onAction}/>
-                                        </div>
-                                    </td>)}
+                                    {/* ================= ACTION ================= */}
+
+                                    {showAction && (
+                                        <td>
+                                            <div className="module-table-action-btn">
+                                                <TableAction
+                                                    row={item}
+                                                    onAction={onAction}
+                                                />
+                                            </div>
+                                        </td>
+                                    )}
                                 </tr>
                             ))
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={showAction ? columns.length + 1 : columns.length}
+                                    colSpan={
+                                        showAction
+                                            ? columns.length + 1
+                                            : columns.length
+                                    }
                                     className="lead-no-data">
                                     No records found.
                                 </td>
@@ -72,4 +110,5 @@ function ModuleTable({columns, data , onAction , showAction=true}){
         </div>
     );
 }
+
 export default ModuleTable;
