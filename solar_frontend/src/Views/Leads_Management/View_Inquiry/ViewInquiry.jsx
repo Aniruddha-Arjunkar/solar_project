@@ -24,8 +24,9 @@ function ViewInquiry() {
 
     const navigate = useNavigate();
 
+    // Fetch All Leads from API
 
-    useEffect(() => {
+    const fetchLeads = () => {
         fetch("http://localhost:8080/api/leads")
         .then((responce) => {
             if(!responce.ok){
@@ -39,12 +40,16 @@ function ViewInquiry() {
         .catch((error) => {
             window.alert("Fail to Fetch Leads",error);
         })
+    }
+
+    useEffect(() => {
+        fetchLeads();
     },[]);
 
 
     /* ================= ACTION HANDLER ================= */
 
-    const handleAction = (action, lead) => {
+    const handleAction = async(action, lead) => {
 
         // console.log("Action:", action);
         // console.log("Selected Lead:", lead);
@@ -57,10 +62,67 @@ function ViewInquiry() {
         return;
         }
 
+        if(action === "delete"){
+            await handleDeleteLead(lead)
+            return;
+        }
+
         setSelectedLead(lead);
         setActiveAction(action);
 
     };
+
+    /* ================= DELETE LEAD ================= */
+       const  handleDeleteLead = async(lead)=>{
+        //confirm Delete
+        const confirmed = window.confirm(
+            `Are you sure you want to delete ${lead.name}?`
+        );
+
+        if(!confirmed){
+            return;
+        }
+
+        try{
+            //Delete Request
+              const response = await fetch(
+                `http://localhost:8080/api/leads/${lead.id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            //Check Response
+             if (!response.ok) {
+
+                const errorText =
+                    await response.text();
+
+                throw new Error(
+                    errorText ||
+                    "Failed to delete lead."
+                );
+            }
+
+            //Success
+             window.alert(
+                `${lead.name} deleted successfully.`
+            );
+
+            //Refresh Table
+            fetchLeads();
+        }
+        catch(error){
+            console.error(
+                "Delete Lead Error:",
+                error
+            );
+
+            window.alert(
+                "Failed to delete lead. Please try again."
+            );
+        }
+       };
 
 
     /* ================= STATS ================= */
