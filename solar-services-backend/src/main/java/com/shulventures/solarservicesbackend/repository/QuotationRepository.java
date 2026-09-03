@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface QuotationRepository extends JpaRepository<Quotation, Long> {
     List<Quotation> findByLeadId(Long leadId);
+
+    void deleteByLeadId(Long leadId);
 }

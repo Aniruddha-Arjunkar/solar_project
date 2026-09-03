@@ -3,7 +3,9 @@ package com.shulventures.solarservicesbackend.service;
 
 import com.shulventures.solarservicesbackend.entity.Lead;
 import com.shulventures.solarservicesbackend.repository.LeadRepository;
+import com.shulventures.solarservicesbackend.repository.QuotationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,11 +15,13 @@ public class LeadService {
 
     private final LeadRepository leadRepository;
 
+    //inject Quotation Repository to Delete Lead via Quotation
+    private final QuotationRepository quotationRepository;
 
-    // ================= CONSTRUCTOR =================
-
-    public LeadService(LeadRepository leadRepository) {
+    public LeadService(LeadRepository leadRepository,
+                       QuotationRepository quotationRepository) {
         this.leadRepository = leadRepository;
+        this.quotationRepository = quotationRepository;
     }
 
 
@@ -86,17 +90,23 @@ public class LeadService {
     }
 
 
-    // ================= DELETE =================
+    // ================= DELETE LEAD via Quotaion =================
 
+    @Transactional
     public void deleteLead(Long id) {
 
+        // CHECK LEAD EXISTS
         if (!leadRepository.existsById(id)) {
-
             throw new RuntimeException(
                     "Lead not found with id: " + id
             );
         }
 
+        // First DELETE QUOTATIONS OF THIS LEAD
+        quotationRepository.deleteByLeadId(id);
+
+
+        // Then DELETE LEAD
         leadRepository.deleteById(id);
     }
 
