@@ -11,6 +11,7 @@ import FutureClient from './Views/Leads_Management/Future_Clients/FutureClients.
 import ScheduleClient from './Views/Leads_Management/Schedule_Client/ScheduleClient.jsx';
 import Quotation from './Views/Leads_Management/Quotation/Quotation.jsx';
 import AddQuotation from "./Views/Leads_Management/Add_Quotation/AddQuotation.jsx";
+import MakeClient from "./Views/Leads_Management/MakeClient/MakeClient.jsx";
 
 //=========== Vendor Mangement ============
 import AddVendor from "./Views/Vendor_Management/Add_Vendor/AddVendor.jsx";
@@ -62,6 +63,7 @@ function App() {
             <Route path='dashboard/schedule-client' element={<ScheduleClient/>}/>
             <Route path='dashboard/quotations' element={<Quotation/>}/>
             <Route path="/dashboard/add-quotation/:leadId" element={<AddQuotation />}/>
+            <Route path="/dashboard/make-client/:leadId" element={<MakeClient/>}/>
 
             {/* Vendor Management */}
             <Route path="dasboard/add-vendor" element={<AddVendor/>}/>

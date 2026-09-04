@@ -1,5 +1,7 @@
 import { useState , useEffect} from "react";
 
+import { useNavigate } from "react-router";
+
 import ModuleHeader from "./../../../Components/ModulePageHeader/ModulePageHeader.jsx";
 import ModuleStats from "./../../../Components/LeadStats/LeadStats.jsx";
 import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
@@ -17,6 +19,7 @@ import "./ScheduleClient.css";
 
 function ScheduleClient(){
 
+    const navigate = useNavigate();
     const [LeadData, setLeadData] = useState([]);
     const [selectedLead, setSelectedLead] = useState(null);
     const [activeAction, setActiveAction] = useState(null);
@@ -119,6 +122,12 @@ function ScheduleClient(){
         if (action === "delete") {
         await handleDeleteLead(lead);
         return;
+        }
+
+        if (action === "makeclient") {
+        navigate(
+            `/dashboard/make-client/${lead.id}`
+        );
         }
 
         setSelectedLead(lead);
@@ -234,7 +243,8 @@ function ScheduleClient(){
             {/* ================= TABLE ================= */}
             <ModuleTable columns={Columns} 
             data={LeadData} 
-            onAction={handleAction}/>
+            onAction={handleAction}
+            showMakeClient={true}/>
 
             {/* ================= RE-FOLLOWUP FORM ================= */}
             {activeAction === "refollowup" && (

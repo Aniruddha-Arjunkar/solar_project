@@ -5,7 +5,9 @@ import {
     Wrench,
     CalendarDays,
     FileText,
-    Trash2
+    Trash2,
+    UserPlus,
+    UserRoundPlus
 } from "lucide-react";
 
 import { useState } from "react";
@@ -13,7 +15,8 @@ import { useState } from "react";
 import "./TableAction.css";
 
 
-function TableAction({ row, onAction , showQuotation = false}) {
+function TableAction({ row, onAction , showQuotation = false , 
+          showMakeClient = false}) {
 
     const [open, setOpen] = useState(false);
 
@@ -123,9 +126,24 @@ function TableAction({ row, onAction , showQuotation = false}) {
                         </span>
                     </button>
 
-
-
+                    
                     <div className="table-action-divider"></div>
+
+                    {/* ========== MAKE CLIENT ========== */}
+
+                    {showMakeClient && (
+
+                        <button
+                            type="button"
+                            onClick={() =>
+                                handleAction("makeclient")
+                            }>
+                            <UserRoundPlus size={20} />
+                            <span>
+                                Make Client
+                            </span>
+                        </button>
+                    )}
 
 
                     {/* ========== Send Quotation ========== */}
