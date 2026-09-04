@@ -18,7 +18,8 @@ function FollowUp(){
      const [LeadData, setLeadData] = useState([]);
      const [selectedLead, setSelectedLead] = useState(null);
      const[activeAction , setActiveAction] = useState(null);
-
+    
+     //Fetch Follow-ups from API
         const fetchFollowUps = () => {
     fetch("http://localhost:8080/api/leads/status/FOLLOW_UP")
         .then((response) => {
@@ -39,20 +40,70 @@ function FollowUp(){
         });
 };
 
-    //============== Fetch Follow-ups ==============
+    //============== call Fetch Follow-ups ==============
      useEffect(() => { 
         fetchFollowUps(); 
     }, []);
+    
+    
+    //======= Delete Lead ============
+    const handleDeleteLead = async (lead) => {
+
+    const confirmed = window.confirm(
+        `Are you sure you want to delete ${lead.name}?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8080/api/leads/${lead.id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+
+            throw new Error(
+                errorText || "Failed to delete lead."
+            );
+        }
+
+        window.alert(
+            `${lead.name} deleted successfully.`
+        );
+
+        fetchFollowUps();
+
+    } catch (error) {
+
+        console.error("Delete Lead Error:", error);
+
+        window.alert(
+            "Failed to delete lead. Please try again."
+        );
+    }
+};
 
      //============== ACTION HANDLER ==============
 
-     const handleACtion = (action , lead) =>{
+     const handleACtion = async(action , lead) =>{
 
-        console.log("Action:", action);
-        console.log("Select Lead:", lead);
+        // console.log("Action:", action);
+        // console.log("Select Lead:", lead);
+        if (action === "delete") {
+        await handleDeleteLead(lead);
+        return;
+        }
 
         setSelectedLead(lead);
         setActiveAction(action);
+
      }
 
      const Stats = [

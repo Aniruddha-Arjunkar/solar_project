@@ -13,7 +13,7 @@ import { useState } from "react";
 import "./TableAction.css";
 
 
-function TableAction({ row, onAction }) {
+function TableAction({ row, onAction , showQuotation = false}) {
 
     const [open, setOpen] = useState(false);
 
@@ -129,7 +129,7 @@ function TableAction({ row, onAction }) {
 
 
                     {/* ========== Send Quotation ========== */}
-
+                {showQuotation && (
                     <button
                         type="button"
                         onClick={() =>
@@ -141,7 +141,7 @@ function TableAction({ row, onAction }) {
                             Send Quotation
                         </span>
                     </button>
-
+               )}
 
                     {/* ========== DELETE ========== */}
 

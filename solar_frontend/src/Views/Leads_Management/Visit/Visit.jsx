@@ -56,18 +56,68 @@ function Visit(){
         });
 };
 
-
+// === Call Fetch fetchVisitLeads======
     useEffect(() => {
     fetchVisitLeads();
       }, []);
 
+    //========== Delete Lead =============
+    const handleDeleteLead = async (lead) => {
+
+    const confirmed = window.confirm(
+        `Are you sure you want to delete ${lead.name}?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8080/api/leads/${lead.id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+
+            throw new Error(
+                errorText || "Failed to delete lead."
+            );
+        }
+
+        window.alert(
+            `${lead.name} deleted successfully.`
+        );
+
+        fetchVisitLeads();
+
+    } catch (error) {
+
+        console.error("Delete Lead Error:", error);
+
+        window.alert(
+            "Failed to delete lead. Please try again."
+        );
+    }
+};
+
+
 
     /* ================= ACTION HANDLER ================= */
 
-    const handleAction = (action, lead) => {
+    const handleAction = async (action, lead) => {
 
-        console.log("Action:", action);
-        console.log("Selected Lead:", lead);
+        // console.log("Action:", action);
+        // console.log("Selected Lead:", lead);
+
+        if (action === "delete") {
+        await handleDeleteLead(lead);
+        return;
+        }
 
         setSelectedLead(lead);
         setActiveAction(action);

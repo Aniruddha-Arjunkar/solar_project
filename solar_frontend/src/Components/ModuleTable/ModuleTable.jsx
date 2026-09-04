@@ -7,7 +7,8 @@ function ModuleTable({
     columns,
     data,
     onAction,
-    showAction = true
+    showAction = true,
+    showQuotation = false
 }) {
 
     return (
@@ -85,6 +86,7 @@ function ModuleTable({
                                                 <TableAction
                                                     row={item}
                                                     onAction={onAction}
+                                                    showQuotation={showQuotation}
                                                 />
                                             </div>
                                         </td>

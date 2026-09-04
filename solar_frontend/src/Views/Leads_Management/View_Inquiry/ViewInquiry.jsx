@@ -229,6 +229,7 @@ function ViewInquiry() {
                 columns={columns}
                 data={LeadData}
                 onAction={handleAction}
+                showQuotation={true}
             />
 
 
