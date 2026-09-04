@@ -127,9 +127,25 @@ public class ClientController {
     public ResponseEntity<Void> deleteClient(
             @PathVariable Long id
     ) {
-
         clientService.deleteClient(id);
-
         return ResponseEntity.noContent().build();
+    }
+
+
+   //========= Convert Lead into Client ============
+
+    @PostMapping("/convert-from-lead/{leadId}")
+    public ResponseEntity<Client> convertLeadToClient(
+            @PathVariable Long leadId,
+            @RequestBody Client clientData
+    ) {
+
+        Client client =
+                clientService.convertLeadToClient(
+                        leadId,
+                        clientData
+                );
+
+        return ResponseEntity.ok(client);
     }
 }

@@ -1,9 +1,13 @@
 package com.shulventures.solarservicesbackend.service;
 
 import com.shulventures.solarservicesbackend.entity.Client;
+import com.shulventures.solarservicesbackend.entity.Lead;
 import com.shulventures.solarservicesbackend.repository.ClientRepository;
+import com.shulventures.solarservicesbackend.repository.LeadRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,10 +15,13 @@ import java.util.Optional;
 public class ClientService {
 
     private final ClientRepository clientRepository;
+    private final LeadRepository leadRepository;
 
 
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository,
+                         LeadRepository leadRepository) {
         this.clientRepository = clientRepository;
+        this.leadRepository = leadRepository;
     }
 
 
@@ -28,6 +35,36 @@ public class ClientService {
 
         if (client.getAddedBy() == null || client.getAddedBy().isBlank()) {
             client.setAddedBy("ADMIN");
+        }
+
+        // ==================== GST CALCULATION ====================
+
+        BigDecimal baseAmount = client.getTotalAmount();
+
+        if (baseAmount == null) {
+            baseAmount = BigDecimal.ZERO;
+            client.setTotalAmount(baseAmount);
+        }
+
+        if (Boolean.TRUE.equals(client.getApplyGst())) {
+
+            // 18% GST
+            BigDecimal gstAmount = baseAmount
+                    .multiply(new BigDecimal("0.18"));
+
+            client.setGstAmount(gstAmount);
+
+            // Base + GST
+            client.setFinalAmount(
+                    baseAmount.add(gstAmount)
+            );
+
+        } else {
+
+            // Non-GST Client
+            client.setGstAmount(BigDecimal.ZERO);
+
+            client.setFinalAmount(baseAmount);
         }
 
         return clientRepository.save(client);
@@ -138,7 +175,157 @@ public class ClientService {
                     "Client not found with id: " + id
             );
         }
-
         clientRepository.deleteById(id);
+    }
+
+
+    // CONVERT SCHEDULED LEAD INTO CLIENT
+
+    @Transactional
+    public Client convertLeadToClient(Long leadId, Client clientData) {
+
+        // Find the lead
+        Lead lead = leadRepository.findById(leadId)
+                .orElseThrow(() ->
+                        new RuntimeException("Lead not found with id: " + leadId)
+                );
+
+        // VALIDATE LEAD STATUS
+
+        if (!"SCHEDULED".equalsIgnoreCase(lead.getStatus())) {
+            throw new RuntimeException(
+                    "Only scheduled leads can be converted into clients."
+            );
+        }
+
+        // COPY LEAD INFORMATION INTO CLIENT
+
+        Client client = new Client();
+
+        // Keep original Lead ID for reference
+        // This is NOT a database foreign key.
+        client.setInquiryId(lead.getId());
+
+        // Basic customer information
+        client.setCustName(lead.getName());
+        client.setCustPhone(lead.getContact());
+        client.setCustEmail(lead.getEmail());
+        client.setCustAddress(lead.getAddress());
+
+        // SERVICE INFORMATION
+        client.setService(lead.getServiceType());
+        client.setServiceDate(lead.getScheduleDate());
+
+        // If service requirement exists, use it
+        client.setServiceCovered(lead.getServiceRequirement());
+
+
+        // COPY ADDITIONAL DATA FROM MAKE CLIENT FORM
+
+        if (clientData.getService() != null &&
+                !clientData.getService().isBlank()) {
+
+            client.setService(clientData.getService());
+        }
+
+        if (clientData.getServiceTermCondition() != null) {
+            client.setServiceTermCondition(
+                    clientData.getServiceTermCondition()
+            );
+        }
+
+        if (clientData.getWarranty() != null) {
+            client.setWarranty(clientData.getWarranty());
+        }
+
+        if (clientData.getServiceCovered() != null) {
+            client.setServiceCovered(
+                    clientData.getServiceCovered()
+            );
+        }
+
+        if (clientData.getServiceDate() != null) {
+            client.setServiceDate(clientData.getServiceDate());
+        }
+
+        // AMOUNT
+
+        client.setTotalAmount(clientData.getTotalAmount());
+
+
+        // GST INFORMATION
+
+        client.setApplyGst(clientData.getApplyGst());
+
+        client.setGstType(clientData.getGstType());
+
+        client.setGstInvoiceNo(clientData.getGstInvoiceNo());
+
+        client.setBillingAddress(clientData.getBillingAddress());
+
+        client.setShippingAddress(clientData.getShippingAddress());
+
+
+        // OTHER CLIENT INFORMATION
+
+        client.setDocuments(clientData.getDocuments());
+
+        client.setConsumerNo(clientData.getConsumerNo());
+
+        client.setSubdivision(clientData.getSubdivision());
+
+        client.setTechnicalName(clientData.getTechnicalName());
+
+        // THIS CLIENT WAS CREATED BY ADMIN
+
+        client.setAddedBy("ADMIN");
+
+        //================================================
+        // GST CALCULATION
+        //
+        // Example:
+        //
+        // Total Amount = 100000
+        // GST 18%      = 18000
+        // Final Amount = 118000
+        //================================================
+
+        BigDecimal baseAmount = client.getTotalAmount();
+
+        if (baseAmount == null) {
+            baseAmount = BigDecimal.ZERO;
+            client.setTotalAmount(baseAmount);
+        }
+
+        if (Boolean.TRUE.equals(client.getApplyGst())) {
+
+            BigDecimal gstAmount =
+                    baseAmount.multiply(new BigDecimal("0.18"));
+
+            client.setGstAmount(gstAmount);
+
+            client.setFinalAmount(
+                    baseAmount.add(gstAmount)
+            );
+
+        } else {
+
+            client.setGstAmount(BigDecimal.ZERO);
+
+            client.setFinalAmount(baseAmount);
+        }
+
+        // SAVE CLIENT
+
+        Client savedClient = clientRepository.save(client);
+
+
+        // DELETE ORIGINAL LEAD
+
+        leadRepository.delete(lead);
+
+
+        // RETURN CREATED CLIENT
+        return savedClient;
     }
 }

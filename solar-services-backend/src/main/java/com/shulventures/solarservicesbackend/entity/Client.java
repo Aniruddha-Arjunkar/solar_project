@@ -47,7 +47,8 @@ public class Client {
     private String serviceTermCondition;
 
     private BigDecimal totalAmount;
-
+    private BigDecimal gstAmount = BigDecimal.ZERO;
+    private BigDecimal finalAmount;
     private String warranty;
 
     @Column(columnDefinition = "TEXT")
@@ -68,8 +69,6 @@ public class Client {
      * inclusive / exclusive
      */
     private String gstType = "exclusive";
-
-    private BigDecimal gstAmount = BigDecimal.ZERO;
 
     private String gstInvoiceNo;
 
@@ -224,6 +223,14 @@ public class Client {
 
     public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public BigDecimal getFinalAmount() {
+        return finalAmount;
+    }
+
+    public void setFinalAmount(BigDecimal finalAmount) {
+        this.finalAmount = finalAmount;
     }
 
     public String getWarranty() {
