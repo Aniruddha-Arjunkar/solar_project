@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import ModuleHeader from "../../../Components/ModulePageHeader/ModulePageHeader.jsx";
 import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
 import ModuleStats from "./../../../Components/LeadStats/LeadStats.jsx";
@@ -14,8 +14,50 @@ import ScheduleForm from "./../../../Components/LeadForms/ScheduleForm/ScheduleF
 
 function FutureClients(){
 
+    const [LeadData, setLeadData] = useState([]);
     const [selectedLead, setSelectedLead] = useState(null);
     const [activeAction, setActiveAction] = useState(null);
+
+
+    const fetchFutureLeads = () => {
+
+    fetch("http://localhost:8080/api/leads/status/SERVICE")
+        .then((response) => {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to fetch scheduled leads"
+                );
+            }
+
+            return response.json();
+        })
+
+        .then((data) => {
+
+            console.log(
+                "Schedule Data:",
+                data
+            );
+
+            setLeadData(data);
+
+        })
+
+        .catch((error) => {
+
+            console.error(
+                "Schedule Fetch Error:",
+                error
+            );
+
+        });
+};
+
+
+    useEffect(() => {
+    fetchFutureLeads();
+      }, []);
 
 
     /* ================= ACTION HANDLER ================= */
@@ -33,7 +75,7 @@ function FutureClients(){
   const Stats = [
        {
         title:"Total Future Services",
-        value:2
+        value:LeadData.length
        }
   ];
 
@@ -63,33 +105,33 @@ function FutureClients(){
             label: "Message"
         },
         {
-            key: "date",
+            key: "serviceDate",
             label: "Service Date"
         }
     ];
 
-    const Data = [
+    // const Data = [
 
-        {
-            id: 1,
-            name: "Sumit",
-            contact: "7889455612",
-            email: "sumit@gmail.com",
-            address: "Pune",
-            message: "Solar panel installation",
-            date: "24 Aug 2026"
-        },
+    //     {
+    //         id: 1,
+    //         name: "Sumit",
+    //         contact: "7889455612",
+    //         email: "sumit@gmail.com",
+    //         address: "Pune",
+    //         message: "Solar panel installation",
+    //         date: "24 Aug 2026"
+    //     },
 
-        {
-            id: 2,
-            name: "Aniket Warhate",
-            contact: "7845269856",
-            email: "aniket@gmail.com",
-            address: "Pune",
-            message: "Solar consultation",
-            date: "24 Aug 2026"
-        }
-    ];
+    //     {
+    //         id: 2,
+    //         name: "Aniket Warhate",
+    //         contact: "7845269856",
+    //         email: "aniket@gmail.com",
+    //         address: "Pune",
+    //         message: "Solar consultation",
+    //         date: "24 Aug 2026"
+    //     }
+    // ];
 
     /* ================= CLOSE FORM ================= */
     const handleCloseForm = () => {
@@ -113,7 +155,8 @@ function FutureClients(){
 
       {/*=============== Tables ================  */}
             <ModuleTable columns={Columns} 
-            data={Data} onAction={handleAction}/>
+            data={LeadData} 
+            onAction={handleAction}/>
 
       {/* ================= RE-FOLLOWUP FORM ================= */}
         {activeAction === "refollowup" && (

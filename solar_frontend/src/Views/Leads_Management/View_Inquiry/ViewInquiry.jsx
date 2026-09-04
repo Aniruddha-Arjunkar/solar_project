@@ -27,7 +27,7 @@ function ViewInquiry() {
     // Fetch All Leads from API
 
     const fetchLeads = () => {
-        fetch("http://localhost:8080/api/leads")
+        fetch("http://localhost:8080/api/leads/status/NEW")
         .then((responce) => {
             if(!responce.ok){
                 throw new Error("Failed to Fetch Leads")

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import ModuleHeader from "./../../../Components/ModulePageHeader/ModulePageHeader.jsx";
 import ModuleStats from "./../../../Components/LeadStats/LeadStats.jsx";
 import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
@@ -15,8 +15,34 @@ import "./FollowUp.css";
 
 function FollowUp(){
 
+     const [LeadData, setLeadData] = useState([]);
      const [selectedLead, setSelectedLead] = useState(null);
      const[activeAction , setActiveAction] = useState(null);
+
+        const fetchFollowUps = () => {
+    fetch("http://localhost:8080/api/leads/status/FOLLOW_UP")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch follow-ups");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("Follow-up Data:", data);
+            setLeadData(data);
+        })
+        .catch((error) => {
+            console.error(
+                "Fetch Follow-up Error:",
+                error
+            );
+        });
+};
+
+    //============== Fetch Follow-ups ==============
+     useEffect(() => { 
+        fetchFollowUps(); 
+    }, []);
 
      //============== ACTION HANDLER ==============
 
@@ -36,11 +62,11 @@ function FollowUp(){
         },
         {
             title: "Today's Follow-ups",
-            value: 2
+            value: 1
         },
         {
             title: "Total Follow-ups",
-            value: 3
+            value: LeadData.length
         }
     ];
 
@@ -71,44 +97,44 @@ function FollowUp(){
             label: "Remarks"
         },
         {
-            key: "date",
+            key: "followUpDate",
             label: "Follow-up Date"
         }
     ];
 
 
-    const Data = [
+    // const Data = [
 
-        {
-            id: 1,
-            name: "Sumit",
-            contact: "7889455612",
-            email: "sumit@gmail.com",
-            address: "Pune",
-            message: "Solar panel installation",
-            date: "24 Aug 2026"
-        },
+    //     {
+    //         id: 1,
+    //         name: "Sumit",
+    //         contact: "7889455612",
+    //         email: "sumit@gmail.com",
+    //         address: "Pune",
+    //         message: "Solar panel installation",
+    //         date: "24 Aug 2026"
+    //     },
 
-        {
-            id: 2,
-            name: "Aniket Warhate",
-            contact: "7845269856",
-            email: "aniket@gmail.com",
-            address: "Pune",
-            message: "Solar consultation",
-            date: "24 Aug 2026"
-        },
+    //     {
+    //         id: 2,
+    //         name: "Aniket Warhate",
+    //         contact: "7845269856",
+    //         email: "aniket@gmail.com",
+    //         address: "Pune",
+    //         message: "Solar consultation",
+    //         date: "24 Aug 2026"
+    //     },
 
-        {
-            id: 3,
-            name: "Uday",
-            contact: "7128316701",
-            email: "uday@gmail.com",
-            address: "Mumbai",
-            message: "Solar maintenance",
-            date: "23 Aug 2026"
-        }
-    ];
+    //     {
+    //         id: 3,
+    //         name: "Uday",
+    //         contact: "7128316701",
+    //         email: "uday@gmail.com",
+    //         address: "Mumbai",
+    //         message: "Solar maintenance",
+    //         date: "23 Aug 2026"
+    //     }
+    // ];
 
     //============== Close Form ==============
       const handleCloseForm = () =>{
@@ -132,7 +158,8 @@ function FollowUp(){
             />
 
             {/* ================= TABLE ================= */}
-            <ModuleTable columns={Columns} data={Data}
+            <ModuleTable columns={Columns} 
+              data={LeadData}
               onAction={handleACtion}/>
 
             {/* ========= RE-FollowUp Form ============= */}

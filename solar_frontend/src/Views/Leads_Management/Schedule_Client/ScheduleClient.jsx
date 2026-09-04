@@ -1,3 +1,5 @@
+import { useState , useEffect} from "react";
+
 import ModuleHeader from "./../../../Components/ModulePageHeader/ModulePageHeader.jsx";
 import ModuleStats from "./../../../Components/LeadStats/LeadStats.jsx";
 import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
@@ -10,13 +12,58 @@ import ScheduleForm from "../../../Components/LeadForms/ScheduleForm/ScheduleFor
 import ServiceForm from "../../../Components/LeadForms/ServiceForm/ServiceForm.jsx";
 import ReFollowUpForm from "../../../Components/LeadForms/ReFollowupForm/ReFollowupForm.jsx";
 
-import { useState } from "react";
+
 import "./ScheduleClient.css";
 
 function ScheduleClient(){
 
+    const [LeadData, setLeadData] = useState([]);
     const [selectedLead, setSelectedLead] = useState(null);
     const [activeAction, setActiveAction] = useState(null);
+
+
+    const fetchScheduleLeads = () => {
+
+    fetch(
+        "http://localhost:8080/api/leads/status/SCHEDULED"
+    )
+
+        .then((response) => {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to fetch scheduled leads"
+                );
+            }
+
+            return response.json();
+        })
+
+        .then((data) => {
+
+            console.log(
+                "Schedule Data:",
+                data
+            );
+
+            setLeadData(data);
+
+        })
+
+        .catch((error) => {
+
+            console.error(
+                "Schedule Fetch Error:",
+                error
+            );
+
+        });
+};
+
+
+    useEffect(() => {
+    fetchScheduleLeads();
+      }, []);
 
 
     /* ================= ACTION HANDLER ================= */
@@ -35,7 +82,7 @@ function ScheduleClient(){
 
         {
             title: "Total Schedule",
-            value: 0
+            value: LeadData.length
         },
 
         {
@@ -71,45 +118,45 @@ function ScheduleClient(){
             label: "Message"
         },
         {
-            key: "date",
+            key: "scheduleDate",
             label: "Schedule Date"
         }
     ];
 
 
-    const Data = [
+    // const Data = [
 
-        {
-            id: 1,
-            name: "Sumit",
-            contact: "7889455612",
-            email: "sumit@gmail.com",
-            address: "Pune",
-            message: "Solar panel installation",
-            date: "24 Aug 2026"
-        },
+    //     {
+    //         id: 1,
+    //         name: "Sumit",
+    //         contact: "7889455612",
+    //         email: "sumit@gmail.com",
+    //         address: "Pune",
+    //         message: "Solar panel installation",
+    //         date: "24 Aug 2026"
+    //     },
 
-        {
-            id: 2,
-            name: "Aniket Warhate",
-            contact: "7845269856",
-            email: "aniket@gmail.com",
-            address: "Pune",
-            message: "Solar consultation",
-            date: "24 Aug 2026"
-        },
+    //     {
+    //         id: 2,
+    //         name: "Aniket Warhate",
+    //         contact: "7845269856",
+    //         email: "aniket@gmail.com",
+    //         address: "Pune",
+    //         message: "Solar consultation",
+    //         date: "24 Aug 2026"
+    //     },
 
-        {
-            id: 3,
-            name: "Uday",
-            contact: "7128316701",
-            email: "uday@gmail.com",
-            address: "Mumbai",
-            message: "Solar maintenance",
-            date: "23 Aug 2026"
-        }
+    //     {
+    //         id: 3,
+    //         name: "Uday",
+    //         contact: "7128316701",
+    //         email: "uday@gmail.com",
+    //         address: "Mumbai",
+    //         message: "Solar maintenance",
+    //         date: "23 Aug 2026"
+    //     }
 
-    ];
+    // ];
 
     /* ================= CLOSE FORM ================= */
 
@@ -138,7 +185,7 @@ function ScheduleClient(){
 
             {/* ================= TABLE ================= */}
             <ModuleTable columns={Columns} 
-            data={Data} 
+            data={LeadData} 
             onAction={handleAction}/>
 
             {/* ================= RE-FOLLOWUP FORM ================= */}

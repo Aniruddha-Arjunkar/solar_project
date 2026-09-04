@@ -1,3 +1,5 @@
+import { useState , useEffect} from "react";
+
 import ModuleHeader from "./../../../Components/ModulePageHeader/ModulePageHeader.jsx";
 import ModuleStats from "./../../../Components/LeadStats/LeadStats.jsx";
 import ModuleTable from "./../../../Components/ModuleTable/ModuleTable.jsx";
@@ -9,14 +11,55 @@ import ReFollowUpForm from "./../../../Components/LeadForms/ReFollowupForm/ReFol
 import ServiceForm from "./../../../Components/LeadForms/ServiceForm/ServiceForm.jsx"
 import ScheduleForm from "./../../../Components/LeadForms/ScheduleForm/ScheduleForm.jsx";
 
-import { useState } from "react";
 
 import "./Visit.css";
 
 function Visit(){
 
+    const [LeadData, setLeadData] = useState([]);
     const [selectedLead, setSelectedLead] = useState(null);
     const [activeAction, setActiveAction] = useState(null);
+
+     
+      const fetchVisitLeads = () => {
+
+    fetch("http://localhost:8080/api/leads/status/VISIT")
+        .then((response) => {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to fetch scheduled leads"
+                );
+            }
+
+            return response.json();
+        })
+
+        .then((data) => {
+
+            console.log(
+                "Schedule Data:",
+                data
+            );
+
+            setLeadData(data);
+
+        })
+
+        .catch((error) => {
+
+            console.error(
+                "Schedule Fetch Error:",
+                error
+            );
+
+        });
+};
+
+
+    useEffect(() => {
+    fetchVisitLeads();
+      }, []);
 
 
     /* ================= ACTION HANDLER ================= */
@@ -35,12 +78,12 @@ function Visit(){
 
         {
             title: "Total Visits",
-            value: 0
+            value: LeadData.length
         },
 
         {
             title: "Today's Visits",
-            value: 3
+            value: 0
         }
     ];
 
@@ -71,43 +114,43 @@ function Visit(){
             label: "Remark"
         },
         {
-            key: "date",
+            key: "visitDate",
             label: "Visit Date"
         }
     ];
 
 
-    const Data = [
+    // const Data = [
 
-        {
-            id: 1,
-            name: "Sumit",
-            contact: "7889455612",
-            email: "sumit@gmail.com",
-            address: "Pune",
-            message: "Solar panel installation",
-            date: "24 Aug 2026"
-        },
-        {
-            id: 2,
-            name: "Aniket Warhate",
-            contact: "7845269856",
-            email: "aniket@gmail.com",
-            address: "Pune",
-            message: "Solar consultation",
-            date: "24 Aug 2026"
-        },
-        {
-            id: 3,
-            name: "Uday",
-            contact: "7128316701",
-            email: "uday@gmail.com",
-            address: "Mumbai",
-            message: "Solar maintenance",
-            date: "23 Aug 2026"
-        }
+    //     {
+    //         id: 1,
+    //         name: "Sumit",
+    //         contact: "7889455612",
+    //         email: "sumit@gmail.com",
+    //         address: "Pune",
+    //         message: "Solar panel installation",
+    //         date: "24 Aug 2026"
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "Aniket Warhate",
+    //         contact: "7845269856",
+    //         email: "aniket@gmail.com",
+    //         address: "Pune",
+    //         message: "Solar consultation",
+    //         date: "24 Aug 2026"
+    //     },
+    //     {
+    //         id: 3,
+    //         name: "Uday",
+    //         contact: "7128316701",
+    //         email: "uday@gmail.com",
+    //         address: "Mumbai",
+    //         message: "Solar maintenance",
+    //         date: "23 Aug 2026"
+    //     }
 
-    ];
+    // ];
 
      /* ================= CLOSE FORM ================= */
 
@@ -132,7 +175,8 @@ function Visit(){
             />
 
             {/* ================= TABLE ================= */}
-            <ModuleTable columns={Columns} data={Data} 
+            <ModuleTable columns={Columns} 
+            data={LeadData} 
             onAction={handleAction}/>
 
             {/* ================= RE-FOLLOWUP FORM ================= */}
