@@ -26,11 +26,15 @@ public class LeadService {
 
 
     // ================= CREATE =================
-
     public Lead createLead(Lead lead) {
+
+        if (lead.getStatus() == null || lead.getStatus().isBlank()) {
+            lead.setStatus("NEW");
+        }
 
         return leadRepository.save(lead);
     }
+
 
 
     // ================= GET ALL =================
@@ -48,6 +52,12 @@ public class LeadService {
         return leadRepository.findById(id);
     }
 
+    // ================= GET LEADS BY STATUS =================
+
+    public List<Lead> getLeadsByStatus(String status) {
+
+        return leadRepository.findByStatus(status);
+    }
 
     // ================= UPDATE =================
 

@@ -18,7 +18,7 @@ public class LeadController {
     private final LeadService leadService;
 
 
-    // ================= CONSTRUCTOR =================
+
 
     public LeadController(LeadService leadService) {
         this.leadService = leadService;
@@ -57,6 +57,17 @@ public class LeadController {
     public ResponseEntity<List<Lead>> getQuotationLeads() {
         List<Lead> quotations = leadService.getQuotationLeads();
         return ResponseEntity.ok(quotations);
+    }
+
+    // ================= GET LEADS BY STATUS =================
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Lead>> getLeadsByStatus(
+            @PathVariable String status
+    ) {
+        List<Lead> leads =
+                leadService.getLeadsByStatus(status);
+        return ResponseEntity.ok(leads);
     }
 
     // ================= GET LEAD BY ID =================
