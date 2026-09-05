@@ -113,6 +113,7 @@ public class ClientService {
     }
 
 
+
     // ==================== UPDATE CLIENT ====================
 
     public Client updateClient(Long id, Client updatedClient) {
@@ -124,26 +125,156 @@ public class ClientService {
                         )
                 );
 
-        existingClient.setCustName(updatedClient.getCustName());
-        existingClient.setCustPhone(updatedClient.getCustPhone());
-        existingClient.setCustEmail(updatedClient.getCustEmail());
-        existingClient.setCustAddress(updatedClient.getCustAddress());
 
-        existingClient.setService(updatedClient.getService());
+
+        // CUSTOMER INFORMATION
+
+        existingClient.setCustName(
+                updatedClient.getCustName()
+        );
+
+        existingClient.setCustPhone(
+                updatedClient.getCustPhone()
+        );
+
+        existingClient.setCustEmail(
+                updatedClient.getCustEmail()
+        );
+
+        existingClient.setCustAddress(
+                updatedClient.getCustAddress()
+        );
+
+
+        //====================================================
+        // SERVICE INFORMATION
+        //====================================================
+
+        existingClient.setService(
+                updatedClient.getService()
+        );
+
         existingClient.setServiceTermCondition(
                 updatedClient.getServiceTermCondition()
         );
-        existingClient.setTotalAmount(updatedClient.getTotalAmount());
-        existingClient.setWarranty(updatedClient.getWarranty());
+
+        existingClient.setWarranty(
+                updatedClient.getWarranty()
+        );
+
         existingClient.setServiceCovered(
                 updatedClient.getServiceCovered()
         );
-        existingClient.setServiceDate(updatedClient.getServiceDate());
 
-        existingClient.setApplyGst(updatedClient.getApplyGst());
-        existingClient.setGstType(updatedClient.getGstType());
-        existingClient.setGstAmount(updatedClient.getGstAmount());
-        existingClient.setGstInvoiceNo(updatedClient.getGstInvoiceNo());
+        existingClient.setServiceDate(
+                updatedClient.getServiceDate()
+        );
+
+
+        //====================================================
+        // PAYMENT INFORMATION
+        //====================================================
+
+        BigDecimal baseAmount =
+                updatedClient.getTotalAmount();
+
+
+        // If amount is not provided, use 0
+        if (baseAmount == null) {
+
+            baseAmount = BigDecimal.ZERO;
+        }
+
+
+        existingClient.setTotalAmount(
+                baseAmount
+        );
+
+
+        //====================================================
+        // GST INFORMATION
+        //====================================================
+
+        Boolean applyGst =
+                updatedClient.getApplyGst();
+
+
+        // Prevent null GST value
+        if (applyGst == null) {
+
+            applyGst = false;
+        }
+
+
+        existingClient.setApplyGst(
+                applyGst
+        );
+
+        existingClient.setGstType(
+                updatedClient.getGstType()
+        );
+
+        existingClient.setGstInvoiceNo(
+                updatedClient.getGstInvoiceNo()
+        );
+
+
+        //====================================================
+        // GST CALCULATION
+        //
+        // Example:
+        //
+        // Total Amount = 250000
+        //
+        // GST 18%:
+        // 250000 × 0.18 = 45000
+        //
+        // Final Amount:
+        // 250000 + 45000 = 295000
+        //
+        // IMPORTANT:
+        // GST amount and final amount are calculated
+        // by backend. We do NOT trust frontend values.
+        //====================================================
+
+        if (Boolean.TRUE.equals(applyGst)) {
+
+            BigDecimal gstAmount =
+                    baseAmount.multiply(
+                            new BigDecimal("0.18")
+                    );
+
+            BigDecimal finalAmount =
+                    baseAmount.add(gstAmount);
+
+
+            existingClient.setGstAmount(
+                    gstAmount
+            );
+
+            existingClient.setFinalAmount(
+                    finalAmount
+            );
+
+        } else {
+
+            //================================================
+            // GST NOT APPLIED
+            //================================================
+
+            existingClient.setGstAmount(
+                    BigDecimal.ZERO
+            );
+
+            existingClient.setFinalAmount(
+                    baseAmount
+            );
+        }
+
+
+        //====================================================
+        // ADDRESS INFORMATION
+        //====================================================
 
         existingClient.setBillingAddress(
                 updatedClient.getBillingAddress()
@@ -153,17 +284,96 @@ public class ClientService {
                 updatedClient.getShippingAddress()
         );
 
-        existingClient.setDocuments(updatedClient.getDocuments());
 
-        existingClient.setConsumerNo(updatedClient.getConsumerNo());
-        existingClient.setSubdivision(updatedClient.getSubdivision());
-        existingClient.setTechnicalName(updatedClient.getTechnicalName());
+        //====================================================
+        // ADDITIONAL INFORMATION
+        //====================================================
 
-        existingClient.setAddedBy(updatedClient.getAddedBy());
-        existingClient.setVendorId(updatedClient.getVendorId());
+        existingClient.setDocuments(
+                updatedClient.getDocuments()
+        );
 
-        return clientRepository.save(existingClient);
+        existingClient.setConsumerNo(
+                updatedClient.getConsumerNo()
+        );
+
+        existingClient.setSubdivision(
+                updatedClient.getSubdivision()
+        );
+
+        existingClient.setTechnicalName(
+                updatedClient.getTechnicalName()
+        );
+
+
+        //====================================================
+        // SOURCE INFORMATION
+        //====================================================
+
+        existingClient.setAddedBy(
+                updatedClient.getAddedBy()
+        );
+
+        existingClient.setVendorId(
+                updatedClient.getVendorId()
+        );
+
+
+        // SAVE UPDATED CLIENT
+        return clientRepository.save(
+                existingClient
+        );
     }
+
+//    public Client updateClient(Long id, Client updatedClient) {
+//
+//        Client existingClient = clientRepository.findById(id)
+//                .orElseThrow(() ->
+//                        new RuntimeException(
+//                                "Client not found with id: " + id
+//                        )
+//                );
+//
+//        existingClient.setCustName(updatedClient.getCustName());
+//        existingClient.setCustPhone(updatedClient.getCustPhone());
+//        existingClient.setCustEmail(updatedClient.getCustEmail());
+//        existingClient.setCustAddress(updatedClient.getCustAddress());
+//
+//        existingClient.setService(updatedClient.getService());
+//        existingClient.setServiceTermCondition(
+//                updatedClient.getServiceTermCondition()
+//        );
+//        existingClient.setTotalAmount(updatedClient.getTotalAmount());
+//        existingClient.setWarranty(updatedClient.getWarranty());
+//        existingClient.setServiceCovered(
+//                updatedClient.getServiceCovered()
+//        );
+//        existingClient.setServiceDate(updatedClient.getServiceDate());
+//
+//        existingClient.setApplyGst(updatedClient.getApplyGst());
+//        existingClient.setGstType(updatedClient.getGstType());
+//        existingClient.setGstAmount(updatedClient.getGstAmount());
+//        existingClient.setGstInvoiceNo(updatedClient.getGstInvoiceNo());
+//
+//        existingClient.setBillingAddress(
+//                updatedClient.getBillingAddress()
+//        );
+//
+//        existingClient.setShippingAddress(
+//                updatedClient.getShippingAddress()
+//        );
+//
+//        existingClient.setDocuments(updatedClient.getDocuments());
+//
+//        existingClient.setConsumerNo(updatedClient.getConsumerNo());
+//        existingClient.setSubdivision(updatedClient.getSubdivision());
+//        existingClient.setTechnicalName(updatedClient.getTechnicalName());
+//
+//        existingClient.setAddedBy(updatedClient.getAddedBy());
+//        existingClient.setVendorId(updatedClient.getVendorId());
+//
+//        return clientRepository.save(existingClient);
+//    }
 
 
     // ==================== DELETE CLIENT ====================
