@@ -12,6 +12,9 @@ import ClientStats
 import ViewClientTable
     from "../../../Components/Client_Module_Components/ClientTable/ClientTable.jsx";
 
+import ShowClientDetails 
+       from  "./../../../Components/Client_Module_Components/ShowClientsDetails/ShowClientDetail.jsx";
+
 import "./ViewClient.css";
 
 
@@ -81,8 +84,8 @@ function ViewClient() {
 
     const handleClientAction = (action, client) => {
 
-        console.log("Selected Action:", action);
-        console.log("Selected Client:", client);
+        // console.log("Selected Action:", action);
+        // console.log("Selected Client:", client);
 
         setSelectedClient(client);
         setActiveAction(action);
@@ -249,13 +252,20 @@ function ViewClient() {
                     title="All Clients"
                     description="View and manage all registered clients."
                 />
-
             )}
 
+        {/* =============VIEW CLIENT DETAILS  =========== */}
+
+           {activeAction === "view_detail" && selectedClient && (
+              <ShowClientDetails
+                client={selectedClient.originalClient}
+                onClose={() => {
+              setActiveAction(null);
+              setSelectedClient(null);
+        }}
+       />
+)}
         </section>
-
     );
-
 }
-
 export default ViewClient;

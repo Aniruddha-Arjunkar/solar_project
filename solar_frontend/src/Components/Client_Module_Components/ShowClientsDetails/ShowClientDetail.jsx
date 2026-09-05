@@ -15,6 +15,8 @@ import {
     BriefcaseBusiness
 } from "lucide-react";
 
+import PendingWorkSection from "./../PendingWorkSection/PendingWorkSection.jsx";
+
 import "./ShowClientDetail.css";
 
 
@@ -159,7 +161,7 @@ function ShowClientDetail({ client, onClose }) {
 
                         <div className="client-detail-section-title">
 
-                            <UserRound size={19} />
+                            <UserRound size={20} />
 
                             <h3>
                                 Customer Information
@@ -191,7 +193,7 @@ function ShowClientDetail({ client, onClose }) {
 
                                 <strong className="detail-with-icon">
 
-                                    <Phone size={16} />
+                                    <Phone size={17} />
 
                                     {custPhone || "-"}
 
@@ -208,7 +210,7 @@ function ShowClientDetail({ client, onClose }) {
 
                                 <strong className="detail-with-icon">
 
-                                    <Mail size={16} />
+                                    <Mail size={17} />
 
                                     {custEmail || "-"}
 
@@ -238,7 +240,7 @@ function ShowClientDetail({ client, onClose }) {
 
                                 <strong className="detail-with-icon">
 
-                                    <MapPin size={16} />
+                                    <MapPin size={17} />
 
                                     {custAddress || "-"}
 
@@ -260,7 +262,7 @@ function ShowClientDetail({ client, onClose }) {
 
                         <div className="client-detail-section-title">
 
-                            <Wrench size={19} />
+                            <Wrench size={20} />
 
                             <h3>
                                 Service Information
@@ -292,7 +294,7 @@ function ShowClientDetail({ client, onClose }) {
 
                                 <strong className="detail-with-icon">
 
-                                    <CalendarDays size={16} />
+                                    <CalendarDays size={17} />
 
                                     {formatDate(serviceDate)}
 
@@ -334,11 +336,8 @@ function ShowClientDetail({ client, onClose }) {
                                 </span>
 
                                 <strong className="detail-with-icon">
-
-                                    <ShieldCheck size={16} />
-
+                                    <ShieldCheck size={17} />
                                     {warranty || "-"}
-
                                 </strong>
 
                             </div>
@@ -357,7 +356,7 @@ function ShowClientDetail({ client, onClose }) {
 
                         <div className="client-detail-section-title">
 
-                            <IndianRupee size={19} />
+                            <IndianRupee size={20} />
 
                             <h3>
                                 Amount & GST Information
@@ -482,7 +481,7 @@ function ShowClientDetail({ client, onClose }) {
 
                         <div className="client-detail-section-title">
 
-                            <MapPinned size={19} />
+                            <MapPinned size={20} />
 
                             <h3>
                                 Address Information
@@ -532,7 +531,7 @@ function ShowClientDetail({ client, onClose }) {
 
                         <div className="client-detail-section-title">
 
-                            <ClipboardList size={19} />
+                            <ClipboardList size={20} />
 
                             <h3>
                                 Additional Information
@@ -551,7 +550,7 @@ function ShowClientDetail({ client, onClose }) {
 
                                 <strong className="detail-with-icon">
 
-                                    <FileText size={16} />
+                                    <FileText size={17} />
 
                                     {documents || "-"}
 
@@ -594,7 +593,7 @@ function ShowClientDetail({ client, onClose }) {
 
                                 <strong className="detail-with-icon">
 
-                                    <UserCog size={16} />
+                                    <UserCog size={17} />
 
                                     {technicalName || "-"}
 
@@ -636,8 +635,12 @@ function ShowClientDetail({ client, onClose }) {
 
                     </section>
 
+            {/* ========= Pending Work Component Mount ========== */}
 
-                </div>
+                 <PendingWorkSection
+                    clientId={client.id}/>
+
+             </div>
 
 
                 {/* =================================================
