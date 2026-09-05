@@ -1,5 +1,6 @@
 package com.shulventures.solarservicesbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ public class PendingWork {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
+    @JsonIgnore
     private Client client;
 
 
@@ -30,6 +32,11 @@ public class PendingWork {
     private LocalDate dueDate;
 
     private String status = "Pending";
+
+
+    //Default Contructor
+    public PendingWork() {
+    }
 
 
     // ==================== GETTERS & SETTERS ====================

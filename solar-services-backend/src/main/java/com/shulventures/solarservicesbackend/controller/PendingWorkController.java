@@ -81,7 +81,6 @@ public class PendingWorkController {
 
 
     // ==================== UPDATE ====================
-
     @PutMapping("/{id}")
     public ResponseEntity<PendingWork> updatePendingWork(
             @PathVariable Long id,
@@ -97,8 +96,17 @@ public class PendingWorkController {
     }
 
 
-    // ==================== DELETE ====================
+    // ==================== MARK COMPLETE ====================
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<PendingWork> markComplete(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(
+                pendingWorkService.markComplete(id)
+        );
+    }
 
+    // ==================== DELETE ====================
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePendingWork(
             @PathVariable Long id

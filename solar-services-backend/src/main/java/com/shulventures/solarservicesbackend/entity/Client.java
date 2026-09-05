@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 @Table(name = "clients")
 public class Client {
 
-    // ==================== PRIMARY KEY ====================
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

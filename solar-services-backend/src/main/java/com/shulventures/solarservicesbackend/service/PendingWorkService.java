@@ -76,8 +76,22 @@ public class PendingWorkService {
     }
 
 
-    // ==================== UPDATE ====================
+    // ==================== MARK COMPLETE ====================
+    public PendingWork markComplete(Long id) {
+        PendingWork existingWork =
+                pendingWorkRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Pending work not found with id: "
+                                                + id
+                                )
+                        );
+        existingWork.setStatus("Completed");
+        return pendingWorkRepository.save(existingWork);
+    }
 
+
+    // ==================== UPDATE ====================
     public PendingWork updatePendingWork(
             Long id,
             PendingWork updatedWork
