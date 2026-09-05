@@ -1084,7 +1084,7 @@ function EditClient() {
                         <div className="edit-client-form-group">
 
                             <label>
-                                Documents
+                               Required Documents
                             </label>
 
                             <input

@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 import PendingWorkSection from "./../PendingWorkSection/PendingWorkSection.jsx";
-
+import ClientDocumentSection from "../ClientDocumentSection/ClientDocumentsSection.jsx";
 import "./ShowClientDetail.css";
 
 
@@ -559,7 +559,7 @@ const handleClientEdit = () => {
                             <div className="client-detail-field">
 
                                 <span>
-                                    Documents
+                                   Required Documents
                                 </span>
 
                                 <strong className="detail-with-icon">
@@ -648,11 +648,14 @@ const handleClientEdit = () => {
                         </div>
 
                     </section>
+            
+            {/* ========= Client Document Section ========== */}
+
+            <ClientDocumentSection clientId={client.id}/>
 
             {/* ========= Pending Work Component Mount ========== */}
 
-                 <PendingWorkSection
-                    clientId={client.id}/>
+                 <PendingWorkSection clientId={client.id}/>
 
              </div>
 

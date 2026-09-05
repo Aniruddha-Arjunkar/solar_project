@@ -780,7 +780,7 @@ function MakeClient() {
 
                         <div className="form-group">
                             <label>
-                                Documents
+                              Required Documents
                             </label>
                             <input
                                 type="text"
