@@ -44,13 +44,6 @@ function ClientActionBtn({
 
     const renderActions = () => {
 
-        /* =====================================
-           VIEW CLIENT
-           View Detail
-           Edit Client
-           Delete Client
-        ===================================== */
-
         if (type === "view-client") {
 
             return (
@@ -68,45 +61,9 @@ function ClientActionBtn({
                             View Detail
                         </span>
                     </button>
-
-                    {/* EDIT CLIENT */}
-
-                    <button
-                        type="button"
-                        onClick={() =>
-                            handleAction("edit_client")
-                        }>
-                        <Pencil size={19} />
-                        <span>
-                            Edit Client
-                        </span>
-                    </button>
-
-                    <div className="client-action-divider"></div>
-
-                    {/* DELETE CLIENT */}
-
-                    <button
-                        type="button"
-                        className="client-action-delete"
-                        onClick={() =>
-                            handleAction("delete_client")
-                        }>
-                        <Trash2 size={19} />
-                        <span>
-                            Delete Client
-                        </span>
-                    </button>
                 </>
             );
         }
-
-        /* =====================================
-           GST CLIENT
-           View Detail
-           Generate Invoice
-           Update Client
-        ===================================== */
 
         if (type === "gst-client") {
 

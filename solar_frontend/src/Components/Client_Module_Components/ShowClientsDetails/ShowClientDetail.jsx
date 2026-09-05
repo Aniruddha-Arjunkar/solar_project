@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import {
     X,
     UserRound,
@@ -12,7 +13,8 @@ import {
     ClipboardList,
     MapPinned,
     UserCog,
-    BriefcaseBusiness
+    BriefcaseBusiness,
+    Edit
 } from "lucide-react";
 
 import PendingWorkSection from "./../PendingWorkSection/PendingWorkSection.jsx";
@@ -22,10 +24,22 @@ import "./ShowClientDetail.css";
 
 function ShowClientDetail({ client, onClose }) {
 
+   const navigate = useNavigate();
+
     if (!client) {
         return null;
     }
 
+
+//=========== EDIT CLIENT ===============
+
+const handleClientEdit = () => {
+
+    navigate(
+        `/dashboard/edit-client/${client.id}`
+    );
+
+};
 
     /* =====================================================
        CLIENT DATA
@@ -649,6 +663,14 @@ function ShowClientDetail({ client, onClose }) {
 
                 <div className="client-detail-footer">
 
+                    <button
+                       type="button"
+                       className="client-detail-edit-btn"
+                       onClick={handleClientEdit}>
+                       <Edit size={17}/>
+                       Edit Client
+                    </button>
+                    
                     <button
                         type="button"
                         className="client-detail-close-btn"
