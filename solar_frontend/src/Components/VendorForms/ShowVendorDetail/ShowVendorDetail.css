@@ -188,118 +188,229 @@
     color: #94a3b8;
 }
 
-/* ======== CLIENT LIST ========== */
-.show-vendor-client-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+/* =========================================
+   CLIENT TABLE
+========================================= */
 
-/* ============ CLIENT CARD ========== */
-
-.show-vendor-client-card {
-    padding: 17px;
+.show-vendor-client-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
     border: 1px solid #e2e8f0;
     border-radius: 9px;
+}
+
+
+/* =========================================
+   CLIENT TABLE
+========================================= */
+
+.show-vendor-client-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.show-vendor-client-table thead {
     background: #f8fafc;
-    transition: 0.2s ease;
 }
 
-.show-vendor-client-card:hover {
-    border-color: #cbd5e1;
-    box-shadow:
-        0 4px 12px rgba(15, 23, 42, 0.06);
+
+.show-vendor-client-table th {
+    padding: 13px 15px;
+    text-align: left;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-/* ===== CLIENT CARD HEADER ========== */
 
-.show-vendor-client-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.show-vendor-client-table td {
+    padding: 14px 15px;
+    color: #475569;
+    font-size: 14px;
+    border-bottom: 1px solid #edf2f7;
+    vertical-align: middle;
 }
+
+
+.show-vendor-client-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.show-vendor-client-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+
+.show-vendor-client-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+
+/* =========================================
+   CLIENT NAME
+========================================= */
 
 .show-vendor-client-name {
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 180px;
 }
 
+
 .show-vendor-client-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border-radius: 8px;
+
     background: #eafafa;
     color: #159c9a;
 }
 
+
 .show-vendor-client-name h4 {
     margin: 0;
+
     color: #1e3a70;
-    font-size: 18px;
+    font-size: 15px;
+    font-weight: 600;
 }
+
 
 .show-vendor-client-name span {
     display: block;
-    margin-top: 2px;
+
+    margin-top: 3px;
+
     color: #94a3b8;
-    font-size: 14px;
+    font-size: 12px;
 }
+
 
 /* =========================================
-   CLIENT INFORMATION
+   CONTACT
 ========================================= */
 
-.show-vendor-client-info {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.show-vendor-client-info > div {
+.show-vendor-client-contact {
     display: flex;
     align-items: center;
     gap: 7px;
-    min-width: 0;
-    color: #475569;
-    font-size: 15px;
-}
 
-.show-vendor-client-info svg {
-    flex-shrink: 0;
-    color: #94a3b8;
-}
-
-.show-vendor-client-info span {
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-/* ========================================
-   CLIENT REMARKS
-========================================= */
-.show-vendor-client-remarks {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin-top: 13px;
-    padding-top: 12px;
-    border-top: 1px solid #e2e8f0;
-    color: #64748b;
-    font-size: 15px;
-    line-height: 1.5;
-}
 
-.show-vendor-client-remarks svg {
+.show-vendor-client-contact svg {
     flex-shrink: 0;
-    margin-top: 2px;
     color: #94a3b8;
 }
+
+
+/* =========================================
+   SERVICE
+========================================= */
+
+.show-vendor-service {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 6px;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   FINAL AMOUNT
+========================================= */
+
+.show-vendor-final-amount {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    color: #159c9a;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.show-vendor-final-amount svg {
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   NO CLIENT
+========================================= */
+
+.show-vendor-no-client {
+    padding: 35px 20px;
+
+    text-align: center;
+
+    border: 1px dashed #cbd5e1;
+    border-radius: 9px;
+
+    background: #f8fafc;
+
+    color: #94a3b8;
+}
+
+
+.show-vendor-no-client svg {
+    margin-bottom: 8px;
+}
+
+
+.show-vendor-no-client h4 {
+    margin: 0;
+
+    color: #475569;
+
+    font-size: 20px;
+}
+
+
+.show-vendor-no-client p {
+    margin: 5px 0 0;
+
+    color: #94a3b8;
+
+    font-size: 17px;
+}
+
 /* =========================================
    NO CLIENT
 ========================================= */
@@ -360,9 +471,11 @@
 .show-vendor-details-close-btn:hover {
     background: #f8fafc;
 }
+
 /* =========================================
    RESPONSIVE
 ========================================= */
+
 @media (max-width: 700px) {
     .show-vendor-info-grid {
         grid-template-columns: 1fr;
@@ -370,10 +483,8 @@
     .show-vendor-full-width {
         grid-column: auto;
     }
-    .show-vendor-client-info {
-        grid-template-columns: 1fr;
-    }
 }
+
 @media (max-width: 500px) {
     .vendor-details-overlay {
         padding: 12px;
@@ -386,3 +497,4 @@
         padding: 20px;
     }
 }
+

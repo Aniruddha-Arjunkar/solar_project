@@ -109,30 +109,6 @@ function VendorAction({
                     </button>
 
 
-                    {/* ================= DIVIDER ================= */}
-
-                    <div className="vendor-action-divider"></div>
-
-
-                    {/* ================= DELETE ================= */}
-
-                    <button
-                        type="button"
-                        className="vendor-action-delete"
-                        onClick={() =>
-                            handleAction("delete")
-                        }
-                    >
-
-                        <Trash2 size={19} />
-
-                        <span>
-                            Delete
-                        </span>
-
-                    </button>
-
-
                 </div>
 
             )}

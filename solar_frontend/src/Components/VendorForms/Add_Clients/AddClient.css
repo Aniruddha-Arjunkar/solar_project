@@ -41,20 +41,20 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 24px 28px;
+    padding: 18px 28px;
     border-bottom: 1px solid #e2e8f0;
 }
 
 .client-form-header h2 {
     margin: 0;
     color: #1e3a70;
-    font-size: 27px;
+    font-size: 25px;
 }
 
 .client-form-header p {
     margin: 6px 0 0;
     color: #64748b;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* ======== CLOSE BUTTON ======== */
@@ -79,7 +79,7 @@
 
 /* ========= FORM SECTION ======== */
 .client-form-section {
-    padding: 24px 28px;
+    padding: 20px 24px;
 }
 
 /* ========== SECTION TITLE ================ */
@@ -87,13 +87,13 @@
     display: flex;
     align-items: center;
     gap: 9px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     color: #1e3a70;
 }
 
 .client-form-section-title h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 17px;
 }
 
 /* ====== FORM ====== */
@@ -160,13 +160,13 @@
     width: 100%;
     height: 42px;
     box-sizing: border-box;
-    padding: 9px 12px;
+    padding: 7px 10px;
     border: none;
     outline: none;
     background: transparent;
     color: #334155;
     font-family: inherit;
-    font-size: 17px;
+    font-size: 15px;
 }
 
 .client-input-wrapper input::placeholder {
@@ -175,6 +175,46 @@
 
 .client-input-wrapper:focus-within {
     border-color: #20bcb9;
+    box-shadow:
+        0 0 0 3px rgba(32, 188, 185, 0.12);
+}
+
+/* =====================================================
+   SELECT DROPDOWN
+===================================================== */
+
+.client-input-wrapper select {
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    padding: 9px 12px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #334155;
+    font-family: inherit;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+.client-input-wrapper select:invalid {
+    color: #94a3b8;
+}
+
+
+.client-input-wrapper select option {
+    color: #334155;
+}
+
+
+/* =====================================================
+   SELECT FOCUS
+===================================================== */
+
+.client-input-wrapper:focus-within {
+    border-color: #20bcb9;
+
     box-shadow:
         0 0 0 3px rgba(32, 188, 185, 0.12);
 }
@@ -230,8 +270,8 @@
     justify-content: flex-end;
     align-items: center;
     gap: 12px;
-    margin-top: 24px;
-    padding-top: 22px;
+    margin-top: 22px;
+    padding-top: 18px;
     border-top: 1px solid #e2e8f0;
 }
 
@@ -242,13 +282,13 @@
     align-items: center;
     justify-content: center;
     gap: 7px;
-    padding: 10px 20px;
+    padding: 8px 15px;
     border: 1px solid #cbd5e1;
     border-radius: 7px;
     background: #ffffff;
     color: #475569;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: 0.2s;
@@ -265,13 +305,13 @@
     align-items: center;
     justify-content: center;
     gap: 7px;
-    padding: 10px 20px;
+    padding: 8px 15px;
     border: none;
     border-radius: 7px;
     background: #20bcb9;
     color: #ffffff;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: 0.2s;
