@@ -81,7 +81,7 @@ public class PendingWorkService {
     public List<PendingWorkResponse> getPendingWorkWithClient() {
 
         return pendingWorkRepository
-                .findByStatus("Pending")
+                .findAll()
                 .stream()
                 .map(work -> new PendingWorkResponse(
                         work.getId(),
