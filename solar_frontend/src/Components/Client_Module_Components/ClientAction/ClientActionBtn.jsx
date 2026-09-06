@@ -96,20 +96,6 @@ function ClientActionBtn({
                             Generate Invoice
                         </span>
                     </button>
-
-                    {/* UPDATE CLIENT */}
-
-                    <button
-                        type="button"
-                        onClick={() =>
-                            handleAction("update_client")
-                        }>
-                        <RefreshCw size={19} />
-
-                        <span>
-                            Update Client
-                        </span>
-                    </button>
                 </>
             );
         }
