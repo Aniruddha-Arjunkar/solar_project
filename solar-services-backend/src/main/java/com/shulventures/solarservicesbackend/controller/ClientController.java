@@ -91,6 +91,17 @@ public class ClientController {
         );
     }
 
+    // ============================================================
+    // GET CLIENTS BY VENDOR
+     // ============================================================
+    @GetMapping("/vendor/{vendorId}")
+    public ResponseEntity<List<Client>> getClientsByVendorId(
+            @PathVariable Long vendorId
+    ) {
+        return ResponseEntity.ok(
+                clientService.getClientsByVendorId(vendorId)
+        );
+    }
 
     // ==================== GET CLIENT BY ID ====================
 
@@ -139,13 +150,30 @@ public class ClientController {
             @PathVariable Long leadId,
             @RequestBody Client clientData
     ) {
-
         Client client =
                 clientService.convertLeadToClient(
                         leadId,
                         clientData
                 );
-
         return ResponseEntity.ok(client);
+    }
+
+    // ==================== CREATE CLIENT FROM VENDOR ====================
+    @PostMapping("/vendor/{vendorId}")
+    public ResponseEntity<Client> createVendorClient(
+            @PathVariable Long vendorId,
+            @RequestBody Client client
+    ) {
+
+        Client savedClient =
+                clientService.createVendorClient(
+                        vendorId,
+                        client
+                );
+
+        return new ResponseEntity<>(
+                savedClient,
+                HttpStatus.CREATED
+        );
     }
 }

@@ -429,63 +429,40 @@ public class ClientService {
         // If service requirement exists, use it
         client.setServiceCovered(lead.getServiceRequirement());
 
-
         // COPY ADDITIONAL DATA FROM MAKE CLIENT FORM
-
         if (clientData.getService() != null &&
                 !clientData.getService().isBlank()) {
-
             client.setService(clientData.getService());
         }
-
         if (clientData.getServiceTermCondition() != null) {
             client.setServiceTermCondition(
                     clientData.getServiceTermCondition()
             );
         }
-
         if (clientData.getWarranty() != null) {
             client.setWarranty(clientData.getWarranty());
         }
-
         if (clientData.getServiceCovered() != null) {
             client.setServiceCovered(
                     clientData.getServiceCovered()
             );
         }
-
         if (clientData.getServiceDate() != null) {
             client.setServiceDate(clientData.getServiceDate());
         }
-
         // AMOUNT
-
         client.setTotalAmount(clientData.getTotalAmount());
-
-
         // GST INFORMATION
-
         client.setApplyGst(clientData.getApplyGst());
-
         client.setGstType(clientData.getGstType());
-
         client.setGstInvoiceNo(clientData.getGstInvoiceNo());
-
         client.setBillingAddress(clientData.getBillingAddress());
-
         client.setShippingAddress(clientData.getShippingAddress());
-
-
         // OTHER CLIENT INFORMATION
-
         client.setDocuments(clientData.getDocuments());
-
         client.setConsumerNo(clientData.getConsumerNo());
-
         client.setSubdivision(clientData.getSubdivision());
-
         client.setTechnicalName(clientData.getTechnicalName());
-
         // THIS CLIENT WAS CREATED BY ADMIN
 
         client.setAddedBy("ADMIN");
@@ -499,43 +476,124 @@ public class ClientService {
         // GST 18%      = 18000
         // Final Amount = 118000
         //================================================
-
         BigDecimal baseAmount = client.getTotalAmount();
 
         if (baseAmount == null) {
             baseAmount = BigDecimal.ZERO;
             client.setTotalAmount(baseAmount);
         }
+        if (Boolean.TRUE.equals(client.getApplyGst())) {
+            BigDecimal gstAmount =
+                    baseAmount.multiply(new BigDecimal("0.18"));
+            client.setGstAmount(gstAmount);
+            client.setFinalAmount(
+                    baseAmount.add(gstAmount)
+            );
+        } else {
+            client.setGstAmount(BigDecimal.ZERO);
+            client.setFinalAmount(baseAmount);
+        }
+
+        // SAVE CLIENT
+        Client savedClient = clientRepository.save(client);
+
+        // DELETE ORIGINAL LEAD
+        leadRepository.delete(lead);
+
+        // RETURN CREATED CLIENT
+        return savedClient;
+    }
+
+    // ==================== CREATE CLIENT FROM VENDOR ====================
+
+    public Client createVendorClient(
+            Long vendorId,
+            Client client
+    ) {
+
+        // ====================================================
+        // VENDOR INFORMATION
+        // ====================================================
+
+        client.setVendorId(vendorId);
+
+        // This client was created by a vendor
+        client.setAddedBy("VENDOR");
+
+        // Vendor-created clients do not come from a lead
+        client.setInquiryId(null);
+
+
+        // ====================================================
+        // GST DEFAULT
+        // ====================================================
+
+        if (client.getApplyGst() == null) {
+
+            client.setApplyGst(false);
+        }
+
+
+        // ====================================================
+        // TOTAL AMOUNT
+        // ====================================================
+
+        BigDecimal baseAmount =
+                client.getTotalAmount();
+
+        if (baseAmount == null) {
+
+            baseAmount = BigDecimal.ZERO;
+
+            client.setTotalAmount(baseAmount);
+        }
+
+
+        // ====================================================
+        // GST CALCULATION
+        // ====================================================
 
         if (Boolean.TRUE.equals(client.getApplyGst())) {
 
+            // 18% GST
             BigDecimal gstAmount =
-                    baseAmount.multiply(new BigDecimal("0.18"));
+                    baseAmount.multiply(
+                            new BigDecimal("0.18")
+                    );
 
             client.setGstAmount(gstAmount);
 
+            // Base Amount + GST
             client.setFinalAmount(
                     baseAmount.add(gstAmount)
             );
 
         } else {
 
-            client.setGstAmount(BigDecimal.ZERO);
+            // =================================================
+            // NON-GST CLIENT
+            // =================================================
 
-            client.setFinalAmount(baseAmount);
+            client.setGstAmount(
+                    BigDecimal.ZERO
+            );
+
+            client.setFinalAmount(
+                    baseAmount
+            );
         }
 
         // SAVE CLIENT
+        return clientRepository.save(client);
+    }
 
-        Client savedClient = clientRepository.save(client);
+    // ============================================================
+// GET CLIENTS BY VENDOR ID
+// ============================================================
 
+    public List<Client> getClientsByVendorId(Long vendorId) {
 
-        // DELETE ORIGINAL LEAD
+        return clientRepository.findByVendorId(vendorId);
 
-        leadRepository.delete(lead);
-
-
-        // RETURN CREATED CLIENT
-        return savedClient;
     }
 }
