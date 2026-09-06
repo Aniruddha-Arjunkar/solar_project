@@ -17,6 +17,7 @@ import {
     Edit
 } from "lucide-react";
 
+import InvoiceSection from "./../../../Components/Client_Module_Components/InvoiceSection/InvoiceSection.jsx";
 import PendingWorkSection from "./../PendingWorkSection/PendingWorkSection.jsx";
 import ClientDocumentSection from "../ClientDocumentSection/ClientDocumentsSection.jsx";
 import "./ShowClientDetail.css";
@@ -653,6 +654,10 @@ const handleClientEdit = () => {
 
             <ClientDocumentSection clientId={client.id}/>
 
+            {/* ======== Invoice Section ============== */}
+
+             <InvoiceSection  clientId={client.id}/>
+             
             {/* ========= Pending Work Component Mount ========== */}
 
                  <PendingWorkSection clientId={client.id}/>

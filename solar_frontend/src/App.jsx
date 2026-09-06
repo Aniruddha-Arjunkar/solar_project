@@ -23,6 +23,7 @@ import GSTClient from "./Views/Client_Management/GSTClients/GSTClient.jsx";
 import PendingWork from "./Views/Client_Management/PendingWork/PendingWork.jsx"
 import EditClient from './Views/Client_Management/EditClient/EditClient.jsx';
 import GenerateInvoice from "./Views/Client_Management/GenerateInvoice/GenerateInvoice.jsx";
+import ViewClientInvoice from "./Views/Client_Management/ViewClientInvoice/ViewClientInvoice.jsx";
 
 //=========== Users ======================
 import ViewUsers from "./Views/Users/View_Users/ViewUsers.jsx";
@@ -77,7 +78,8 @@ function App() {
             <Route path="dashboard/pending-work" element={<PendingWork/>}/>
             <Route path="dashboard/edit-client/:clientId" element={<EditClient/>}/>
             <Route path="dashboard/generate-invoice/:clientId" element={<GenerateInvoice />}/>
-
+            <Route path="/dashboard/view-client-invoice/:invoiceId" element={<ViewClientInvoice />}/>
+            
             {/* Users */}
             <Route path='dashboard/view-users' element={<ViewUsers/>}/>
          
