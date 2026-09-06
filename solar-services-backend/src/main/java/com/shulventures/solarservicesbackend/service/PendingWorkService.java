@@ -6,7 +6,8 @@ import com.shulventures.solarservicesbackend.entity.PendingWork;
 import com.shulventures.solarservicesbackend.repository.ClientRepository;
 import com.shulventures.solarservicesbackend.repository.PendingWorkRepository;
 import org.springframework.stereotype.Service;
-
+//dto file import
+import com.shulventures.solarservicesbackend.dto.PendingWorkResponse;
 import java.util.List;
 
 @Service
@@ -73,6 +74,25 @@ public class PendingWorkService {
     public List<PendingWork> getPendingWork() {
 
         return pendingWorkRepository.findByStatus("Pending");
+    }
+
+    // ==================== GET PENDING WORK WITH CLIENT ====================
+
+    public List<PendingWorkResponse> getPendingWorkWithClient() {
+
+        return pendingWorkRepository
+                .findByStatus("Pending")
+                .stream()
+                .map(work -> new PendingWorkResponse(
+                        work.getId(),
+                        work.getClient().getId(),
+                        work.getClient().getCustName(),
+                        work.getWorkDescription(),
+                        work.getAssignedTo(),
+                        work.getDueDate(),
+                        work.getStatus()
+                ))
+                .toList();
     }
 
 

@@ -5,7 +5,8 @@ import com.shulventures.solarservicesbackend.service.PendingWorkService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+//DTO file import
+import com.shulventures.solarservicesbackend.dto.PendingWorkResponse;
 import java.util.List;
 
 @RestController
@@ -61,6 +62,17 @@ public class PendingWorkController {
 
         return ResponseEntity.ok(
                 pendingWorkService.getPendingWork()
+        );
+    }
+
+
+    // ==================== GET PENDING WORK WITH CLIENT =============
+
+    @GetMapping("/pending-with-client")
+    public ResponseEntity<List<PendingWorkResponse>> getPendingWorkWithClient() {
+
+        return ResponseEntity.ok(
+                pendingWorkService.getPendingWorkWithClient()
         );
     }
 
