@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router";
 import {
     FileText
 } from "lucide-react";
@@ -20,19 +20,13 @@ import "./GSTClient.css";
 
 function GSTClient() {
 
-    // ====================================================
-    // STATE
-    // ====================================================
-
     const [GSTClientData, setGSTClientData] = useState([]);
-
     const [selectedClient, setSelectedClient] = useState(null);
-
     const [activeAction, setActiveAction] = useState(null);
-
     const [loading, setLoading] = useState(true);
-
     const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
 
 
     // ====================================================
@@ -152,7 +146,13 @@ function GSTClient() {
             "Selected Client:",
             client
         );
-
+         
+        if (action === "generate_invoice") {
+        navigate(
+            `/dashboard/generate-invoice/${client.id}`
+        );
+        return;
+      }
 
         setSelectedClient(client);
 
