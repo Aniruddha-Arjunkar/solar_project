@@ -6,7 +6,9 @@ import {
     Plus,
     Trash2,
     ArrowLeft,
-    Save
+    Save,
+    Eye,
+    CheckCircle
 } from "lucide-react";
 
 import "./GenerateInvoice.css";
@@ -14,28 +16,15 @@ import "./GenerateInvoice.css";
 
 function GenerateInvoice() {
 
-    // ============================================================
-    // ROUTER
-    // ============================================================
+ 
 
     const { clientId } = useParams();
     const navigate = useNavigate();
 
 
-    // ============================================================
-    // CLIENT STATE
-    // ============================================================
-
     const [client, setClient] = useState(null);
-
     const [loadingClient, setLoadingClient] = useState(true);
-
     const [error, setError] = useState(null);
-
-
-    // ============================================================
-    // INVOICE STATE
-    // ============================================================
 
     const [invoice, setInvoice] = useState({
 
@@ -62,16 +51,14 @@ function GenerateInvoice() {
     });
 
 
-    // ============================================================
-    // SUBMIT STATE
-    // ============================================================
 
     const [saving, setSaving] = useState(false);
 
+    const [createdInvoice, setCreatedInvoice] = useState(null);
 
-    // ============================================================
+
+
     // FETCH CLIENT
-    // ============================================================
 
     const fetchClient = async () => {
 
@@ -153,7 +140,24 @@ function GenerateInvoice() {
         }
 
     }, [clientId]);
+    
+    // ============================================================
+// VIEW INVOICE PDF
+// ============================================================
 
+const handleViewPdf = () => {
+
+    if (!createdInvoice?.id) {
+        alert("Invoice ID not found.");
+        return;
+    }
+
+    window.open(
+        `http://localhost:8080/api/invoices/${createdInvoice.id}/pdf`,
+        "_blank",
+        "noopener,noreferrer"
+    );
+};
 
     // ============================================================
     // HANDLE INVOICE FIELD
@@ -414,17 +418,10 @@ function GenerateInvoice() {
 
         event.preventDefault();
 
-
-        // ========================================================
-        // BASIC VALIDATION
-        // ========================================================
-
         if (!invoice.gstInvoiceNo.trim()) {
-
             alert(
                 "Please enter GST Invoice Number."
             );
-
             return;
         }
 
@@ -593,18 +590,10 @@ function GenerateInvoice() {
             );
 
 
-            alert(
-                `Invoice ${createdInvoice.gstInvoiceNo} created successfully.`
-            );
+          
+        // SHOW SUCCESS SCREEN
 
-
-            // ====================================================
-            // NEXT STEP
-            // ====================================================
-
-            navigate(
-                "/dashboard/gst-client"
-            );
+         setCreatedInvoice(createdInvoice);
 
 
         } catch (error) {
@@ -628,7 +617,113 @@ function GenerateInvoice() {
         }
     };
 
+    // ============================================================
+// SUCCESS SCREEN
+// ============================================================
 
+if (createdInvoice) {
+
+    return (
+
+        <section className="generate-invoice-page">
+
+            <div className="invoice-success-card">
+
+                <div className="invoice-success-icon">
+
+                    <CheckCircle size={52} />
+
+                </div>
+
+
+                <h1>
+                    Invoice Created Successfully
+                </h1>
+
+
+                <p>
+                    Invoice{" "}
+                    <strong>
+                        {createdInvoice.gstInvoiceNo}
+                    </strong>{" "}
+                    has been created successfully.
+                </p>
+
+
+                <div className="invoice-success-details">
+
+                    <div>
+                        <span>Invoice ID</span>
+
+                        <strong>
+                            #{createdInvoice.id}
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>Customer</span>
+
+                        <strong>
+                            {createdInvoice.custName}
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>Grand Total</span>
+
+                        <strong>
+                            {formatCurrency(
+                                Number(
+                                    createdInvoice.grandTotal
+                                ) || 0
+                            )}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div className="invoice-success-actions">
+
+                    <button
+                        type="button"
+                        className="invoice-view-pdf-btn"
+                        onClick={handleViewPdf}
+                    >
+
+                        <Eye size={19} />
+
+                        View Invoice PDF
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="invoice-success-back-btn"
+                        onClick={() =>
+                            navigate(
+                                "/dashboard/gst-client"
+                            )
+                        }
+                    >
+
+                        <ArrowLeft size={18} />
+
+                        Back to GST Clients
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    );
+}
     // ============================================================
     // LOADING
     // ============================================================
