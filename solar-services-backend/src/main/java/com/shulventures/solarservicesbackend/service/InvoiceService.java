@@ -565,4 +565,18 @@ public class InvoiceService {
 
         return response;
     }
+
+    // ============================================================
+// GET INVOICE ENTITY BY ID
+// ============================================================
+
+    public Invoice getInvoiceEntityById(Long id) {
+
+        return invoiceRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Invoice not found with id: " + id
+                        )
+                );
+    }
 }

@@ -1,5 +1,9 @@
 package com.shulventures.solarservicesbackend.controller;
 
+import com.shulventures.solarservicesbackend.service.InvoicePdfService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
 import com.shulventures.solarservicesbackend.dto.InvoiceResponse;
 import com.shulventures.solarservicesbackend.entity.Invoice;
 import com.shulventures.solarservicesbackend.service.InvoiceService;
@@ -27,13 +31,15 @@ public class InvoiceController {
 
 
     private final InvoiceService invoiceService;
-
+    private final InvoicePdfService invoicePdfService;
 
     public InvoiceController(
-            InvoiceService invoiceService
+            InvoiceService invoiceService,
+            InvoicePdfService invoicePdfService
     ) {
 
         this.invoiceService = invoiceService;
+        this.invoicePdfService = invoicePdfService;
     }
 
 
@@ -118,5 +124,29 @@ public class InvoiceController {
                         gstInvoiceNo
                 )
         );
+    }
+
+
+    // ============================================================
+// GENERATE INVOICE PDF
+// ============================================================
+
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<byte[]> generateInvoicePdf(
+            @PathVariable Long id
+    ) {
+
+        byte[] pdf =
+                invoicePdfService.generateInvoicePdf(id);
+
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=invoice-" + id + ".pdf"
+                )
+                .contentType(
+                        MediaType.APPLICATION_PDF
+                )
+                .body(pdf);
     }
 }
