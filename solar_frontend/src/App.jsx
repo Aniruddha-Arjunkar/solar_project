@@ -25,6 +25,25 @@ import EditClient from './Views/Client_Management/EditClient/EditClient.jsx';
 import GenerateInvoice from "./Views/Client_Management/GenerateInvoice/GenerateInvoice.jsx";
 import ViewClientInvoice from "./Views/Client_Management/ViewClientInvoice/ViewClientInvoice.jsx";
 
+//============== Employee Management =======================
+import AddEmployee from './Views/Employee_Management/AddEmployee/AddEmployee.jsx';
+import ViewEmployee from './Views/Employee_Management/ViewEmployee/ViewEmployee.jsx';
+import AddSalary from './Views/Employee_Management/AddSalary/AddSalary.jsx';
+
+//============= Attendence Management =====================
+import AddAttendence from "./Views/Attendence_Managment/AddAttendence/AddAttendence.jsx";
+import ViewAttendence from "./Views/Attendence_Managment/ViewAttendence/ViewAttendence.jsx";
+
+//================ Account Management =======================
+import AddAdvance from './Views/Account_Management/AddAdvance/AddAdvance.jsx';
+import AddExpenses from './Views/Account_Management/AddExpenses/AddExpenses.jsx';
+import DuePayment from './Views/Account_Management/DuePayment/DuePayment.jsx';
+import GSTInvoice from './Views/Account_Management/GST Invoice/GSTInvoice.jsx';
+import ViewAdvance from './Views/Account_Management/ViewAdvance/ViewAdvance.jsx';
+import ViewExpenses from './Views/Account_Management/ViewExpenses/ViewExpenses.jsx';
+import ViewPayment from './Views/Account_Management/ViewPayment/ViewPayment.jsx';
+
+
 //=========== Users ======================
 import ViewUsers from "./Views/Users/View_Users/ViewUsers.jsx";
 
@@ -80,6 +99,26 @@ function App() {
             <Route path="dashboard/generate-invoice/:clientId" element={<GenerateInvoice />}/>
             <Route path="/dashboard/view-client-invoice/:invoiceId" element={<ViewClientInvoice />}/>
             
+
+            {/* Employee Management */}
+              <Route path="dashboard/add-employee" element={<AddEmployee/>}/>
+              <Route path="dashboard/view-employee" element={<ViewEmployee/>}/>
+              <Route path="dashboard/add-salary" element={<AddSalary/>}/>
+
+            {/* Attendence Management */}
+             <Route path="dashboard/add-attendence" element={<AddAttendence/>}/>
+             <Route path="dashboard/view-attendence" element={<ViewAttendence/>}/>
+
+            {/* Account Management */}
+            <Route path="dashboard/add-advance" element={<AddAdvance/>}/>
+             <Route path="dashboard/due-payment" element={<DuePayment/>}/>
+             <Route path="dashboard/add-expenses" element={<AddExpenses/>}/>
+             <Route path="dashboard/gst-invoice" element={<GSTInvoice/>}/>
+             <Route path="dashboard/view-advance" element={<ViewAdvance/>}/>
+             <Route path="dashboard/view-expenses" element={<ViewExpenses/>}/>
+             <Route path="dashboard/view-payment" element={<ViewPayment/>}/>
+
+
             {/* Users */}
             <Route path='dashboard/view-users' element={<ViewUsers/>}/>
          

@@ -18,6 +18,8 @@ import {
     Calendar,
     FileText,
     ClipboardList,
+    CreditCard,
+    ReceiptIndianRupee
 } from "lucide-react";
 
 import "./SideBar.css";
@@ -272,11 +274,8 @@ const toggleMenu = (menuName) => {
                     className="menu-item dropdown-menu"
                     onClick={() => toggleMenu("employee")}
                 >
-
                     <UserCog size={35} />
-
                     <span>Employee Management</span>
-
                     {openMenu === "employee"
                         ? <ChevronDown size={30} />
                         : <ChevronRight size={30} />
@@ -289,20 +288,20 @@ const toggleMenu = (menuName) => {
 
                     <div className="submenu">
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/add-employee" className="submenu-item">
                             <Plus size={20} />
                             <span>Add Employee</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/view-employee" className="submenu-item">
                             <Eye size={20} />
                             <span>View Employee</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/add-salary" className="submenu-item">
                             <Wallet size={20} />
                             <span>Add Salary</span>
-                        </div>
+                        </NavLink>
 
                     </div>
 
@@ -342,15 +341,15 @@ const toggleMenu = (menuName) => {
 
                     <div className="submenu">
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/add-attendence" className="submenu-item">
                             <Plus size={20} />
                             <span>Add Attendance</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/view-attendence" className="submenu-item">
                             <Eye size={20} />
                             <span>View Attendance</span>
-                        </div>
+                        </NavLink>
 
                     </div>
 
@@ -390,35 +389,40 @@ const toggleMenu = (menuName) => {
 
                     <div className="submenu">
 
-                        <div className="submenu-item">
-                            <Eye size={20} />
+                        <NavLink to="/dashboard/due-payment" className="submenu-item">
+                            <CreditCard size={20} />
                             <span>Due Payment</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/view-payment" className="submenu-item">
                             <Eye size={20} />
                             <span>View Payment</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/add-advance" className="submenu-item">
                             <Plus size={20} />
                             <span>Add Advance</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
-                            <Plus size={20} />
+                        <NavLink to="/dashboard/view-advance" className="submenu-item">
+                            <Eye size={20} />
+                            <span>View Advance</span>
+                        </NavLink>
+
+                        <NavLink to="/dashboard/add-expenses" className="submenu-item">
+                            <ReceiptIndianRupee size={20} />
                             <span>Add Expenses</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/view-expenses" className="submenu-item">
                             <Eye size={20} />
                             <span>View Expenses</span>
-                        </div>
+                        </NavLink>
 
-                        <div className="submenu-item">
+                        <NavLink to="/dashboard/gst-invoice" className="submenu-item">
                             <FileText size={20} />
                             <span>GST Invoice</span>
-                        </div>
+                        </NavLink>
 
                     </div>
 
