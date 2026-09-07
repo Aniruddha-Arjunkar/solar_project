@@ -1,0 +1,180 @@
+/* =========================================
+   EMPLOYEE MODULE PAGE HEADER
+========================================= */
+
+.employee-module-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    width: 100%;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* =========================================
+   HEADING SECTION
+========================================= */
+
+.employee-module-heading {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+/* =========================================
+   CURRENT PAGE / BREADCRUMB
+========================================= */
+
+.employee-current-page-location {
+
+    font-size: 14px;
+
+    font-weight: lighter;
+
+    color: #64748b;
+
+    margin-bottom: 7px;
+
+}
+
+
+.employee-current-page-location span {
+
+    margin: 0 8px;
+
+    color: #94a3b8;
+
+}
+
+
+/* =========================================
+   PAGE TITLE
+========================================= */
+
+.employee-module-heading h1 {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 0;
+
+    color: #1f315f;
+
+    font-size: 40px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+}
+
+
+.employee-module-heading h1 svg {
+
+    color: #1f315f;
+
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.employee-module-heading p {
+
+    margin: 7px 0 0 50px;
+
+    font-size: 15px;
+
+    color: #64748b;
+
+}
+
+
+/* =========================================
+   BUTTON SECTION
+========================================= */
+
+.employee-module-header-button {
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+
+/* =========================================
+   HEADER BUTTON
+========================================= */
+
+.employee-module-header-btn {
+
+    margin-top: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 13px 18px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(20, 202, 190, 0.85),
+        rgba(13, 181, 173, 0.70)
+    );
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+/* =========================================
+   BUTTON HOVER
+========================================= */
+
+.employee-module-header-btn:hover {
+
+    background: linear-gradient(
+        135deg,
+        rgba(20, 202, 190, 0.95),
+        rgba(13, 181, 173, 0.82)
+    );
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(80, 75, 180, 0.20);
+
+}

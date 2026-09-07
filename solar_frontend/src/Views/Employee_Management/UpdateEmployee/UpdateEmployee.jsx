@@ -1,5 +1,4 @@
 import {
-    UserPlus,
     User,
     Phone,
     CalendarDays,
@@ -7,14 +6,13 @@ import {
     MapPin,
     GraduationCap,
     BriefcaseBusiness,
-    Building2,
     IndianRupee,
     Landmark,
     CreditCard,
     ShieldCheck,
-    FileText,
     Save,
-    X
+    X,
+    UserPen
 } from "lucide-react";
 
 import {
@@ -22,20 +20,30 @@ import {
     useEffect
 } from "react";
 
-import {
-    useNavigate
-} from "react-router";
+import EmployeeHeader
+    from "../../../Components/EmployeeManagementComponents/EmployeeModuleHeader/EmployeeHeader.jsx";
 
-import EmployeeHeader from "../../../Components/EmployeeManagementComponents/EmployeeModuleHeader/EmployeeHeader.jsx";
-
-import "./AddEmployee.css";
+import "./../AddEmployee/AddEmployee.css";
 
 
-function AddEmployee() {
+function UpdateEmployee({
+    employee,
+    onCancel,
+    onUpdate
+}) {
 
-    const navigate = useNavigate();
+    // ============================================================
+    // SAME AS CURRENT ADDRESS
+    // ============================================================
 
-    const [sameAsCurrentAddress, setSameAsCurrentAddress] = useState(false);
+    const [sameAsCurrentAddress, setSameAsCurrentAddress] =
+        useState(false);
+
+
+    // ============================================================
+    // FORM DATA
+    // ============================================================
+
     const [formData, setFormData] = useState({
 
         title: "Mr.",
@@ -109,21 +117,191 @@ function AddEmployee() {
 
         uanNo: "",
         pfNo: "",
-        esicNo: "",
+        esicNo: ""
     });
-     
-    // ============================================================
-// SYNC PERMANENT ADDRESS WITH CURRENT ADDRESS
-// ============================================================
 
-useEffect(() => {
-    if (sameAsCurrentAddress) {
-        setFormData((previousData) => ({
-            ...previousData,
-            permanentAddress: previousData.currentAddress
-        }));
-    }
-    }, [sameAsCurrentAddress,formData.currentAddress]);
+
+    // ============================================================
+    // LOAD SELECTED EMPLOYEE DATA
+    // ============================================================
+
+    useEffect(() => {
+
+        if (!employee) {
+            return;
+        }
+
+
+        setFormData({
+
+            title: employee.title || "Mr.",
+            name: employee.name || "",
+            phone: employee.phone || "",
+            dob: employee.dob || "",
+            gender: employee.gender || "Male",
+            email: employee.email || "",
+
+            relationship:
+                employee.relationship || "",
+
+            emergencyContact:
+                employee.emergencyContact ||
+                employee.altPhone ||
+                "",
+
+            motherName:
+                employee.motherName || "",
+
+            maritalStatus:
+                employee.maritalStatus || "",
+
+            currentAddress:
+                employee.currentAddress || "",
+
+            permanentAddress:
+                employee.permanentAddress || "",
+
+
+            // ====================================================
+            // EDUCATION
+            // ====================================================
+
+            tenth:
+                employee.tenth || "",
+
+            twelfth:
+                employee.twelfth || "",
+
+            graduation:
+                employee.graduation || "",
+
+            postGraduation:
+                employee.postGraduation || "",
+
+
+            // ====================================================
+            // EXPERIENCE
+            // ====================================================
+
+            experienceType:
+                employee.experienceType || "Fresher",
+
+            previousExperience:
+                employee.previousExperience || "",
+
+            workExperienceYears:
+                employee.workExperienceYears ?? "",
+
+            previousCompanyName:
+                employee.previousCompanyName || "",
+
+            previousDesignation:
+                employee.previousDesignation || "",
+
+            previousSalary:
+                employee.previousSalary ?? "",
+
+
+            // ====================================================
+            // EMPLOYEE DETAILS
+            // ====================================================
+
+            employeeType:
+                employee.employeeType || "",
+
+            department:
+                employee.department || "",
+
+            package:
+                employee.package ?? "",
+
+            joiningDate:
+                employee.joiningDate || "",
+
+            designation:
+                employee.designation || "",
+
+
+            // ====================================================
+            // BANK DETAILS
+            // ====================================================
+
+            accountNo:
+                employee.accountNo || "",
+
+            bankName:
+                employee.bankName || "",
+
+            branchName:
+                employee.branchName || "",
+
+            ifscCode:
+                employee.ifscCode || "",
+
+
+            // ====================================================
+            // KYC
+            // ====================================================
+
+            aadharNo:
+                employee.aadharNo || "",
+
+            panNo:
+                employee.panNo || "",
+
+
+            // ====================================================
+            // PF & ESIC
+            // ====================================================
+
+            uanNo:
+                employee.uanNo || "",
+
+            pfNo:
+                employee.pfNo || "",
+
+            esicNo:
+                employee.esicNo || ""
+        });
+
+
+        // Automatically enable the checkbox if both
+        // addresses are already the same.
+
+        if (
+            employee.currentAddress &&
+            employee.currentAddress === employee.permanentAddress
+        ) {
+            setSameAsCurrentAddress(true);
+        }
+
+    }, [employee]);
+
+
+    // ============================================================
+    // SYNC PERMANENT ADDRESS
+    // ============================================================
+
+    useEffect(() => {
+
+        if (sameAsCurrentAddress) {
+
+            setFormData((previousData) => ({
+
+                ...previousData,
+
+                permanentAddress:
+                    previousData.currentAddress
+
+            }));
+
+        }
+
+    }, [
+        sameAsCurrentAddress,
+        formData.currentAddress
+    ]);
+
 
     // ============================================================
     // HANDLE INPUT CHANGE
@@ -149,29 +327,6 @@ useEffect(() => {
 
 
     // ============================================================
-    // HANDLE FILE CHANGE
-    // ============================================================
-
-    const handleFileChange = (e) => {
-
-        const {
-            name,
-            files
-        } = e.target;
-
-
-        setFormData((previousData) => ({
-
-            ...previousData,
-
-            [name]: files[0] || null
-
-        }));
-
-    };
-
-
-    // ============================================================
     // HANDLE FORM SUBMIT
     // ============================================================
 
@@ -180,19 +335,30 @@ useEffect(() => {
         e.preventDefault();
 
 
-        // ========================================================
-        // FRONTEND ONLY FOR NOW
-        // ========================================================
+        // Keep employee ID while updating.
+
+        const updatedEmployee = {
+
+            ...employee,
+
+            ...formData
+
+        };
+
 
         console.log(
-            "Employee Form Data:",
-            formData
+            "Updated Employee:",
+            updatedEmployee
         );
 
 
-        window.alert(
-            "Employee form submitted successfully. Backend connection will be added later."
-        );
+        // Send updated employee to parent.
+
+        if (onUpdate) {
+
+            onUpdate(updatedEmployee);
+
+        }
 
     };
 
@@ -203,9 +369,53 @@ useEffect(() => {
 
     const handleCancel = () => {
 
-        navigate("/dashboard/view-employee");
+        if (onCancel) {
+
+            onCancel();
+
+        }
 
     };
+
+
+    // ============================================================
+    // EMPLOYEE NOT FOUND
+    // ============================================================
+
+    if (!employee) {
+
+        return (
+
+            <section className="add-employee-page">
+
+                <div className="employee-form-section">
+
+                    <h2>
+                        Employee Not Found
+                    </h2>
+
+                    <p>
+                        No employee was selected for updating.
+                    </p>
+
+                    <button
+                        type="button"
+                        className="employee-cancel-btn"
+                        onClick={handleCancel}
+                    >
+                        <X size={17} />
+
+                        Back
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        );
+
+    }
 
 
     return (
@@ -218,16 +428,24 @@ useEffect(() => {
             ==================================================== */}
 
             <EmployeeHeader
-                currectPage="Add Employee"
+
+                currectPage="Update Employee"
+
                 title="Employee Management"
-                description="Add a new employee and maintain complete employee information."
+
+                description={
+                    `Update employee information for ${employee.name}.`
+                }
+
                 buttonType="view"
-                icon={UserPlus}
+
+                icon={UserPen}
+
             />
 
 
             {/* ====================================================
-                EMPLOYEE FORM
+                UPDATE EMPLOYEE FORM
             ==================================================== */}
 
             <form
@@ -422,14 +640,19 @@ useEffect(() => {
 
                         </div>
 
-                        {/* ALTERNATE PHONE */}
+
+                        {/* EMERGENCY CONTACT */}
 
                         <div className="employee-form-group">
+
                             <label>
                                 Emergency Contact
                             </label>
+
                             <div className="employee-input-with-icon">
+
                                 <Phone size={16} />
+
                                 <input
                                     type="tel"
                                     name="emergencyContact"
@@ -437,8 +660,11 @@ useEffect(() => {
                                     onChange={handleChange}
                                     placeholder="Emergency Contact"
                                 />
+
                             </div>
+
                         </div>
+
 
                         {/* RELATIONSHIP */}
 
@@ -455,6 +681,7 @@ useEffect(() => {
                                 onChange={handleChange}
                                 placeholder="Relationship"
                             />
+
                         </div>
 
 
@@ -543,62 +770,55 @@ useEffect(() => {
 
                         {/* PERMANENT ADDRESS */}
 
-<div className="employee-form-group employee-full-width">
-
-    {/* ========================================================
-        PERMANENT ADDRESS LABEL
-    ======================================================== */}
-
-    <div className="employee-permanent-address-header">
-
-        <label>
-            Permanent Address
-        </label>
+                        <div className="employee-form-group employee-full-width">
 
 
-        {/* ====================================================
-            SAME AS CURRENT ADDRESS CHECKBOX
-        ==================================================== */}
+                            <div className="employee-permanent-address-header">
 
-        <label className="employee-same-address-checkbox">
-
-            <input
-                type="checkbox"
-                checked={sameAsCurrentAddress}
-                onChange={(e) =>
-                    setSameAsCurrentAddress(e.target.checked)
-                }
-            />
-
-            <span>
-                Same as Current Address
-            </span>
-
-        </label>
-
-    </div>
+                                <label>
+                                    Permanent Address
+                                </label>
 
 
-    {/* ========================================================
-        PERMANENT ADDRESS INPUT
-    ======================================================== */}
+                                <label className="employee-same-address-checkbox">
 
-    <div className="employee-input-with-icon">
+                                    <input
+                                        type="checkbox"
+                                        checked={sameAsCurrentAddress}
+                                        onChange={(e) =>
+                                            setSameAsCurrentAddress(
+                                                e.target.checked
+                                            )
+                                        }
+                                    />
 
-        <MapPin size={16} />
+                                    <span>
+                                        Same as Current Address
+                                    </span>
 
-        <textarea
-            name="permanentAddress"
-            value={formData.permanentAddress}
-            onChange={handleChange}
-            placeholder="Permanent Address"
-            rows="2"
-            disabled={sameAsCurrentAddress}
-        />
+                                </label>
 
-    </div>
+                            </div>
 
-</div>
+
+                            <div className="employee-input-with-icon">
+
+                                <MapPin size={16} />
+
+                                <textarea
+                                    name="permanentAddress"
+                                    value={formData.permanentAddress}
+                                    onChange={handleChange}
+                                    placeholder="Permanent Address"
+                                    rows="2"
+                                    disabled={
+                                        sameAsCurrentAddress
+                                    }
+                                />
+
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -919,12 +1139,15 @@ useEffect(() => {
                             <label>
                                 Department
                             </label>
+
                             <input
-                              type="text"
-                              name="department"
-                              value={formData.department}
-                              onChange={handleChange}
-                              placeholder="Department"/>
+                                type="text"
+                                name="department"
+                                value={formData.department}
+                                onChange={handleChange}
+                                placeholder="Department"
+                            />
+
                         </div>
 
 
@@ -1277,7 +1500,7 @@ useEffect(() => {
 
                         <Save size={17} />
 
-                        Save Employee
+                        Update Employee
 
                     </button>
 
@@ -1293,4 +1516,4 @@ useEffect(() => {
 }
 
 
-export default AddEmployee;
+export default UpdateEmployee;

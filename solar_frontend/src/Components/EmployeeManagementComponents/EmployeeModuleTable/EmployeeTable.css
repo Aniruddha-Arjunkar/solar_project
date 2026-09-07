@@ -1,0 +1,362 @@
+/* ============================================================
+   EMPLOYEE TABLE SECTION
+============================================================ */
+
+.employee-table-section {
+
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 11px;
+
+    overflow: visible;
+
+    box-shadow:
+        0 5px 15px rgba(15, 23, 42, 0.05);
+
+}
+
+
+/* ============================================================
+   TABLE HEADER
+============================================================ */
+
+.employee-table-header {
+
+    padding: 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 1px solid #e2e8f0;
+
+}
+
+
+.employee-table-header h2 {
+
+    margin: 0;
+
+    font-size: 27px;
+
+    color: #1e3a70;
+
+}
+
+
+.employee-table-header p {
+
+    margin: 5px 0 0;
+
+    font-size: 15px;
+
+    color: #64748b;
+
+}
+
+
+/* ============================================================
+   RECORD COUNT
+============================================================ */
+
+.employee-record-count {
+
+    background: #eafafa;
+
+    color: #159c9a;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+/* ============================================================
+   TABLE WRAPPER
+============================================================ */
+
+.employee-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: visible;
+
+}
+
+
+/* ============================================================
+   TABLE
+============================================================ */
+
+.employee-data-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+
+/* ============================================================
+   TABLE HEADER CELLS
+============================================================ */
+
+.employee-data-table th {
+
+    background: #f8fafc;
+
+    color: #475569;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    padding: 13px 15px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   TABLE DATA CELLS
+============================================================ */
+
+.employee-data-table td {
+
+    padding: 13px 15px;
+
+    font-size: 15px;
+
+    color: #334155;
+
+    border-bottom: 1px solid #edf2f7;
+
+    white-space: nowrap;
+
+    height: 52px;
+
+}
+
+
+/* ============================================================
+   ROW HOVER
+============================================================ */
+
+.employee-data-table tbody tr {
+
+    transition: background 0.15s ease;
+
+}
+
+
+.employee-data-table tbody tr:hover {
+
+    background: #f8fafc;
+
+}
+
+
+/* ============================================================
+   PHOTO
+============================================================ */
+
+.employee-photo-wrapper {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 44px;
+
+    height: 44px;
+
+}
+
+
+.employee-photo {
+
+    width: 44px;
+
+    height: 44px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+}
+
+
+.employee-photo-placeholder {
+
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #e2e8f0;
+
+    color: #64748b;
+
+}
+
+
+/* ============================================================
+   EMPLOYEE NAME
+============================================================ */
+
+.employee-name-cell {
+
+    font-weight: 600;
+
+    color: #1e293b;
+
+}
+
+
+/* ============================================================
+   PHONE
+============================================================ */
+
+.employee-phone {
+    font-weight: 500;
+}
+
+
+/* ============================================================
+   DESIGNATION
+============================================================ */
+
+.employee-designation {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 5px 11px;
+
+    border-radius: 20px;
+
+    background: #e0f7fa;
+
+    color: #0891b2;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+/* ============================================================
+   DEPARTMENT
+============================================================ */
+
+.employee-department {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 5px 11px;
+
+    border-radius: 20px;
+
+    background: #fef3c7;
+
+    color: #d97706;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+/* ============================================================
+   N/A
+============================================================ */
+
+.employee-na {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 5px 11px;
+
+    border-radius: 20px;
+
+    background: #f1f5f9;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+/* ============================================================
+   ACTION
+============================================================ */
+
+.employee-table-action-btn {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+}
+
+
+/* ============================================================
+   NO DATA
+============================================================ */
+
+.employee-no-data {
+
+    text-align: center !important;
+
+    padding: 40px !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 15px !important;
+
+}

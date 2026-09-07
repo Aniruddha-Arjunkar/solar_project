@@ -29,6 +29,7 @@ import ViewClientInvoice from "./Views/Client_Management/ViewClientInvoice/ViewC
 import AddEmployee from './Views/Employee_Management/AddEmployee/AddEmployee.jsx';
 import ViewEmployee from './Views/Employee_Management/ViewEmployee/ViewEmployee.jsx';
 import AddSalary from './Views/Employee_Management/AddSalary/AddSalary.jsx';
+import ViewEmployeeProfile from "./Views/Employee_Management/ViewEmployeeProfile/ViewEmployeeProfile.jsx";
 
 //============= Attendence Management =====================
 import AddAttendence from "./Views/Attendence_Managment/AddAttendence/AddAttendence.jsx";
@@ -104,6 +105,7 @@ function App() {
               <Route path="dashboard/add-employee" element={<AddEmployee/>}/>
               <Route path="dashboard/view-employee" element={<ViewEmployee/>}/>
               <Route path="dashboard/add-salary" element={<AddSalary/>}/>
+              <Route path="/dashboard/view-employee/profile/:employeeId" element={<ViewEmployeeProfile />}/>
 
             {/* Attendence Management */}
              <Route path="dashboard/add-attendence" element={<AddAttendence/>}/>
