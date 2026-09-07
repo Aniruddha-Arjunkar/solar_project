@@ -201,7 +201,6 @@ public class ClientService {
 
         // Prevent null GST value
         if (applyGst == null) {
-
             applyGst = false;
         }
 
@@ -310,13 +309,13 @@ public class ClientService {
         // SOURCE INFORMATION
         //====================================================
 
-        existingClient.setAddedBy(
-                updatedClient.getAddedBy()
-        );
-
-        existingClient.setVendorId(
-                updatedClient.getVendorId()
-        );
+//        existingClient.setAddedBy(
+//                updatedClient.getAddedBy()
+//        );
+//
+//        existingClient.setVendorId(
+//                updatedClient.getVendorId()
+//        );
 
 
         // SAVE UPDATED CLIENT
