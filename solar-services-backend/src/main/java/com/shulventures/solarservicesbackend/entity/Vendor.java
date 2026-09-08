@@ -26,8 +26,6 @@ public class Vendor {
     /* When the vendor was last updated.*/
     private LocalDateTime updatedAt;
 
-
-
     // LIFECYCLE
     @PrePersist
     protected void onCreate() {
@@ -81,7 +79,6 @@ public class Vendor {
         this.email = email;
     }
 
-
     public String getAddress() {
         return address;
     }
@@ -90,18 +87,11 @@ public class Vendor {
         this.address = address;
     }
 
-    public String getRemarks() {
-        return remarks;
-    }
+    public String getRemarks() {return remarks;}
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
+    public void setRemarks(String remarks) {this.remarks = remarks;}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
+    public LocalDateTime getCreatedAt() {return createdAt;}
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
