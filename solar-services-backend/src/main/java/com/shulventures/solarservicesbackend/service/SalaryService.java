@@ -6,6 +6,7 @@ import com.shulventures.solarservicesbackend.repository.EmployeeRepository;
 import com.shulventures.solarservicesbackend.repository.SalaryRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,6 @@ public class SalaryService {
     private final SalaryRepository salaryRepository;
     private final EmployeeRepository employeeRepository;
 
-
     public SalaryService(
             SalaryRepository salaryRepository,
             EmployeeRepository employeeRepository
@@ -24,20 +24,68 @@ public class SalaryService {
         this.employeeRepository = employeeRepository;
     }
 
-
-
     // CREATE SALARY
 
     public Salary createSalary(Long employeeId, Salary salary) {
+
+        // ============================================================
+        // FIND EMPLOYEE
+        // ============================================================
+
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() ->
                         new RuntimeException(
                                 "Employee not found with id: " + employeeId
                         )
                 );
+
+
+        // ============================================================
+        // SET EMPLOYEE
+        // ============================================================
+
         salary.setEmployee(employee);
+
+
+
+        // CALCULATE FINAL SALARY
+        BigDecimal netSalary =
+                salary.getAmount() != null
+                        ? salary.getAmount()
+                        : BigDecimal.ZERO;
+
+        BigDecimal advance =
+                salary.getAdvance() != null
+                        ? salary.getAdvance()
+                        : BigDecimal.ZERO;
+
+        BigDecimal reimbursement =
+                salary.getReimbursement() != null
+                        ? salary.getReimbursement()
+                        : BigDecimal.ZERO;
+
+
+        BigDecimal finalSalary =
+                netSalary
+                        .subtract(advance)
+                        .add(reimbursement);
+
+
+        salary.setAmount(finalSalary);
+
         return salaryRepository.save(salary);
     }
+
+//    public Salary createSalary(Long employeeId, Salary salary) {
+//        Employee employee = employeeRepository.findById(employeeId)
+//                .orElseThrow(() ->
+//                        new RuntimeException(
+//                                "Employee not found with id: " + employeeId
+//                        )
+//                );
+//        salary.setEmployee(employee);
+//        return salaryRepository.save(salary);
+//    }
 
 
     // GET ALL SALARIES
@@ -118,10 +166,31 @@ public class SalaryService {
 
 
         // SALARY AMOUNT
+        BigDecimal netSalary =
+                salaryData.getAmount() != null
+                        ? salaryData.getAmount()
+                        : BigDecimal.ZERO;
 
-        existingSalary.setAmount(
-                salaryData.getAmount()
-        );
+        BigDecimal advance =
+                salaryData.getAdvance() != null
+                        ? salaryData.getAdvance()
+                        : BigDecimal.ZERO;
+
+        BigDecimal reimbursement =
+                salaryData.getReimbursement() != null
+                        ? salaryData.getReimbursement()
+                        : BigDecimal.ZERO;
+
+        BigDecimal finalSalary =
+                netSalary
+                        .subtract(advance)
+                        .add(reimbursement);
+
+        existingSalary.setAmount(finalSalary);
+//        existingSalary.setAmount(
+//                salaryData.getAmount()
+//        );
+
 
 
 
