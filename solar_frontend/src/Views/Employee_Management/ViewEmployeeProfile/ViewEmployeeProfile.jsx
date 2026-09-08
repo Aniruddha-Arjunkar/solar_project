@@ -16,7 +16,8 @@ import {
     ShieldCheck,
     FileText,
     UserRound,
-    UsersRound
+    UsersRound,
+    CalendarCheck
 } from "lucide-react";
 
 import {
@@ -36,13 +37,16 @@ function ViewEmployeeProfile() {
 
     const {employeeId} = useParams();
     const navigate = useNavigate();
+
     const [employee, setEmployee] =useState(null);
     const [loading, setLoading] =useState(true);
     const [error, setError] = useState("");
-
-        // ============================================================
-    // FETCH EMPLOYEE
-    // ============================================================
+     
+    const [showSalaryPopup, setShowSalaryPopup] = useState(false);
+    const [salaryMonth, setSalaryMonth] = useState("");
+    const [salary, setSalary] = useState(null);
+    const [salaryLoading, setSalaryLoading] = useState(false);
+    const [salaryError, setSalaryError] = useState("");
 
     useEffect(() => {
 
@@ -133,6 +137,104 @@ function ViewEmployeeProfile() {
         );
 
     };
+
+    // ============================================================
+// OPEN SALARY POPUP
+// ============================================================
+
+const handleOpenSalary = () => {
+
+    setShowSalaryPopup(true);
+
+    setSalary(null);
+
+    setSalaryError("");
+
+    setSalaryMonth("");
+
+};
+
+
+// ============================================================
+// CLOSE SALARY POPUP
+// ============================================================
+
+const handleCloseSalary = () => {
+
+    setShowSalaryPopup(false);
+
+    setSalary(null);
+
+    setSalaryError("");
+
+    setSalaryMonth("");
+
+};
+
+
+// ============================================================
+// VIEW SALARY
+// ============================================================
+
+const handleViewSalary = async () => {
+
+    if (!salaryMonth) {
+
+        window.alert(
+            "Please select salary month."
+        );
+        return;
+    }
+
+    try {
+
+        setSalaryLoading(true);
+
+        setSalaryError("");
+
+        setSalary(null);
+
+
+        const response = await fetch(
+            `http://localhost:8080/api/salaries/employee/${employeeId}/month/${salaryMonth}`
+        );
+
+        if (!response.ok) {
+            if (response.status === 404) {
+
+                throw new Error(
+                    "Salary record not found for the selected month."
+                );
+
+            }
+            throw new Error(
+                "Failed to fetch salary details."
+            );
+        }
+
+        const data = await response.json();
+
+        console.log(
+            "Salary details fetched:",
+            data
+        );
+
+        setSalary(data);
+
+    } catch (error) {
+        console.error(
+            "Error fetching salary:",
+            error
+        );
+        setSalaryError(
+            error.message ||
+            "Unable to load salary details."
+        );
+    } finally {
+        setSalaryLoading(false);
+    }
+
+};
 
         // ============================================================
     // LOADING STATE
@@ -367,39 +469,7 @@ function ViewEmployeeProfile() {
                     >
 
                         <ArrowLeft size={17} />
-
                         Back
-
-                    </button>
-
-
-                    {/* UPLOAD DOCUMENT */}
-
-                    <button
-                        type="button"
-                        className="view-profile-btn document"
-                        onClick=""
-                    >
-
-                        <Upload size={17} />
-
-                        Upload Document
-
-                    </button>
-
-
-                    {/* SALARY */}
-
-                    <button
-                        type="button"
-                        className="view-profile-btn salary"
-                        onClick=""
-                    >
-
-                        <IndianRupee size={17} />
-
-                        Salary
-
                     </button>
 
                 </div>
@@ -957,15 +1027,352 @@ function ViewEmployeeProfile() {
                     </button>
 
                     <button
-                        type="button"
-                        className="view-profile-footer-salary"
-                        onClick={() => {console.log("Salary for employee:",employee);
-                        }}>
+                      type="button"
+                      className="view-profile-footer-salary"
+                        onClick={handleOpenSalary}>
                         <IndianRupee size={18} />
-                        Salary
+                         Salary
+                    </button>
+
+                    <button
+                        type="button"
+                        className="view-profile-footer-attendence"
+                        onClick={() => {console.log("Attendence for employee:",employee);
+                        }}>
+                        <CalendarCheck size={18} />
+                        Attendence
                     </button>
                 </div>
             </div>
+
+
+        {/* ============================================================
+    SALARY POPUP
+============================================================ */}
+
+{showSalaryPopup && (
+
+    <div className="employee-salary-overlay">
+
+        <div className="employee-salary-modal">
+
+
+            {/* ==================================================
+                POPUP HEADER
+            ================================================== */}
+
+            <div className="employee-salary-modal-header">
+
+                <div>
+
+                    <div className="employee-salary-modal-title">
+
+                        <IndianRupee size={20} />
+
+                        <h2>
+                            View Salary Detail
+                        </h2>
+
+                    </div>
+
+                    <p>
+                        View monthly salary information for this employee.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    className="employee-salary-close-btn"
+                    onClick={handleCloseSalary}
+                >
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            {/* ==================================================
+                EMPLOYEE + MONTH
+            ================================================== */}
+
+            <div className="employee-salary-form">
+
+
+                {/* EMPLOYEE NAME */}
+
+                <div className="employee-salary-form-group">
+
+                    <label>
+                        Employee Name
+                    </label>
+
+                    <div className="employee-salary-input">
+
+                        <User size={17} />
+
+                        <input
+                            type="text"
+                            value={employee.name || ""}
+                            readOnly
+                        />
+
+                    </div>
+
+                </div>
+
+
+                {/* SALARY MONTH */}
+
+                <div className="employee-salary-form-group">
+
+                    <label>
+                        Month - Year
+                    </label>
+
+                    <div className="employee-salary-input">
+
+                        <CalendarDays size={17} />
+
+                        <input
+                            type="month"
+                            value={salaryMonth}
+                            onChange={(e) =>
+                                setSalaryMonth(e.target.value)
+                            }
+                        />
+
+                    </div>
+
+                </div>
+
+
+                {/* VIEW BUTTON */}
+
+                <button
+                    type="button"
+                    className="employee-salary-view-btn"
+                    onClick={handleViewSalary}
+                    disabled={salaryLoading}
+                >
+
+                    <IndianRupee size={17} />
+
+                    {salaryLoading
+                        ? "Loading..."
+                        : "View Salary"
+                    }
+
+                </button>
+
+            </div>
+
+
+            {/* ==================================================
+                SALARY ERROR
+            ================================================== */}
+
+            {salaryError && (
+
+                <div className="employee-salary-error">
+
+                    <strong>
+                        Unable to Load Salary
+                    </strong>
+
+                    <span>
+                        {salaryError}
+                    </span>
+
+                </div>
+
+            )}
+
+
+            {/* ==================================================
+                SALARY DETAILS
+            ================================================== */}
+
+            {salary && (
+
+                <div className="employee-salary-details">
+
+
+                    <div className="employee-salary-details-header">
+
+                        <h3>
+                            Salary Details
+                        </h3>
+
+                        <span>
+                            {salary.month}
+                        </span>
+
+                    </div>
+
+
+                    <div className="employee-salary-details-grid">
+
+
+                        {/* NET SALARY */}
+
+                        <div className="employee-salary-detail-item">
+
+                            <span>
+                                Net Salary
+                            </span>
+
+                            <strong>
+                                {formatAmount(salary.amount)}
+                            </strong>
+
+                        </div>
+
+
+                        {/* BASIC */}
+
+                        <div className="employee-salary-detail-item">
+
+                            <span>
+                                Basic
+                            </span>
+
+                            <strong>
+                                {formatAmount(salary.basic)}
+                            </strong>
+
+                        </div>
+
+
+                        {/* HRA */}
+
+                        <div className="employee-salary-detail-item">
+
+                            <span>
+                                HRA
+                            </span>
+
+                            <strong>
+                                {formatAmount(salary.hra)}
+                            </strong>
+
+                        </div>
+
+
+                        {/* CONVEYANCE */}
+
+                        <div className="employee-salary-detail-item">
+
+                            <span>
+                                Conveyance
+                            </span>
+
+                            <strong>
+                                {formatAmount(salary.conveyance)}
+                            </strong>
+
+                        </div>
+
+
+                        {/* FOOD ALLOWANCE */}
+
+                        <div className="employee-salary-detail-item">
+
+                            <span>
+                                Food Allowance
+                            </span>
+
+                            <strong>
+                                {formatAmount(salary.foodAllowance)}
+                            </strong>
+
+                        </div>
+
+
+                        {/* PERFORMANCE INCENTIVE */}
+
+                        <div className="employee-salary-detail-item">
+
+                            <span>
+                                Performance Incentive
+                            </span>
+
+                            <strong>
+                                {formatAmount(
+                                    salary.performanceIncentive
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        {/* ADVANCE DEDUCTION */}
+
+                        <div className="employee-salary-detail-item">
+
+                            <span>
+                                Advance Deduction
+                            </span>
+
+                            <strong>
+                                {formatAmount(salary.advance)}
+                            </strong>
+
+                        </div>
+
+
+                        {/* REIMBURSEMENT */}
+
+                        <div className="employee-salary-detail-item">
+
+                            <span>
+                                Reimbursement
+                            </span>
+
+                            <strong>
+                                {formatAmount(
+                                    salary.reimbursement
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        {/* PROFESSION TAX */}
+
+                        <div className="employee-salary-detail-item">
+
+                            <span>
+                                Profession Tax
+                            </span>
+
+                            <strong>
+                                {formatAmount(
+                                    salary.professionTax
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        {/* REMARK */}
+                        <div className="employee-salary-detail-item employee-salary-remark">
+                            <span>
+                                Remark
+                            </span>
+                            <strong>
+                                {salary.remark || "Not provided"}
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    </div>
+)}
         </section>
     );
 }

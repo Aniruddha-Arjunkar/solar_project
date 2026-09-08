@@ -1,5 +1,4 @@
 import React from 'react'
-
 import "./ViewAttendence.css";
 function ViewAttendence () {
   return (
@@ -8,5 +7,4 @@ function ViewAttendence () {
     </section>
   )
 }
-
 export default ViewAttendence

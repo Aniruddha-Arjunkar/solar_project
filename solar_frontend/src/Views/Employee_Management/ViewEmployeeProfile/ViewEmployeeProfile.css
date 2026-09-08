@@ -562,7 +562,8 @@
 
 .view-profile-footer-back,
 .view-profile-footer-document,
-.view-profile-footer-salary {
+.view-profile-footer-salary,
+.view-profile-footer-attendence {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -621,6 +622,506 @@
     background: #15803d;
 }
 
+/* ===== FOOTER Attendence ===== */
+
+.view-profile-footer-attendence{
+    background:rgb(221, 221, 0);
+    color: #fff;
+}
+
+
+.view-profile-footer-attendence:hover {
+    background:rgb(203, 203, 0);
+}
+
+/* ============================================================
+   EMPLOYEE SALARY POPUP OVERLAY
+============================================================ */
+
+.employee-salary-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.48);
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   SALARY MODAL
+============================================================ */
+
+.employee-salary-modal {
+    width: min(760px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 20px 50px rgba(15, 23, 42, 0.20);
+
+    padding: 24px;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   MODAL HEADER
+============================================================ */
+
+.employee-salary-modal-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 18px;
+
+    margin-bottom: 20px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+.employee-salary-modal-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #2563eb;
+}
+
+
+.employee-salary-modal-title h2 {
+    margin: 0;
+
+    font-size: 20px;
+
+    font-weight: 650;
+
+    color: #1e293b;
+}
+
+
+.employee-salary-modal-header p {
+    margin: 5px 0 0;
+
+    font-size: 13px;
+
+    color: #64748b;
+}
+
+
+/* ============================================================
+   CLOSE BUTTON
+============================================================ */
+
+.employee-salary-close-btn {
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid #d7dde7;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #64748b;
+
+    font-size: 23px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.employee-salary-close-btn:hover {
+    background: #f8fafc;
+
+    color: #1e293b;
+}
+
+
+/* ============================================================
+   SALARY FORM
+============================================================ */
+
+.employee-salary-form {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+.employee-salary-form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.employee-salary-form-group label {
+    font-size: 13px;
+
+    font-weight: 550;
+
+    color: #334155;
+}
+
+
+/* ============================================================
+   SALARY INPUT
+============================================================ */
+
+.employee-salary-input {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.employee-salary-input > svg {
+    position: absolute;
+
+    left: 13px;
+
+    color: #64748b;
+
+    pointer-events: none;
+}
+
+
+.employee-salary-input input {
+    width: 100%;
+
+    min-height: 44px;
+
+    padding: 10px 13px 10px 39px;
+
+    border: 1px solid #d7dde7;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #1e293b;
+
+    font-size: 14px;
+
+    box-sizing: border-box;
+}
+
+
+.employee-salary-input input:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+.employee-salary-input input[readonly] {
+    background: #f8fafc;
+
+    cursor: default;
+}
+
+
+/* ============================================================
+   VIEW SALARY BUTTON
+============================================================ */
+
+.employee-salary-view-btn {
+    grid-column: 1 / -1;
+
+    min-height: 43px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 18px;
+
+    border: 1px solid #2563eb;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.employee-salary-view-btn:hover:not(:disabled) {
+    background: #1d4ed8;
+
+    box-shadow:
+        0 5px 12px rgba(37, 99, 235, 0.20);
+}
+
+
+.employee-salary-view-btn:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   SALARY ERROR
+============================================================ */
+
+.employee-salary-error {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    margin-top: 18px;
+
+    padding: 13px 15px;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 8px;
+
+    background: #fef2f2;
+}
+
+
+.employee-salary-error strong {
+    font-size: 13px;
+
+    color: #b91c1c;
+}
+
+
+.employee-salary-error span {
+    font-size: 12px;
+
+    color: #dc2626;
+}
+
+
+/* ============================================================
+   SALARY DETAILS
+============================================================ */
+
+.employee-salary-details {
+    margin-top: 22px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+
+.employee-salary-details-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 15px;
+}
+
+
+.employee-salary-details-header h3 {
+    margin: 0;
+
+    font-size: 17px;
+
+    font-weight: 650;
+
+    color: #1e293b;
+}
+
+
+.employee-salary-details-header span {
+    padding: 5px 9px;
+
+    border-radius: 6px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   SALARY DETAILS GRID
+============================================================ */
+
+.employee-salary-details-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+.employee-salary-detail-item {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    min-height: 48px;
+
+    padding: 11px 13px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 8px;
+
+    background: #f8fafc;
+
+    box-sizing: border-box;
+}
+
+
+.employee-salary-detail-item span {
+    font-size: 13px;
+
+    color: #64748b;
+}
+
+
+.employee-salary-detail-item strong {
+    font-size: 14px;
+
+    color: #1e293b;
+
+    text-align: right;
+}
+
+
+/* ============================================================
+   REMARK
+============================================================ */
+
+.employee-salary-remark {
+    grid-column: 1 / -1;
+
+    align-items: flex-start;
+}
+
+
+.employee-salary-remark strong {
+    max-width: 60%;
+
+    font-weight: 500;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 650px) {
+
+    .employee-salary-modal {
+        padding: 17px;
+
+        max-height: 94vh;
+    }
+
+
+    .employee-salary-form {
+        grid-template-columns: 1fr;
+    }
+
+
+    .employee-salary-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .employee-salary-remark {
+        grid-column: auto;
+    }
+
+
+    .employee-salary-remark strong {
+        max-width: 100%;
+    }
+
+}
 
 /* ============================================================
    NO DATA
