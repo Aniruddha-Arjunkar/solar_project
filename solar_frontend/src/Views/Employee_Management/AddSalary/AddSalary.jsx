@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import {
+    useEffect,
     useState
 } from "react";
 
@@ -25,9 +26,6 @@ import "./AddSalary.css";
 
 function AddSalary() {
 
-    // ============================================================
-    // FORM DATA
-    // ============================================================
 
     const [formData, setFormData] = useState({
 
@@ -52,52 +50,58 @@ function AddSalary() {
     });
 
 
-    // ============================================================
-    // TEMPORARY EMPLOYEE DATA
-    // ============================================================
-    // This will later come from the Employee backend API.
-    // ============================================================
+    const [employees, setEmployees] = useState([]);
+    const [employeesLoading, setEmployeesLoading] = useState(true);
+    const [employeesError, setEmployeesError] = useState("");
 
-    const employees = [
+    useEffect(() => {
 
-        {
-            id: 1,
-            name: "Anmol Lanjewar",
-            designation: "Developer"
-        },
+        const fetchEmployees = async () => {
 
-        {
-            id: 2,
-            name: "Vithal Sontake",
-            designation: "Sales Executive"
-        },
+            try {
 
-        {
-            id: 3,
-            name: "Samyak Pravin Lingayat",
-            designation: "Engineer"
-        },
+                setEmployeesLoading(true);
+                setEmployeesError("");
 
-        {
-            id: 4,
-            name: "Suraj Manikrao Dabhade",
-            designation: "Field Executive"
-        },
+                const response = await fetch(
+                    "http://localhost:8080/api/employees"
+                );
 
-        {
-            id: 5,
-            name: "Adesh Udesh Sonekar",
-            designation: "Intern"
-        },
+                if (!response.ok) {
+                    throw new Error(
+                        "Failed to fetch employees."
+                    );
+                }
 
-        {
-            id: 6,
-            name: "Priya Sharma",
-            designation: "HR Executive"
-        }
+                const data = await response.json();
 
-    ];
+                console.log(
+                    "Employees for salary:",
+                    data
+                );
 
+                setEmployees(data);
+
+            } catch (error) {
+
+                console.error(
+                    "Error fetching employees:",
+                    error
+                );
+
+                setEmployeesError(
+                    error.message ||
+                    "Unable to load employees."
+                );
+
+            } finally {
+
+                setEmployeesLoading(false);
+
+            }
+        };
+        fetchEmployees();
+    }, []);
 
     // ============================================================
     // HANDLE INPUT CHANGE
@@ -178,25 +182,156 @@ function AddSalary() {
 
 
     // ============================================================
-    // FORM SUBMIT
-    // ============================================================
+// FORM SUBMIT
+// ============================================================
 
-    const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
+    // VALIDATE EMPLOYEE
 
-        console.log(
-            "Salary Form Data:",
-            formData
-        );
-
+    if (!formData.employeeId) {
 
         window.alert(
-            "Salary saved successfully. Backend connection will be added later."
+            "Please select an employee."
         );
 
+        return;
+
+    }
+
+    // PREPARE SALARY DATA
+
+    const salaryData = {
+
+        month: formData.salaryMonth,
+
+        amount:
+            formData.netSalary === ""
+                ? null
+                : Number(formData.netSalary),
+
+        basic:
+            formData.basic === ""
+                ? null
+                : Number(formData.basic),
+
+        hra:
+            formData.hra === ""
+                ? null
+                : Number(formData.hra),
+
+        conveyance:
+            formData.conveyance === ""
+                ? null
+                : Number(formData.conveyance),
+
+        foodAllowance:
+            formData.foodAllowance === ""
+                ? null
+                : Number(formData.foodAllowance),
+
+        performanceIncentive:
+            formData.performanceIncentive === ""
+                ? null
+                : Number(formData.performanceIncentive),
+
+        professionTax:
+            formData.professionTax === ""
+                ? null
+                : Number(formData.professionTax),
+
+        advance:
+            formData.advanceDeduction === ""
+                ? null
+                : Number(formData.advanceDeduction),
+
+        reimbursement:
+            formData.reimbursement === ""
+                ? null
+                : Number(formData.reimbursement),
+
+        remark: formData.remark
+
     };
+
+
+    console.log(
+        "Salary data being sent:",
+        salaryData
+    );
+
+
+    // SAVE SALARY
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8080/api/salaries/employee/${formData.employeeId}`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(salaryData)
+            }
+        );
+
+
+        // ----------------------------------------------------
+        // HANDLE BACKEND ERROR
+        // ----------------------------------------------------
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Failed to save salary.";
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+                errorMessage =
+                    errorData.message ||
+                    errorData.error ||
+                    errorMessage;
+
+            } catch {
+                // Backend did not return JSON.
+            }
+            throw new Error(errorMessage);
+        }
+
+        // SUCCESS
+    
+        const savedSalary =
+            await response.json();
+
+        console.log(
+            "Salary saved successfully:",
+            savedSalary
+        );
+        window.alert(
+            "Salary saved successfully."
+        );
+
+        window.location.reload();
+
+    } catch (error) {
+        console.error(
+            "Error saving salary:",
+            error
+        );
+        window.alert(
+            error.message ||
+            "Unable to save salary. Please try again."
+        );
+    }
+};
 
 
     // ============================================================
@@ -220,11 +355,11 @@ function AddSalary() {
             ==================================================== */}
 
             <EmployeeHeader
-               currectPage="Add Salary"
-               title="Add Employee Salary"
-               description="Record monthly salary details and manage employee salary calculations."
-               buttonType="view"
-               icon={WalletCards}/>
+                currectPage="Add Salary"
+                title="Add Employee Salary"
+                description="Record monthly salary details and manage employee salary calculations."
+                buttonType="view"
+                icon={WalletCards} />
 
 
             {/* ====================================================
@@ -286,26 +421,28 @@ function AddSalary() {
                                 >
 
                                     <option value="">
-                                        Select Employee
+                                        {employeesLoading
+                                            ? "Loading Employees..."
+                                            : employeesError
+                                                ? "Unable to Load Employees"
+                                                : "Select Employee"
+                                        }
                                     </option>
 
+                                    {employees.map((employee) => (
 
-                                    {employees.map(
-                                        (employee) => (
+                                        <option
+                                            key={employee.id}
+                                            value={employee.id}
+                                        >
 
-                                            <option
-                                                key={employee.id}
-                                                value={employee.id}
-                                            >
+                                            {employee.name}
+                                            {" — "}
+                                            {employee.designation}
 
-                                                {employee.name}
-                                                {" — "}
-                                                {employee.designation}
+                                        </option>
 
-                                            </option>
-
-                                        )
-                                    )}
+                                    ))}
 
                                 </select>
 
