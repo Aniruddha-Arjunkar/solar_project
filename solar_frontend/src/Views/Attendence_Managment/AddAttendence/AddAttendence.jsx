@@ -11,9 +11,13 @@ import {
   useState
 } from "react";
 
+import { useNavigate } from "react-router";
+
 import "./AddAttendence.css";
 
 function AddAttendence() {
+
+  const navigate = useNavigate();
 
   // DEFAULT ATTENDANCE DATE
 
@@ -123,75 +127,178 @@ function AddAttendence() {
   };
 
 
-  // HANDLE SAVE ATTENDANCE
-  const handleSaveAttendance = (e) => {
-    e.preventDefault();
+   // ============================================================
+// SAVE ATTENDANCE
+// ============================================================
+
+const handleSaveAttendance = async () => {
+
+    // ============================================================
+    // VALIDATE DATE
+    // ============================================================
+
     if (!attendanceDate) {
-      window.alert(
-        "Please select attendance date."
-      );
-      return;
+
+        window.alert(
+            "Please select attendance date."
+        );
+
+        return;
     }
 
 
-    if (employees.length === 0) {
+    // ============================================================
+    // CHECK ALL EMPLOYEES HAVE A STATUS
+    // ============================================================
 
-      window.alert(
-        "No employees available."
-      );
-
-      return;
-
-    }
-
-
-    // Check whether every employee has a status
-
-    const missingEmployees =
-      employees.filter(
+    const missingEmployee = employees.find(
         (employee) =>
-          !attendanceStatus[employee.id]
-      );
+            !attendanceStatus[employee.id]
+    );
 
 
-    if (missingEmployees.length > 0) {
+    if (missingEmployee) {
 
-      window.alert(
-        "Please select attendance status for every employee."
-      );
-      return;
+        window.alert(
+            `Please select attendance status for ${missingEmployee.name}.`
+        );
+
+        return;
     }
 
 
+    // ============================================================
+    // CREATE ATTENDANCE ARRAY
+    // ============================================================
 
-    // PREPARE ATTENDANCE DATA
-    const attendanceData = {
-      attendanceDate: attendanceDate,
-      attendance: employees.map(
+    const attendance = employees.map(
         (employee) => ({
-          employeeId: employee.id,
-          employeeName: employee.name,
-          status:
-            attendanceStatus[
-            employee.id
-            ]
+
+            employeeId: employee.id,
+
+            status:
+                attendanceStatus[employee.id],
+
+            remark: ""
         })
-      )
+    );
+
+
+    // ============================================================
+    // FINAL REQUEST BODY
+    // ============================================================
+
+    const attendanceData = {
+        attendanceDate: attendanceDate,
+        attendance: attendance
     };
 
+
     console.log(
-      "Attendance data ready to save:",
-      attendanceData
+        "Attendance data being sent:",
+        attendanceData
     );
 
 
-    window.alert(
-      "Attendance data is ready. Backend connection will be added next."
-    );
+    // ============================================================
+    // SEND DATA TO BACKEND
+    // ============================================================
 
-  };
+    try {
+
+        const response = await fetch(
+            "http://localhost:8080/api/attendance",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(
+                    attendanceData
+                )
+            }
+        );
 
 
+        // ========================================================
+        // HANDLE ERROR RESPONSE
+        // ========================================================
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Failed to save attendance.";
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+                errorMessage =
+                    errorData.message ||
+                    errorData.error ||
+                    errorMessage;
+
+            } catch {
+
+                // Backend did not return JSON.
+            }
+
+
+            throw new Error(
+                errorMessage
+            );
+        }
+
+
+        // ========================================================
+        // READ SUCCESS RESPONSE
+        // ========================================================
+
+        const savedAttendance =
+            await response.json();
+
+
+        console.log(
+            "Attendance saved successfully:",
+            savedAttendance
+        );
+
+
+        // ========================================================
+        // SUCCESS MESSAGE
+        // ========================================================
+
+        window.alert(
+            "Attendance saved successfully."
+        );
+
+
+        // ========================================================
+        // GO TO VIEW ATTENDANCE
+        // ========================================================
+
+        navigate(
+            "/dashboard/view-attendence"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error saving attendance:",
+            error
+        );
+
+
+        window.alert(
+            error.message ||
+            "Unable to save attendance. Please try again."
+        );
+    }
+};
 
   // COUNT SELECTED EMPLOYEES
   const selectedCount =
