@@ -6,6 +6,7 @@ import com.shulventures.solarservicesbackend.entity.Employee;
 import com.shulventures.solarservicesbackend.repository.AttendanceRepository;
 import com.shulventures.solarservicesbackend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
+import com.shulventures.solarservicesbackend.dto.AttendanceResponse;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -161,7 +162,7 @@ public class AttendanceService {
     // GET MONTHLY ATTENDANCE
     // ============================================================
 
-    public List<Attendance> getMonthlyAttendance(
+    public List<AttendanceResponse> getMonthlyAttendance(
             String month
     ) {
 
@@ -178,19 +179,54 @@ public class AttendanceService {
                         );
 
 
-        return attendanceRepository
-                .findByAttendanceDateBetween(
-                        startDate,
-                        endDate
-                );
+        List<Attendance> attendanceList =
+                attendanceRepository
+                        .findByAttendanceDateBetween(
+                                startDate,
+                                endDate
+                        );
+
+
+        return attendanceList
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
     }
+
+//    public List<Attendance> getMonthlyAttendance(
+//            String month
+//    ) {
+//
+//        LocalDate startDate =
+//                LocalDate.parse(
+//                        month + "-01"
+//                );
+//
+//
+//        LocalDate endDate =
+//                startDate
+//                        .withDayOfMonth(
+//                                startDate.lengthOfMonth()
+//                        );
+//
+//
+//        return attendanceRepository
+//                .findByAttendanceDateBetween(
+//                        startDate,
+//                        endDate
+//                );
+//    }
 
 
     // ============================================================
     // GET EMPLOYEE MONTHLY ATTENDANCE
     // ============================================================
 
-    public List<Attendance> getEmployeeMonthlyAttendance(
+    // ============================================================
+// GET EMPLOYEE MONTHLY ATTENDANCE
+// ============================================================
+
+    public List<AttendanceResponse> getEmployeeMonthlyAttendance(
             Long employeeId,
             String month
     ) {
@@ -221,13 +257,58 @@ public class AttendanceService {
                         );
 
 
-        return attendanceRepository
-                .findByEmployeeIdAndAttendanceDateBetween(
-                        employeeId,
-                        startDate,
-                        endDate
-                );
+        List<Attendance> attendanceList =
+                attendanceRepository
+                        .findByEmployeeIdAndAttendanceDateBetween(
+                                employeeId,
+                                startDate,
+                                endDate
+                        );
+
+
+        return attendanceList
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
     }
+//    public List<Attendance> getEmployeeMonthlyAttendance(
+//            Long employeeId,
+//            String month
+//    ) {
+//
+//        if (
+//                !employeeRepository.existsById(
+//                        employeeId
+//                )
+//        ) {
+//
+//            throw new RuntimeException(
+//                    "Employee not found with id: "
+//                            + employeeId
+//            );
+//        }
+//
+//
+//        LocalDate startDate =
+//                LocalDate.parse(
+//                        month + "-01"
+//                );
+//
+//
+//        LocalDate endDate =
+//                startDate
+//                        .withDayOfMonth(
+//                                startDate.lengthOfMonth()
+//                        );
+//
+//
+//        return attendanceRepository
+//                .findByEmployeeIdAndAttendanceDateBetween(
+//                        employeeId,
+//                        startDate,
+//                        endDate
+//                );
+//    }
 
 
     // ============================================================
@@ -299,5 +380,22 @@ public class AttendanceService {
                                 + status
                 );
         }
+    }
+
+    // ============================================================
+// CONVERT ATTENDANCE ENTITY TO RESPONSE DTO
+// ============================================================
+
+    private AttendanceResponse convertToResponse(
+            Attendance attendance
+    ) {
+
+        return new AttendanceResponse(
+                attendance.getId(),
+                attendance.getEmployee().getId(),
+                attendance.getAttendanceDate(),
+                attendance.getStatus(),
+                attendance.getRemark()
+        );
     }
 }
