@@ -91,8 +91,14 @@ function ViewAttendence() {
       displays "-" for days without attendance data.
   */
 
-  const [attendanceRecords] =
-    useState([]);
+   const [attendanceRecords, setAttendanceRecords] =
+  useState([]);
+
+  const [attendanceLoading, setAttendanceLoading] =
+  useState(true);
+
+  const [attendanceError, setAttendanceError] =
+  useState("");
 
 
   // ============================================================
@@ -163,6 +169,78 @@ function ViewAttendence() {
     fetchEmployees();
 
   }, []);
+
+    // ============================================================
+// FETCH MONTHLY ATTENDANCE
+// ============================================================
+
+useEffect(() => {
+
+  const fetchAttendance = async () => {
+
+    try {
+
+      setAttendanceLoading(true);
+
+      setAttendanceError("");
+
+
+      const response = await fetch(
+        `http://localhost:8080/api/attendance/month/${viewMonth}`
+      );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "Failed to fetch attendance records."
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      console.log(
+        "Attendance records for report:",
+        data
+      );
+
+
+      setAttendanceRecords(data);
+
+
+    } catch (error) {
+
+      console.error(
+        "Error fetching attendance:",
+        error
+      );
+
+
+      setAttendanceError(
+        error.message ||
+        "Unable to load attendance records."
+      );
+
+
+      setAttendanceRecords([]);
+
+
+    } finally {
+
+      setAttendanceLoading(false);
+
+    }
+  };
+
+  if (viewMonth) {
+    fetchAttendance();
+  }
+
+}, [viewMonth]);
 
 
   // ============================================================
@@ -837,8 +915,10 @@ function ViewAttendence() {
             )}
 
 
-          {!employeesLoading &&
+          { !employeesLoading &&
             !employeesError &&
+            !attendanceLoading &&
+            !attendanceError &&
             filteredEmployees.length > 0 && (
 
               <div className="attendance-view-table-scroll">
