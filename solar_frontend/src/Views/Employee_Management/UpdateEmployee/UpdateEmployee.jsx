@@ -20,29 +20,80 @@ import {
     useEffect
 } from "react";
 
+import {
+    useNavigate,
+    useParams
+} from "react-router";
+
 import EmployeeHeader
     from "../../../Components/EmployeeManagementComponents/EmployeeModuleHeader/EmployeeHeader.jsx";
 
 import "./../AddEmployee/AddEmployee.css";
 
 
-function UpdateEmployee({
-    employee,
-    onCancel,
-    onUpdate
-}) {
+function UpdateEmployee() {
 
+    const { employeeId } = useParams();
+    const navigate = useNavigate();
+    const [sameAsCurrentAddress, setSameAsCurrentAddress] = useState(false);
+    const [employee, setEmployee] = useState(null);
+    const [loading, setLoading] =useState(true);
+    const [error, setError] =useState("");
+     
     // ============================================================
-    // SAME AS CURRENT ADDRESS
-    // ============================================================
+// FETCH EMPLOYEE
+// ============================================================
 
-    const [sameAsCurrentAddress, setSameAsCurrentAddress] =
-        useState(false);
+useEffect(() => {
+    const fetchEmployee = async () => {
+        try {
+            setLoading(true);
+            setError("");
+        
+            const response = await fetch(
+                `http://localhost:8080/api/employees/${employeeId}`
+            );
+            if (!response.ok) {
 
+                if (response.status === 404) {
+                    throw new Error(
+                        "Employee not found."
+                    );
+                }
+                throw new Error(
+                    "Failed to fetch employee details."
+                );
 
-    // ============================================================
-    // FORM DATA
-    // ============================================================
+            }
+            const data =
+                await response.json();
+
+            console.log(
+                "Employee data for update:",
+                data
+            );
+
+            setEmployee(data);
+
+        } catch (error) {
+            console.error(
+                "Error fetching employee:",
+                error
+            );
+            setError(
+                error.message ||
+                "Unable to load employee."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (employeeId) {
+
+        fetchEmployee();
+    }}, [employeeId]);
+
 
     const [formData, setFormData] = useState({
 
@@ -88,7 +139,7 @@ function UpdateEmployee({
 
         employeeType: "",
         department: "",
-        package: "",
+        packageAmount: "",
         joiningDate: "",
         designation: "",
 
@@ -212,8 +263,8 @@ function UpdateEmployee({
             department:
                 employee.department || "",
 
-            package:
-                employee.package ?? "",
+            packageAmount:
+               employee.packageAmount ?? "",
 
             joiningDate:
                 employee.joiningDate || "",
@@ -327,95 +378,363 @@ function UpdateEmployee({
 
 
     // ============================================================
-    // HANDLE FORM SUBMIT
-    // ============================================================
+// HANDLE FORM SUBMIT
+// ============================================================
 
-    const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
 
-        // Keep employee ID while updating.
+    const updatedEmployee = {
 
-        const updatedEmployee = {
+        title: formData.title,
 
-            ...employee,
+        name: formData.name,
 
-            ...formData
+        phone: formData.phone,
 
-        };
+        dob:
+            formData.dob === ""
+                ? null
+                : formData.dob,
 
+        gender: formData.gender,
+
+        email: formData.email,
+
+        relationship:
+            formData.relationship,
+
+        emergencyContact:
+            formData.emergencyContact,
+
+        motherName:
+            formData.motherName,
+
+        maritalStatus:
+            formData.maritalStatus,
+
+
+        // ========================================================
+        // ADDRESS
+        // ========================================================
+
+        currentAddress:
+            formData.currentAddress,
+
+        permanentAddress:
+            formData.permanentAddress,
+
+
+        // ========================================================
+        // EDUCATION
+        // ========================================================
+
+        tenth:
+            formData.tenth,
+
+        twelfth:
+            formData.twelfth,
+
+        graduation:
+            formData.graduation,
+
+        postGraduation:
+            formData.postGraduation,
+
+
+        // ========================================================
+        // EXPERIENCE
+        // ========================================================
+
+        experienceType:
+            formData.experienceType,
+
+        previousExperience:
+            formData.previousExperience,
+
+        workExperienceYears:
+            formData.workExperienceYears === ""
+                ? null
+                : Number(formData.workExperienceYears),
+
+        previousCompanyName:
+            formData.previousCompanyName,
+
+        previousDesignation:
+            formData.previousDesignation,
+
+        previousSalary:
+            formData.previousSalary === ""
+                ? null
+                : Number(formData.previousSalary),
+
+
+        // ========================================================
+        // EMPLOYEE DETAILS
+        // ========================================================
+
+        employeeType:
+            formData.employeeType,
+
+        department:
+            formData.department,
+
+        packageAmount:
+            formData.packageAmount === ""
+                ? null
+                : Number(formData.packageAmount),
+
+        joiningDate:
+            formData.joiningDate === ""
+                ? null
+                : formData.joiningDate,
+
+        designation:
+            formData.designation,
+
+
+        // ========================================================
+        // BANK DETAILS
+        // ========================================================
+
+        accountNo:
+            formData.accountNo,
+
+        bankName:
+            formData.bankName,
+
+        branchName:
+            formData.branchName,
+
+        ifscCode:
+            formData.ifscCode,
+
+
+        // ========================================================
+        // KYC
+        // ========================================================
+
+        aadharNo:
+            formData.aadharNo,
+
+        panNo:
+            formData.panNo,
+
+
+        // ========================================================
+        // PF & ESIC
+        // ========================================================
+
+        uanNo:
+            formData.uanNo,
+
+        pfNo:
+            formData.pfNo,
+
+        esicNo:
+            formData.esicNo
+    };
+
+    console.log(
+        "Employee update data:",
+        updatedEmployee
+    );
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8080/api/employees/${employeeId}`,
+            {
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(
+                    updatedEmployee
+                )
+            }
+        );
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Failed to update employee.";
+
+            try {
+                const errorData =
+                    await response.json();
+
+                errorMessage =
+                    errorData.message ||
+                    errorData.error ||
+                    errorMessage;
+            } catch {
+                // Backend did not return JSON.
+            }
+
+            throw new Error(
+                errorMessage
+            );
+        }
+
+        const savedEmployee =
+            await response.json();
 
         console.log(
-            "Updated Employee:",
-            updatedEmployee
+            "Employee updated successfully:",
+            savedEmployee
         );
 
-
-        // Send updated employee to parent.
-
-        if (onUpdate) {
-
-            onUpdate(updatedEmployee);
-
-        }
-
-    };
-
-
-    // ============================================================
-    // CANCEL
-    // ============================================================
-
-    const handleCancel = () => {
-
-        if (onCancel) {
-
-            onCancel();
-
-        }
-
-    };
-
-
-    // ============================================================
-    // EMPLOYEE NOT FOUND
-    // ============================================================
-
-    if (!employee) {
-
-        return (
-
-            <section className="add-employee-page">
-
-                <div className="employee-form-section">
-
-                    <h2>
-                        Employee Not Found
-                    </h2>
-
-                    <p>
-                        No employee was selected for updating.
-                    </p>
-
-                    <button
-                        type="button"
-                        className="employee-cancel-btn"
-                        onClick={handleCancel}
-                    >
-                        <X size={17} />
-
-                        Back
-
-                    </button>
-
-                </div>
-
-            </section>
-
+        window.alert(
+            "Employee updated successfully."
         );
 
+        navigate(
+            "/dashboard/view-employee"
+        );
+
+    } catch (error) {
+        console.error(
+            "Error updating employee:",
+            error
+        );
+        window.alert(
+            error.message ||
+            "Unable to update employee. Please try again."
+        );
     }
+};
+
+
+    // ============================================================
+   // CANCEL
+    // ============================================================
+
+const handleCancel = () => {
+    navigate(
+        "/dashboard/view-employee"
+    );
+};
+
+
+    // ============================================================
+// LOADING STATE
+// ============================================================
+
+if (loading) {
+
+    return (
+
+        <section className="add-employee-page">
+
+            <div className="employee-form-section">
+
+                <h2>
+                    Loading Employee...
+                </h2>
+
+                <p>
+                    Please wait while employee information is loaded.
+                </p>
+
+            </div>
+
+        </section>
+
+    );
+
+}
+
+    // ============================================================
+// ERROR STATE
+// ============================================================
+
+if (error) {
+
+    return (
+
+        <section className="add-employee-page">
+
+            <div className="employee-form-section">
+
+                <h2>
+                    Unable to Load Employee
+                </h2>
+
+                <p>
+                    {error}
+                </p>
+
+                <button
+                    type="button"
+                    className="employee-cancel-btn"
+                    onClick={handleCancel}
+                >
+
+                    <X size={17} />
+
+                    Back
+
+                </button>
+
+            </div>
+
+        </section>
+
+    );
+
+}   
+ 
+    // ============================================================
+// EMPLOYEE NOT FOUND
+// ============================================================
+
+if (!employee) {
+
+    return (
+
+        <section className="add-employee-page">
+
+            <EmployeeHeader
+              currectPage="Update Employee"
+              title="Update Employee"
+              description={`Update employee information for ${employee.name}.`}
+             buttonType="view"
+             icon={UserPen}/>
+
+            <div className="employee-form-section">
+
+                <h2>
+                    Employee Not Found
+                </h2>
+
+                <p>
+                    No employee information is available.
+                </p>
+
+                <button
+                    type="button"
+                    className="employee-cancel-btn"
+                    onClick={handleCancel}
+                >
+
+                    <X size={17} />
+
+                    Back
+
+                </button>
+
+            </div>
+
+        </section>
+
+    );
+
+}
 
 
     return (
@@ -1164,13 +1483,13 @@ function UpdateEmployee({
                                 <IndianRupee size={16} />
 
                                 <input
-                                    type="number"
-                                    min="0"
-                                    name="package"
-                                    value={formData.package}
-                                    onChange={handleChange}
-                                    placeholder="Annual Package"
-                                />
+                                   type="number"
+                                   min="0"
+                                   name="packageAmount"
+                                   value={formData.packageAmount}
+                                   onChange={handleChange}
+                                   placeholder="Annual Package"
+                                 />
 
                             </div>
 

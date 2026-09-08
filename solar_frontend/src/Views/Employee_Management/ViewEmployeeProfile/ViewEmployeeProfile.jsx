@@ -19,24 +19,200 @@ import {
     UsersRound
 } from "lucide-react";
 
+import {
+    useEffect,
+    useState
+} from "react";
+
+import {
+    useNavigate,
+    useParams
+} from "react-router";
 
 import "./ViewEmployeeProfile.css";
 
 
-function ViewEmployeeProfile({
-    employee,
-    onBack,
-    onUploadDocument,
-    onSalary
-}) {
+function ViewEmployeeProfile() {
+
+    const {employeeId} = useParams();
+    const navigate = useNavigate();
+    const [employee, setEmployee] =useState(null);
+    const [loading, setLoading] =useState(true);
+    const [error, setError] = useState("");
+
+        // ============================================================
+    // FETCH EMPLOYEE
+    // ============================================================
+
+    useEffect(() => {
+
+        const fetchEmployee = async () => {
+
+            try {
+
+                setLoading(true);
+
+                setError("");
+
+
+                const response = await fetch(
+                    `http://localhost:8080/api/employees/${employeeId}`
+                );
+
+
+                if (!response.ok) {
+
+                    if (response.status === 404) {
+
+                        throw new Error(
+                            "Employee not found."
+                        );
+
+                    }
+
+
+                    throw new Error(
+                        "Failed to fetch employee details."
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Employee profile fetched:",
+                    data
+                );
+
+
+                setEmployee(data);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error fetching employee profile:",
+                    error
+                );
+
+
+                setError(
+                    error.message ||
+                    "Unable to load employee profile."
+                );
+
+
+            } finally {
+
+                setLoading(false);
+
+            }
+
+        };
+
+
+        if (employeeId) {
+
+            fetchEmployee();
+
+        }
+
+    }, [employeeId]);
+
+    // ============================================================
+    // BACK TO VIEW EMPLOYEES
+    // ============================================================
+
+    const handleBack = () => {
+
+        navigate(
+            "/dashboard/view-employee"
+        );
+
+    };
+
+        // ============================================================
+    // LOADING STATE
+    // ============================================================
+
+    if (loading) {
+
+        return (
+
+            <section className="view-profile-page">
+
+                <div className="view-profile-no-data">
+
+                    <h2>
+                        Loading Employee...
+                    </h2>
+
+                    <p>
+                        Please wait while employee information is loaded.
+                    </p>
+
+                </div>
+
+            </section>
+
+        );
+
+    }
 
 
     // ============================================================
-    // NO EMPLOYEE SELECTED
+    // ERROR STATE
+    // ============================================================
+
+    if (error) {
+
+        return (
+
+            <section className="view-profile-page">
+
+                <div className="view-profile-no-data">
+
+                    <UserRound size={45} />
+
+                    <h2>
+                        Unable to Load Employee
+                    </h2>
+
+                    <p>
+                        {error}
+                    </p>
+
+                    <button
+                        type="button"
+                        onClick={handleBack}
+                        className="view-profile-back-btn"
+                    >
+
+                        <ArrowLeft size={18} />
+
+                        Back
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        );
+
+    }
+
+        // ============================================================
+    // NO EMPLOYEE FOUND
     // ============================================================
 
     if (!employee) {
+
         return (
+
             <section className="view-profile-page">
 
                 <div className="view-profile-no-data">
@@ -53,17 +229,22 @@ function ViewEmployeeProfile({
 
                     <button
                         type="button"
-                        onClick={onBack}
+                        onClick={handleBack}
                         className="view-profile-back-btn"
                     >
+
                         <ArrowLeft size={18} />
+
                         Back
+
                     </button>
 
                 </div>
 
             </section>
+
         );
+
     }
 
 
@@ -104,11 +285,6 @@ function ViewEmployeeProfile({
             maximumFractionDigits: 2
         })}`;
     };
-
-
-    // ============================================================
-    // MAIN UI
-    // ============================================================
 
     return (
 
@@ -187,7 +363,7 @@ function ViewEmployeeProfile({
                     <button
                         type="button"
                         className="view-profile-btn back"
-                        onClick={onBack}
+                        onClick={handleBack}
                     >
 
                         <ArrowLeft size={17} />
@@ -202,7 +378,7 @@ function ViewEmployeeProfile({
                     <button
                         type="button"
                         className="view-profile-btn document"
-                        onClick={onUploadDocument}
+                        onClick=""
                     >
 
                         <Upload size={17} />
@@ -217,7 +393,7 @@ function ViewEmployeeProfile({
                     <button
                         type="button"
                         className="view-profile-btn salary"
-                        onClick={onSalary}
+                        onClick=""
                     >
 
                         <IndianRupee size={17} />
@@ -524,7 +700,7 @@ function ViewEmployeeProfile({
                     <ProfileItem
                         icon={<IndianRupee size={17} />}
                         label="Annual Package"
-                        value={formatAmount(employee.package)}
+                        value={formatAmount(employee.packageAmount)}
                     />
 
                     <ProfileItem
@@ -758,7 +934,7 @@ function ViewEmployeeProfile({
                 <button
                     type="button"
                     className="view-profile-footer-back"
-                    onClick={onBack}
+                    onClick={handleBack}
                 >
 
                     <ArrowLeft size={18} />
@@ -773,32 +949,23 @@ function ViewEmployeeProfile({
                     <button
                         type="button"
                         className="view-profile-footer-document"
-                        onClick={onUploadDocument}
-                    >
-
+                        onClick={() => { console.log(
+                                        "Upload document for employee:",employee );
+                                        }}>
                         <Upload size={18} />
-
                         Upload Document
-
                     </button>
-
 
                     <button
                         type="button"
                         className="view-profile-footer-salary"
-                        onClick={onSalary}
-                    >
-
+                        onClick={() => {console.log("Salary for employee:",employee);
+                        }}>
                         <IndianRupee size={18} />
-
                         Salary
-
                     </button>
-
                 </div>
-
             </div>
-
         </section>
     );
 }

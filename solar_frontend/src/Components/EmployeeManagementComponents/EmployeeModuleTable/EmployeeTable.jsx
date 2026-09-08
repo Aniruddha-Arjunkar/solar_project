@@ -1,7 +1,3 @@
-import {
-    UserRound
-} from "lucide-react";
-
 import EmployeeAction
     from "./../EmployeeModuleActionBtn/EmployeeAction.jsx";
 
@@ -72,7 +68,9 @@ function EmployeeTable({
                                 <th
                                     key={column.key}
                                 >
+
                                     {column.label}
+
                                 </th>
 
                             ))}
@@ -100,12 +98,16 @@ function EmployeeTable({
 
                         {data.length > 0 ? (
 
-                            data.map((employee, index) => (
+                            data.map((employee) => (
 
                                 <tr
                                     key={employee.id}
                                 >
 
+
+                                    {/* ==================================================
+                                        TABLE COLUMNS
+                                    ================================================== */}
 
                                     {columns.map((column) => (
 
@@ -114,52 +116,20 @@ function EmployeeTable({
                                         >
 
 
-                                            {/* ==================================
-                                                SERIAL NUMBER
-                                            ================================== */}
+                                            {/* ==========================================
+                                                EMPLOYEE ID
+                                            ========================================== */}
 
-                                            {column.key === "serialNo" ? (
+                                            {column.key === "id" ? (
 
-                                                index + 1
-
-                                            ) : column.key === "photo" ? (
-
-
-                                                /* ==================================
-                                                    EMPLOYEE PHOTO
-                                                ================================== */
-
-                                                <div className="employee-photo-wrapper">
-
-                                                    {employee.photo ? (
-
-                                                        <img
-                                                            src={employee.photo}
-                                                            alt={employee.name}
-                                                            className="employee-photo"
-                                                        />
-
-                                                    ) : (
-
-                                                        <div className="employee-photo-placeholder">
-
-                                                            <UserRound
-                                                                size={24}
-                                                            />
-
-                                                        </div>
-
-                                                    )}
-
-                                                </div>
-
+                                                employee.id
 
                                             ) : column.key === "name" ? (
 
 
-                                                /* ==================================
+                                                /* ==========================================
                                                     EMPLOYEE NAME
-                                                ================================== */
+                                                ========================================== */
 
                                                 <div className="employee-name-cell">
 
@@ -173,9 +143,9 @@ function EmployeeTable({
                                             ) : column.key === "phone" ? (
 
 
-                                                /* ==================================
+                                                /* ==========================================
                                                     PHONE
-                                                ================================== */
+                                                ========================================== */
 
                                                 <span className="employee-phone">
 
@@ -187,9 +157,9 @@ function EmployeeTable({
                                             ) : column.key === "designation" ? (
 
 
-                                                /* ==================================
+                                                /* ==========================================
                                                     DESIGNATION
-                                                ================================== */
+                                                ========================================== */
 
                                                 <span
                                                     className={
@@ -207,9 +177,9 @@ function EmployeeTable({
                                             ) : column.key === "department" ? (
 
 
-                                                /* ==================================
+                                                /* ==========================================
                                                     DEPARTMENT
-                                                ================================== */
+                                                ========================================== */
 
                                                 <span
                                                     className={
@@ -225,6 +195,11 @@ function EmployeeTable({
 
 
                                             ) : (
+
+
+                                                /* ==========================================
+                                                    DEFAULT COLUMN
+                                                ========================================== */
 
                                                 employee[column.key] || "N/A"
 

@@ -80,7 +80,7 @@ function AddEmployee() {
 
         employeeType: "",
         department: "",
-        package: "",
+        packageAmount: "",
         joiningDate: "",
         designation: "",
 
@@ -171,30 +171,233 @@ useEffect(() => {
     };
 
 
-    // ============================================================
-    // HANDLE FORM SUBMIT
-    // ============================================================
+     // ============================================================
+// HANDLE FORM SUBMIT
+// ============================================================
 
-    const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
 
-        // ========================================================
-        // FRONTEND ONLY FOR NOW
-        // ========================================================
+    // ========================================================
+    // PREPARE EMPLOYEE DATA
+    // ========================================================
+
+    const employeeData = {
+
+        // ====================================================
+        // PERSONAL DETAILS
+        // ====================================================
+
+        title: formData.title,
+        name: formData.name,
+        phone: formData.phone,
+
+        dob:
+            formData.dob === ""
+                ? null
+                : formData.dob,
+
+        gender: formData.gender,
+        email: formData.email,
+        relationship: formData.relationship,
+        emergencyContact: formData.emergencyContact,
+        motherName: formData.motherName,
+        maritalStatus: formData.maritalStatus,
+
+        currentAddress: formData.currentAddress,
+        permanentAddress: formData.permanentAddress,
+
+
+        // ====================================================
+        // EDUCATION DETAILS
+        // ====================================================
+
+        tenth: formData.tenth,
+        twelfth: formData.twelfth,
+        graduation: formData.graduation,
+        postGraduation: formData.postGraduation,
+
+
+        // ====================================================
+        // EXPERIENCE DETAILS
+        // ====================================================
+
+        experienceType: formData.experienceType,
+        previousExperience: formData.previousExperience,
+
+        workExperienceYears:
+            formData.workExperienceYears === ""
+                ? null
+                : Number(formData.workExperienceYears),
+
+        previousCompanyName: formData.previousCompanyName,
+        previousDesignation: formData.previousDesignation,
+
+        previousSalary:
+            formData.previousSalary === ""
+                ? null
+                : Number(formData.previousSalary),
+
+
+        // ====================================================
+        // EMPLOYEE DETAILS
+        // ====================================================
+
+        employeeType: formData.employeeType,
+        department: formData.department,
+
+        packageAmount:
+            formData.packageAmount === ""
+                ? null
+                : Number(formData.packageAmount),
+
+        joiningDate:
+            formData.joiningDate === ""
+                ? null
+                : formData.joiningDate,
+
+        designation: formData.designation,
+
+
+        // ====================================================
+        // BANK DETAILS
+        // ====================================================
+
+        accountNo: formData.accountNo,
+        bankName: formData.bankName,
+        branchName: formData.branchName,
+        ifscCode: formData.ifscCode,
+
+
+        // ====================================================
+        // KYC DETAILS
+        // ====================================================
+
+        aadharNo: formData.aadharNo,
+        panNo: formData.panNo,
+
+
+        // ====================================================
+        // PROVIDENT FUND & ESIC
+        // ====================================================
+
+        uanNo: formData.uanNo,
+        pfNo: formData.pfNo,
+        esicNo: formData.esicNo
+
+    };
+
+
+    // ========================================================
+    // CHECK DATA BEFORE SENDING
+    // ========================================================
+
+    console.log(
+        "Employee Data Sending To Backend:",
+        employeeData
+    );
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:8080/api/employees",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(employeeData)
+            }
+        );
+
+
+        // ====================================================
+        // HANDLE BACKEND ERROR
+        // ====================================================
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Failed to create employee.";
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+                errorMessage =
+                    errorData.message ||
+                    errorData.error ||
+                    errorMessage;
+
+            } catch {
+
+                // Backend did not return JSON.
+
+            }
+
+            throw new Error(errorMessage);
+
+        }
+
+
+        // ====================================================
+        // GET SAVED EMPLOYEE
+        // ====================================================
+
+        const savedEmployee =
+            await response.json();
+
 
         console.log(
-            "Employee Form Data:",
-            formData
+            "Employee Created Successfully:",
+            savedEmployee
+        );
+
+
+        // ====================================================
+        // SUCCESS MESSAGE
+        // ====================================================
+
+        window.alert(
+            "Employee added successfully."
+        );
+
+
+        // ====================================================
+        // GO TO VIEW EMPLOYEE
+        // ====================================================
+
+        navigate(
+            "/dashboard/view-employee"
+        );
+
+    } catch (error) {
+
+        // ====================================================
+        // HANDLE API / NETWORK ERROR
+        // ====================================================
+
+        console.error(
+            "Error creating employee:",
+            error
         );
 
 
         window.alert(
-            "Employee form submitted successfully. Backend connection will be added later."
+            error.message ||
+            "Unable to add employee. Please try again."
         );
 
-    };
+    }
+
+};
+
+    
 
 
     // ============================================================
@@ -422,7 +625,7 @@ useEffect(() => {
 
                         </div>
 
-                        {/* ALTERNATE PHONE */}
+                        {/* Emergency Contact */}
 
                         <div className="employee-form-group">
                             <label>
@@ -943,8 +1146,8 @@ useEffect(() => {
                                 <input
                                     type="number"
                                     min="0"
-                                    name="package"
-                                    value={formData.package}
+                                    name="packageAmount"
+                                    value={formData.packageAmount}
                                     onChange={handleChange}
                                     placeholder="Annual Package"
                                 />

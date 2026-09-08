@@ -5,122 +5,124 @@ import {
 } from "lucide-react";
 
 import {
+    useEffect,
     useState
 } from "react";
+
+import { useNavigate } from "react-router";
 
 import EmployeeHeader
     from "../../../Components/EmployeeManagementComponents/EmployeeModuleHeader/EmployeeHeader.jsx";
 
-
 import EmployeeStat
     from "../../../Components/EmployeeManagementComponents/EmployeeModuleStats/EmployeeStat.jsx";
-
 
 import EmployeeTable
     from "../../../Components/EmployeeManagementComponents/EmployeeModuleTable/EmployeeTable.jsx";
 
-import ViewEmployeeProfile from "./../ViewEmployeeProfile/ViewEmployeeProfile.jsx";
 
-import UpdateEmployee from "../UpdateEmployee/UpdateEmployee.jsx";
+import UpdateEmployee
+    from "../UpdateEmployee/UpdateEmployee.jsx";
+
 import "./ViewEmployee.css";
 
 
 function ViewEmployee() {
 
+    const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedEmployee, setSelectedEmployee] = useState(null);
-    const [activeAction, setActiveAction] = useState(null);
 
-    const [employeeData] = useState([
-        {
-            id: 1,
-            name: "Anmol Lanjewar",
-            phone: "9689565027",
-            designation: "Developer",
-            department: "IT",
-            employeeType: "Full Time",
-            gender: "Male",
-            email: "anmol@example.com",
-            joiningDate: "2025-04-15",
-            package: 450000,
-            photo: null
-        },
+    const [selectedEmployee, setSelectedEmployee] =
+        useState(null);
 
-        {
-            id: 2,
-            name: "Vithal Sontake",
-            phone: "9665994427",
-            designation: "Sales Executive",
-            department: "Sales",
-            employeeType: "Full Time",
-            gender: "Male",
-            email: "vithal@example.com",
-            joiningDate: "2025-05-10",
-            package: 360000,
-            photo: null
-        },
+    const [activeAction, setActiveAction] =
+        useState(null);
 
 
-        {
-            id:3,
-            name: "Samyak Pravin Lingayat",
-            phone: "9881365218",
-            designation: "Engineer",
-            department: "Technical",
-            employeeType: "Full Time",
-            gender: "Male",
-            email: "samyak@example.com",
-            joiningDate: "2025-06-20",
-            package: 420000,
-            photo: null
-        },
+    // ============================================================
+    // EMPLOYEE DATA
+    // ============================================================
+    /*
+     * Employee data now comes from the Spring Boot backend.
+     *
+     * Backend API:
+     *
+     * GET http://localhost:8080/api/employees
+     */
+
+    const [employeeData, setEmployeeData] =
+        useState([]);
+
+    const [loading, setLoading] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
+
+    useEffect(() => {
+
+        const fetchEmployees = async () => {
+
+            try {
+
+                setLoading(true);
+
+                setError("");
 
 
-        {
-            id: 4,
-            name: "Suraj Manikrao Dabhade",
-            phone: "7020815416",
-            designation: "",
-            department: "",
-            employeeType: "Part Time",
-            gender: "Male",
-            email: "suraj@example.com",
-            joiningDate: "2025-07-01",
-            package: 240000,
-            photo: null
-        },
+                const response = await fetch(
+                    "http://localhost:8080/api/employees"
+                );
 
 
-        {
-            id: 5,
-            name: "Adesh Udesh Sonekar",
-            phone: "9175588739",
-            designation: "",
-            department: "",
-            employeeType: "Intern",
-            gender: "Male",
-            email: "adesh@example.com",
-            joiningDate: "2025-07-15",
-            package: 180000,
-            photo: null
-        },
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to fetch employees."
+                    );
+
+                }
 
 
-        {
-            id: 6,
-            name: "Priya Sharma",
-            phone: "9876543210",
-            designation: "HR Executive",
-            department: "HR",
-            employeeType: "Full Time",
-            gender: "Female",
-            email: "priya@example.com",
-            joiningDate: "2025-08-01",
-            package: 390000,
-            photo: null
-        }
+                const data =
+                    await response.json();
 
-    ]);
+
+                console.log(
+                    "Employees fetched successfully:",
+                    data
+                );
+
+
+                setEmployeeData(data);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error fetching employees:",
+                    error
+                );
+
+
+                setError(
+                    error.message ||
+                    "Unable to load employees."
+                );
+
+
+            } finally {
+
+                setLoading(false);
+
+            }
+
+        };
+
+
+        fetchEmployees();
+
+    }, []);
 
 
     // ============================================================
@@ -130,25 +132,30 @@ function ViewEmployee() {
     const columns = [
 
         {
-            key: "serialNo",
+            key: "id",
             label: "Employee Id"
         },
+
         {
             key: "name",
             label: "Name"
         },
+
         {
             key: "phone",
             label: "Contact"
         },
+
         {
             key: "designation",
             label: "Designation"
         },
+
         {
             key: "department",
             label: "Department"
         }
+
     ];
 
 
@@ -156,95 +163,95 @@ function ViewEmployee() {
     // SEARCH FILTER
     // ============================================================
 
-    const filteredEmployees = employeeData.filter(
-        (employee) => {
+    const filteredEmployees =
+        employeeData.filter(
+            (employee) => {
 
-            const search = searchTerm
-                .toLowerCase()
-                .trim();
+                const search =
+                    searchTerm
+                        .toLowerCase()
+                        .trim();
 
 
-            if (!search) {
+                if (!search) {
 
-                return true;
+                    return true;
+
+                }
+
+
+                return (
+
+                    employee.name
+                        ?.toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    employee.phone
+                        ?.toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    employee.department
+                        ?.toLowerCase()
+                        .includes(search)
+
+                );
 
             }
-
-
-            return (
-
-                employee.name
-                    ?.toLowerCase()
-                    .includes(search)
-
-                ||
-
-                employee.phone
-                    ?.toLowerCase()
-                    .includes(search)
-
-                ||
-
-                employee.department
-                    ?.toLowerCase()
-                    .includes(search)
-
-            );
-
-        }
-    );
+        );
 
 
     // ============================================================
 // EMPLOYEE ACTION HANDLER
 // ============================================================
 
-const handleEmployeeAction = (action, employee) => {
+const handleEmployeeAction =
+    (action, employee) => {
 
-    console.log(
-        "Employee Action:",
-        action
-    );
+        console.log(
+            "Employee Action:",
+            action
+        );
 
-    console.log(
-        "Selected Employee:",
-        employee
-    );
-
-
-    // ========================================================
-    // VIEW PROFILE
-    // ========================================================
-
-    if (action === "view_profile") {
-
-    setSelectedEmployee(employee);
-
-    setActiveAction("view_profile");
-
-    return;
-}
+        console.log(
+            "Selected Employee:",
+            employee
+        );
 
 
-    // ========================================================
-    // UPDATE EMPLOYEE
-    // ========================================================
+        // ========================================================
+        // VIEW PROFILE
+        // ========================================================
 
-    if (action === "update_employee") {
-        setSelectedEmployee(employee);
-        setActiveAction("update_employee");
-        return;
-    }
-  };
+        if (action === "view_profile") {
 
-     // ============================================================
-     // CLOSE EMPLOYEE ACTION
-     // ============================================================
+            navigate(
+                `/dashboard/view-employee/profile/${employee.id}`
+            );
 
-      const handleCloseAction = () => {
-         setActiveAction(null);
-         setSelectedEmployee(null);
-       };
+            return;
+
+        }
+
+
+        // ========================================================
+        // UPDATE EMPLOYEE
+        // ========================================================
+
+        if (action === "update_employee") {
+
+            navigate(
+                `/dashboard/update-employee/${employee.id}`
+            );
+
+            return;
+
+        }
+
+    };
 
 
     // ============================================================
@@ -272,23 +279,31 @@ const handleEmployeeAction = (action, employee) => {
 
         {
             title: "Full Time",
-            value: employeeData.filter(
-                employee =>
-                    employee.employeeType === "Full Time"
-            ).length
+            value:
+                employeeData.filter(
+                    employee =>
+                        employee.employeeType ===
+                        "Full Time"
+                ).length
         },
 
 
         {
             title: "Part Time",
-            value: employeeData.filter(
-                employee =>
-                    employee.employeeType === "Part Time"
-            ).length
+            value:
+                employeeData.filter(
+                    employee =>
+                        employee.employeeType ===
+                        "Part Time"
+                ).length
         }
 
     ];
 
+
+    // ============================================================
+    // RENDER
+    // ============================================================
 
     return (
 
@@ -391,84 +406,56 @@ const handleEmployeeAction = (action, employee) => {
                 </div>
 
 
-                {/* ==================================================
+                {/* ====================================================
                     RESULT COUNT
-                ================================================== */}
+                ==================================================== */}
 
                 <div className="employee-search-result">
-
                     <span>
                         Total :
                     </span>
-
                     <strong>
                         {filteredEmployees.length}
                     </strong>
-
                 </div>
-
             </div>
 
 
-           {activeAction === "view_profile" ? (
+            {/* ====================================================
+                LOADING STATE
+            ==================================================== */}
 
-    <ViewEmployeeProfile
-        employee={selectedEmployee}
+            {loading && (
+                <div className="employee-loading-message">
+                    Loading employees...
+                </div>
+            )}
 
-        onBack={handleCloseAction}
 
-        onUploadDocument={() => {
-            console.log(
-                "Upload document:",
-                selectedEmployee
-            );
-        }}
+            {/* ====================================================
+                ERROR STATE
+            ==================================================== */}
 
-        onSalary={() => {
-            console.log(
-                "Salary:",
-                selectedEmployee
-            );
-        }}
-    />
+            {!loading && error && (
 
-) : activeAction === "update_employee" ? (
+                <div className="employee-error-message">
+                    {error}
+                </div>
+            )}
+        
+ {/* ====================================================
+    EMPLOYEE TABLE
+==================================================== */}
 
-    <UpdateEmployee
-        employee={selectedEmployee}
-
-        onCancel={handleCloseAction}
-
-        onUpdate={(updatedEmployee) => {
-
-            console.log(
-                "Employee updated:",
-                updatedEmployee
-            );
-
-            window.alert(
-                "Employee updated successfully."
-            );
-
-            handleCloseAction();
-
-        }}
-    />
-
-) : (
+{!loading && !error && (
 
     <EmployeeTable
         columns={columns}
         data={filteredEmployees}
         onAction={handleEmployeeAction}
         showAction={true}
-    />
-
-)}
-
+    />)}   
         </section>
-
     );
-
 }
 export default ViewEmployee;
