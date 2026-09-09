@@ -34,29 +34,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: 20px 24px;
-
     border-bottom: 1px solid #edf0f5;
 }
 
 
 .form-card-header h2 {
     margin: 0;
-
     color: #263968;
-
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 700;
 }
 
 
 .form-card-header p {
     margin: 5px 0 0;
-
     color: #8790a5;
-
-    font-size: 15px;
+    font-size: 13px;
 }
 
 
@@ -96,9 +90,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-
-    margin-bottom: 18px;
-
+    margin-bottom: 18px;    
     color: #354b82;
 }
 
@@ -110,26 +102,23 @@
 
 .form-section-title h3 {
     margin: 0;
-
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 700;
 }
 
 
 /* ============= FORM GRID =============== */
 
-.form-grid {
+.add-inquiry-form-grid {
     display: grid;
-
     grid-template-columns: repeat(2, minmax(0, 1fr));
-
     gap: 18px 22px;
 }
 
 
 /* ====== FORM GROUP ========== */
 
-.form-group {
+.add-inquiry-form-group {
     display: flex;
     flex-direction: column;
 }
@@ -140,7 +129,7 @@
 }
 
 
-.form-group label {
+.add-inquiry-form-group label {
     margin-bottom: 7px;
 
     color: #4c5871;
@@ -150,14 +139,14 @@
 }
 
 
-.form-group label span {
+.add-inquiry-form-group label span {
     color: #e45656;
 }
 
 
 /* ======== INPUT =========== */
 
-.input-wrapper {
+.add-inquiry-input-wrapper {
     width: 100%;
 
     display: flex;
@@ -177,17 +166,15 @@
 }
 
 
-.input-wrapper svg {
+.add-inquiry-input-wrapper svg {
     flex-shrink: 0;
-
     margin-left: 12px;
-
     color: #8c96aa;
 }
 
 
-.input-wrapper input,
-.input-wrapper select {
+.add-inquiry-input-wrapper input,
+.add-inquiry-input-wrapper select {
     width: 100%;
 
     height: 43px;
@@ -206,12 +193,12 @@
 }
 
 
-.input-wrapper input::placeholder {
+.add-inquiry-input-wrapper input::placeholder {
     color: #a5adbd;
 }
 
 
-.input-wrapper:focus-within {
+.add-inquiry-input-wrapper:focus-within {
     border-color: #6b7ec1;
 
     box-shadow: 0 0 0 3px rgba(91, 109, 174, 0.10);

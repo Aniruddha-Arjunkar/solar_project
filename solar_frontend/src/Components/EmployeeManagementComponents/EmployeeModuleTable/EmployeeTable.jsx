@@ -1,5 +1,9 @@
+import { Search } from "lucide-react";
+
 import EmployeeAction
     from "./../EmployeeModuleActionBtn/EmployeeAction.jsx";
+
+import { useMemo, useState } from "react";
 
 import "./EmployeeTable.css";
 
@@ -10,6 +14,44 @@ function EmployeeTable({
     onAction,
     showAction = true
 }) {
+
+    // ============================================================
+    // SEARCH STATE
+    // ============================================================
+
+    const [searchTerm, setSearchTerm] = useState("");
+
+
+    // ============================================================
+    // FILTER EMPLOYEES
+    // ============================================================
+
+    const filteredEmployees = useMemo(() => {
+
+        const search = searchTerm.trim().toLowerCase();
+
+        if (!search) {
+            return data;
+        }
+
+        return data.filter((employee) => {
+
+            // Search through all configured table columns
+            return columns.some((column) => {
+
+                const value = employee[column.key];
+
+                return value !== null &&
+                    value !== undefined &&
+                    String(value)
+                        .toLowerCase()
+                        .includes(search);
+
+            });
+
+        });
+
+    }, [data, columns, searchTerm]);
 
 
     return (
@@ -23,7 +65,7 @@ function EmployeeTable({
 
             <div className="employee-table-header">
 
-                <div>
+                <div className="employee-table-heading">
 
                     <h2>
                         All Employees
@@ -36,11 +78,43 @@ function EmployeeTable({
                 </div>
 
 
-                <span className="employee-record-count">
+                {/* ====================================================
+                    TABLE CONTROLS
+                ==================================================== */}
 
-                    {data.length} Records
+                <div className="employee-table-controls">
 
-                </span>
+
+                    {/* ================= SEARCH ================= */}
+
+                    <div className="employee-search-box">
+
+                        <Search
+                            size={18}
+                            strokeWidth={2}
+                        />
+
+                        <input
+                            type="text"
+                            placeholder="Search employees..."
+                            value={searchTerm}
+                            onChange={(event) =>
+                                setSearchTerm(event.target.value)
+                            }
+                        />
+
+                    </div>
+
+
+                    {/* ================= RECORD COUNT ================= */}
+
+                    <span className="employee-record-count">
+
+                        {filteredEmployees.length} Records
+
+                    </span>
+
+                </div>
 
             </div>
 
@@ -96,9 +170,9 @@ function EmployeeTable({
                     <tbody>
 
 
-                        {data.length > 0 ? (
+                        {filteredEmployees.length > 0 ? (
 
-                            data.map((employee) => (
+                            filteredEmployees.map((employee) => (
 
                                 <tr
                                     key={employee.id}
@@ -253,7 +327,10 @@ function EmployeeTable({
                                     className="employee-no-data"
                                 >
 
-                                    No employees found.
+                                    {searchTerm
+                                        ? "No employees found matching your search."
+                                        : "No employees found."
+                                    }
 
                                 </td>
 

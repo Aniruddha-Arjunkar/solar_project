@@ -68,17 +68,16 @@ const toggleMenu = (menuName) => {
                     <span></span>
                 </div>
 
-                <h2>Shul Ventures</h2>
+                <h2>Solar Systems</h2>
                 <p>SOLAR SOLUTIONS</p>
 
             </div>
 
 
             {/* ================= DASHBOARD ================= */}
-            <NavLink to='/' className="menu-item active"style={{marginTop:'5px'}}>
+            <NavLink to='/' className="menu-item active"style={{marginTop:'5px', minHeight:'40px'}}>
 
                 <Home size={25} />
-
                 <span>Dashboard</span>
 
             </NavLink>

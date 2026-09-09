@@ -188,16 +188,16 @@ function AddInquiry() {
                         </div>
 
 
-                        <div className="form-grid">
+                        <div className="add-inquiry-form-grid">
 
                             {/* Customer Name */}
 
-                            <div className="form-group">
+                            <div className="add-inquiry-form-group">
                                 <label htmlFor="name">
                                     Customer Name <span>*</span>
                                 </label>
 
-                                <div className="input-wrapper">
+                                <div className="add-inquiry-input-wrapper">
                                     <User size={18} />
                                     <input
                                         id="name"
@@ -212,12 +212,12 @@ function AddInquiry() {
 
                             {/* Mobile Number */}
 
-                            <div className="form-group">
+                            <div className="add-inquiry-form-group">
                                 <label htmlFor="contact">
                                     Mobile Number <span>*</span>
                                 </label>
 
-                                <div className="input-wrapper">
+                                <div className="add-inquiry-input-wrapper">
                                     <Phone size={18} />
                                     <input
                                         id="contact"
@@ -231,12 +231,12 @@ function AddInquiry() {
 
                             {/* Email */}
 
-                            <div className="form-group">
+                            <div className="add-inquiry-form-group">
                                 <label htmlFor="email">
                                     Email Address
                                 </label>
 
-                                <div className="input-wrapper">
+                                <div className="add-inquiry-input-wrapper">
                                     <Mail size={18} />
                                     <input
                                         id="email"
@@ -250,12 +250,12 @@ function AddInquiry() {
 
                             {/* Location */}
 
-                            <div className="form-group">
+                            <div className="add-inquiry-form-group">
                                 <label htmlFor="address">
                                     Location <span>*</span>
                                 </label>
 
-                                <div className="input-wrapper">
+                                <div className="add-inquiry-input-wrapper">
                                     <MapPin size={18} />
                                     <input
                                         id="address"
@@ -279,18 +279,18 @@ function AddInquiry() {
                                 Inquiry Details
                             </h3>
                         </div>
-                        <div className="form-grid">
+                        <div className="add-inquiry-form-grid">
 
 
                             {/* Service */}
 
-                            <div className="form-group">
+                            <div className="add-inquiry-form-group">
                                 <label htmlFor="serviceType">
                                     Solar Service Type
                                     <span>*</span>
                                 </label>
 
-                                <div className="input-wrapper select-wrapper">
+                                <div className="add-inquiry-input-wrapper select-wrapper">
                                     <BriefcaseBusiness size={18} />
                                     <select
                                         id="serviceType"
@@ -336,13 +336,13 @@ function AddInquiry() {
 
                             {/* Inquiry Date */}
 
-                            <div className="form-group">
+                            <div className="add-inquiry-form-group">
                                 <label htmlFor="inquiryDate">
                                     Inquiry Date
                                     <span>*</span>
                                 </label>
 
-                                <div className="input-wrapper">
+                                <div className="add-inquiry-input-wrapper">
                                     <CalendarDays size={18} />
                                     <input
                                         id="inquiryDate"
@@ -355,7 +355,7 @@ function AddInquiry() {
 
                             {/* Requirement */}
 
-                            <div className="form-group form-group-full">
+                            <div className="add-inquiry-form-group form-group-full">
                                 <label htmlFor="serviceRequirement">
                                     Customer Requirement
                                     <span>*</span>

@@ -36,12 +36,9 @@
    display: flex;
     align-items: center;
     gap: 10px;
-
     margin: 0;
-
     color: #1f315f;
-
-    font-size: 40px;
+    font-size: 29px;
     font-weight: 700;
     line-height: 1.2;
 }
@@ -51,7 +48,7 @@
 }
 
 .module-page-heading p {
-    margin: 7px 0 0 50px;
+    margin: 7px 0 0 30px;
     font-size: 15px;
     color: #64748b;
 }

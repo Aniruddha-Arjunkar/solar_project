@@ -65,6 +65,7 @@ function EmployeeHeader({
                     </span>
 
                     {currectPage}
+
                 </div>
 
 
@@ -73,6 +74,7 @@ function EmployeeHeader({
                 ================================================= */}
 
                 <h1>
+
                     {
                         Icon && (
                             <Icon
@@ -81,16 +83,20 @@ function EmployeeHeader({
                             />
                         )
                     }
+
                     {title}
+
                 </h1>
 
 
                 {/* =================================================
                     DESCRIPTION
                 ================================================= */}
+
                 <p>
                     {description}
                 </p>
+
             </div>
 
 
@@ -108,22 +114,37 @@ function EmployeeHeader({
                             className="employee-module-header-btn"
                             onClick={handleButtonClick}
                         >
+
                             <Plus size={19} />
+
                             Add Employee
+
                         </button>
+
                     ) : (
+
                         <button
                             type="button"
                             className="employee-module-header-btn"
                             onClick={handleButtonClick}
                         >
+
                             <List size={19} />
+
                             View Employees
+
                         </button>
+
                     )
                 }
+
             </div>
+
         </div>
+
     );
+
 }
+
+
 export default EmployeeHeader;

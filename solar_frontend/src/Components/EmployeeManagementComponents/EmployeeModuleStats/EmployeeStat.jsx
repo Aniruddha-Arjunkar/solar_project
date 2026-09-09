@@ -10,10 +10,11 @@ function EmployeeStat({
         <div className="employee-stats">
 
             {stats.map((stat, index) => (
+
                 <div
                     className="employee-stat-card"
                     key={index}
->
+                >
 
                     <span className="employee-stat-title">
 

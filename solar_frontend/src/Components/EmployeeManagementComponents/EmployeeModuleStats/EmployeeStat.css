@@ -4,6 +4,8 @@
 
 .employee-stats {
 
+    width: 100%;
+
     display: grid;
 
     grid-template-columns: repeat(3, 1fr);
@@ -21,13 +23,11 @@
 
 .employee-stat-card {
 
-    background: #ffffff;
+    min-height: 105px;
 
-    border-radius: 12px;
+    padding: 22px 24px;
 
-    padding: 25px;
-
-    min-height: 85px;
+    box-sizing: border-box;
 
     display: flex;
 
@@ -35,12 +35,35 @@
 
     justify-content: center;
 
-    box-sizing: border-box;
+    background: #ffffff;
 
     border: 1px solid #e2e8f0;
 
+    border-radius: 12px;
+
     box-shadow:
-        0 5px 15px rgba(15, 23, 42, 0.06);
+        0 5px 20px rgba(15, 23, 42, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+
+}
+
+
+/* ============================================================
+   STAT CARD HOVER
+============================================================ */
+
+.employee-stat-card:hover {
+
+    transform: translateY(-2px);
+
+    border-color: #d5e5e8;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.09);
 
 }
 
@@ -51,11 +74,15 @@
 
 .employee-stat-title {
 
-    font-size: 16px;
-
-    color: #475569;
-
     margin-bottom: 8px;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    color: #64748b;
+
+    line-height: 1.4;
 
 }
 
@@ -66,9 +93,11 @@
 
 .employee-stat-value {
 
-    font-size: 27px;
+    font-size: 28px;
 
-    font-weight: 500;
+    font-weight: 600;
+
+    line-height: 1.2;
 
     color: #1e3a70;
 
@@ -76,14 +105,47 @@
 
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE - TABLET
 ============================================================ */
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
+
+    .employee-stats {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE - MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
 
     .employee-stats {
 
         grid-template-columns: 1fr;
+
+        gap: 14px;
+
+    }
+
+
+    .employee-stat-card {
+
+        min-height: 95px;
+
+        padding: 20px;
+
+    }
+
+
+    .employee-stat-value {
+
+        font-size: 25px;
 
     }
 

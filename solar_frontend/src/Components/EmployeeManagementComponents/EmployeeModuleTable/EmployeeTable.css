@@ -10,12 +10,12 @@
 
     border: 1px solid #e2e8f0;
 
-    border-radius: 11px;
+    border-radius: 12px;
 
     overflow: visible;
 
     box-shadow:
-        0 5px 15px rgba(15, 23, 42, 0.05);
+        0 5px 20px rgba(15, 23, 42, 0.06);
 
 }
 
@@ -26,7 +26,7 @@
 
 .employee-table-header {
 
-    padding: 20px;
+    padding: 22px 25px;
 
     display: flex;
 
@@ -34,16 +34,33 @@
 
     align-items: center;
 
-    border-bottom: 1px solid #e2e8f0;
+    gap: 25px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+}
+
+
+/* ============================================================
+   TABLE HEADING
+============================================================ */
+
+.employee-table-heading {
+
+    display: flex;
+
+    flex-direction: column;
 
 }
 
 
 .employee-table-header h2 {
 
-    margin: 0;
+    margin: 0 0 5px 0;
 
-    font-size: 27px;
+    font-size: 24px;
+
+    font-weight: 600;
 
     color: #1e3a70;
 
@@ -52,11 +69,110 @@
 
 .employee-table-header p {
 
-    margin: 5px 0 0;
+    margin: 0;
+
+    font-size: 16px;
+
+    color: #64748b;
+
+}
+
+
+/* ============================================================
+   TABLE CONTROLS
+============================================================ */
+
+.employee-table-controls {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 14px;
+
+    flex-shrink: 0;
+
+}
+
+
+/* ============================================================
+   SEARCH BOX
+============================================================ */
+
+.employee-search-box {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    width: 260px;
+
+}
+
+
+/* Search Icon */
+
+.employee-search-box svg {
+
+    position: absolute;
+
+    left: 13px;
+
+    color: #94a3b8;
+
+    pointer-events: none;
+
+}
+
+
+/* Search Input */
+
+.employee-search-box input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 10px 13px 10px 40px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #334155;
 
     font-size: 15px;
 
-    color: #64748b;
+    font-family: inherit;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.employee-search-box input:focus {
+
+    border-color: #20b7b5;
+
+    box-shadow:
+        0 0 0 3px rgba(32, 183, 181, 0.12);
+
+}
+
+
+.employee-search-box input::placeholder {
+
+    color: #94a3b8;
 
 }
 
@@ -67,17 +183,25 @@
 
 .employee-record-count {
 
-    background: #eafafa;
+    display: inline-flex;
 
-    color: #159c9a;
+    align-items: center;
 
-    padding: 7px 12px;
+    justify-content: center;
+
+    padding: 8px 13px;
+
+    background: #eefafa;
+
+    color: #168f8d;
 
     border-radius: 20px;
 
-    font-size: 14px;
+    font-size: 15px;
 
     font-weight: 600;
+
+    white-space: nowrap;
 
 }
 
@@ -120,17 +244,21 @@
 
     color: #475569;
 
-    font-size: 15px;
+    font-size: 13px;
 
     font-weight: 600;
 
     text-align: left;
 
-    padding: 13px 15px;
+    padding: 15px 20px;
 
     border-bottom: 1px solid #e2e8f0;
 
     white-space: nowrap;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
 
 }
 
@@ -141,9 +269,9 @@
 
 .employee-data-table td {
 
-    padding: 13px 15px;
+    padding: 15px 20px;
 
-    font-size: 15px;
+    font-size: 16px;
 
     color: #334155;
 
@@ -170,6 +298,13 @@
 .employee-data-table tbody tr:hover {
 
     background: #f8fafc;
+
+}
+
+
+.employee-data-table tbody tr:last-child td {
+
+    border-bottom: none;
 
 }
 
@@ -245,7 +380,9 @@
 ============================================================ */
 
 .employee-phone {
+
     font-weight: 500;
+
 }
 
 
@@ -353,10 +490,72 @@
 
     text-align: center !important;
 
-    padding: 40px !important;
+    padding: 45px 20px !important;
 
     color: #94a3b8 !important;
 
-    font-size: 15px !important;
+    font-size: 16px !important;
+
+}
+
+
+/* ============================================================
+   RESPONSIVE TABLE HEADER
+============================================================ */
+
+@media (max-width: 850px) {
+
+    .employee-table-header {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .employee-table-controls {
+
+        justify-content: space-between;
+
+        width: 100%;
+
+    }
+
+
+    .employee-search-box {
+
+        flex: 1;
+
+        width: auto;
+
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .employee-table-controls {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .employee-search-box {
+
+        width: 100%;
+
+    }
+
+
+    .employee-record-count {
+
+        align-self: flex-start;
+
+    }
 
 }

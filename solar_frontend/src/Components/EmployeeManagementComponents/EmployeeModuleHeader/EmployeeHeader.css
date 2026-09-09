@@ -1,8 +1,10 @@
-/* =========================================
-   EMPLOYEE MODULE PAGE HEADER
-========================================= */
+/* ============================================================
+   EMPLOYEE MODULE HEADER
+============================================================ */
 
 .employee-module-header {
+
+    width: 100%;
 
     display: flex;
 
@@ -10,16 +12,16 @@
 
     align-items: flex-start;
 
-    width: 100%;
+    gap: 25px;
 
     margin-bottom: 25px;
 
 }
 
 
-/* =========================================
+/* ============================================================
    HEADING SECTION
-========================================= */
+============================================================ */
 
 .employee-module-heading {
 
@@ -27,22 +29,26 @@
 
     flex-direction: column;
 
+    min-width: 0;
+
 }
 
 
-/* =========================================
+/* ============================================================
    CURRENT PAGE / BREADCRUMB
-========================================= */
+============================================================ */
 
 .employee-current-page-location {
 
+    margin-bottom: 8px;
+
     font-size: 14px;
 
-    font-weight: lighter;
+    font-weight: 400;
 
     color: #64748b;
 
-    margin-bottom: 7px;
+    line-height: 1.4;
 
 }
 
@@ -56,11 +62,13 @@
 }
 
 
-/* =========================================
+/* ============================================================
    PAGE TITLE
-========================================= */
+============================================================ */
 
 .employee-module-heading h1 {
+
+    margin: 0;
 
     display: flex;
 
@@ -68,13 +76,11 @@
 
     gap: 10px;
 
-    margin: 0;
+    color: #1e3a70;
 
-    color: #1f315f;
+    font-size: 29px;
 
-    font-size: 40px;
-
-    font-weight: 700;
+    font-weight: 650;
 
     line-height: 1.2;
 
@@ -83,29 +89,30 @@
 
 .employee-module-heading h1 svg {
 
-    color: #1f315f;
+    flex-shrink: 0;
+
+    color: #20b7b5;
 
 }
 
 
-/* =========================================
+/* ============================================================
    DESCRIPTION
-========================================= */
+============================================================ */
 
 .employee-module-heading p {
-
-    margin: 7px 0 0 50px;
-
-    font-size: 15px;
-
+    margin: 8px 0 0 45px;
     color: #64748b;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
 
 }
 
 
-/* =========================================
-   BUTTON SECTION
-========================================= */
+/* ============================================================
+   HEADER BUTTON SECTION
+============================================================ */
 
 .employee-module-header-button {
 
@@ -113,16 +120,22 @@
 
     align-items: center;
 
+    flex-shrink: 0;
+
 }
 
 
-/* =========================================
+/* ============================================================
    HEADER BUTTON
-========================================= */
+============================================================ */
 
 .employee-module-header-btn {
 
-    margin-top: 30px;
+    margin-top: 27px;
+
+    min-height: 44px;
+
+    padding: 11px 18px;
 
     display: flex;
 
@@ -132,19 +145,15 @@
 
     gap: 8px;
 
-    border: none;
+    border: 1px solid transparent;
 
     border-radius: 7px;
 
-    padding: 13px 18px;
-
-    background: linear-gradient(
-        135deg,
-        rgba(20, 202, 190, 0.85),
-        rgba(13, 181, 173, 0.70)
-    );
+    background: #20b7b5;
 
     color: #ffffff;
+
+    font-family: inherit;
 
     font-size: 15px;
 
@@ -160,21 +169,92 @@
 }
 
 
-/* =========================================
-   BUTTON HOVER
-========================================= */
+/* ============================================================
+   HEADER BUTTON HOVER
+============================================================ */
 
 .employee-module-header-btn:hover {
 
-    background: linear-gradient(
-        135deg,
-        rgba(20, 202, 190, 0.95),
-        rgba(13, 181, 173, 0.82)
-    );
+    background: #159f9d;
 
     transform: translateY(-1px);
 
     box-shadow:
-        0 5px 14px rgba(80, 75, 180, 0.20);
+        0 5px 14px rgba(32, 183, 181, 0.20);
+
+}
+
+
+/* ============================================================
+   HEADER BUTTON ACTIVE
+============================================================ */
+
+.employee-module-header-btn:active {
+
+    transform: translateY(0);
+
+    box-shadow: none;
+
+}
+
+
+/* ============================================================
+   RESPONSIVE - TABLET
+============================================================ */
+
+@media (max-width: 750px) {
+
+    .employee-module-header {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .employee-module-header-button {
+
+        width: 100%;
+
+    }
+
+
+    .employee-module-header-btn {
+
+        width: fit-content;
+
+        margin-top: 0;
+
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE - MOBILE
+============================================================ */
+
+@media (max-width: 500px) {
+
+    .employee-module-heading h1 {
+
+        font-size: 30px;
+
+    }
+
+
+    .employee-module-heading p {
+
+        margin-left: 0;
+
+    }
+
+
+    .employee-module-header-btn {
+
+        width: 100%;
+
+    }
 
 }

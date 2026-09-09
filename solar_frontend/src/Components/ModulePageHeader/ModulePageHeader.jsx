@@ -34,7 +34,7 @@ function ModulePageHeader({currectPage,title,description,
 
                 <h1>
                     {
-                        Icon && (<Icon size={35} strokeWidth={1.8}/>)
+                        Icon && (<Icon size={25} strokeWidth={1.8}/>)
                     }
                     {title}
                 </h1>
