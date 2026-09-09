@@ -44,6 +44,8 @@ import GSTInvoice from './Views/Account_Management/GST Invoice/GSTInvoice.jsx';
 import ViewAdvance from './Views/Account_Management/ViewAdvance/ViewAdvance.jsx';
 import ViewExpenses from './Views/Account_Management/ViewExpenses/ViewExpenses.jsx';
 import ViewPayment from './Views/Account_Management/ViewPayment/ViewPayment.jsx';
+import AddPayment from './Views/Account_Management/AddPayment/AddPayment.jsx';
+import AdvanceDetails from './Views/Account_Management/AdvanceDetails/AdvanceDetails.jsx';
 
 
 //=========== Users ======================
@@ -122,6 +124,8 @@ function App() {
              <Route path="dashboard/view-advance" element={<ViewAdvance/>}/>
              <Route path="dashboard/view-expenses" element={<ViewExpenses/>}/>
              <Route path="dashboard/view-payment" element={<ViewPayment/>}/>
+             <Route path="/dashboard/add-payment/:clientId" element={<AddPayment />}/>
+             <Route path="/dashboard/view-advance/details/:employeeId" element={<AdvanceDetails />}/>
 
 
             {/* Users */}
