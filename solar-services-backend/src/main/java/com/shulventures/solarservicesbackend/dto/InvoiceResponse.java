@@ -7,60 +7,29 @@ import java.util.List;
 
 public class InvoiceResponse {
 
-    // =====================================================
-    // INVOICE INFORMATION
-    // =====================================================
-
     private Long id;
-
     private String gstInvoiceNo;
-
     private LocalDate invoiceDate;
-
     private LocalDate dueDate;
 
-    // =====================================================
-    // CLIENT / CUSTOMER SNAPSHOT
-    // =====================================================
-
     private Long inquiryId;
-
     private String custName;
-
     private String custPhone;
-
     private String custEmail;
-
     private String billingAddress;
-
     private String shippingAddress;
-
-    // =====================================================
-    // INVOICE ITEMS
-    // =====================================================
 
     private List<InvoiceItemResponse> items;
 
-    // =====================================================
-    // TOTALS
-    // =====================================================
+
 
     private BigDecimal subtotal;
-
     private BigDecimal totalCgst;
-
     private BigDecimal totalSgst;
-
     private BigDecimal grandTotal;
 
-    // =====================================================
-    // OTHER INFORMATION
-    // =====================================================
-
     private String notes;
-
     private String pdfFile;
-
     private LocalDateTime createdAt;
 
     // =====================================================

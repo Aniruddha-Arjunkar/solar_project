@@ -540,7 +540,6 @@ public class InvoiceService {
 
                 InvoiceItemResponse itemResponse =
                         new InvoiceItemResponse();
-
                 itemResponse.setId(item.getId());
                 itemResponse.setItemName(item.getItemName());
                 itemResponse.setHsn(item.getHsn());
@@ -548,28 +547,20 @@ public class InvoiceService {
                 itemResponse.setServiceCharge(item.getServiceCharge());
                 itemResponse.setRate(item.getRate());
                 itemResponse.setBaseAmount(item.getBaseAmount());
-
                 itemResponse.setCgstPer(item.getCgstPer());
                 itemResponse.setCgstAmt(item.getCgstAmt());
-
                 itemResponse.setSgstPer(item.getSgstPer());
                 itemResponse.setSgstAmt(item.getSgstAmt());
-
                 itemResponse.setItemTotal(item.getItemTotal());
-
                 itemResponses.add(itemResponse);
             }
         }
-
         response.setItems(itemResponses);
-
         return response;
     }
 
-    // ============================================================
-// GET INVOICE ENTITY BY ID
-// ============================================================
 
+    // GET INVOICE ENTITY BY ID
     public Invoice getInvoiceEntityById(Long id) {
 
         return invoiceRepository.findById(id)

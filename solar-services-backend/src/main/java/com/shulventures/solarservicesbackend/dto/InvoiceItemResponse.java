@@ -4,45 +4,22 @@ import java.math.BigDecimal;
 
 public class InvoiceItemResponse {
 
-    // =====================================================
-    // ITEM INFORMATION
-    // =====================================================
-
     private Long id;
-
     private String itemName;
-
     private String hsn;
-
     private BigDecimal qty;
-
     private BigDecimal serviceCharge;
-
     private BigDecimal rate;
-
     private BigDecimal baseAmount;
 
-    // =====================================================
-    // GST
-    // =====================================================
-
     private BigDecimal cgstPer;
-
     private BigDecimal cgstAmt;
-
     private BigDecimal sgstPer;
-
     private BigDecimal sgstAmt;
 
-    // =====================================================
-    // ITEM TOTAL
-    // =====================================================
 
     private BigDecimal itemTotal;
 
-    // =====================================================
-    // CONSTRUCTOR
-    // =====================================================
 
     public InvoiceItemResponse() {
     }

@@ -12,18 +12,10 @@ import java.util.List;
 @Table(name = "invoices")
 public class Invoice {
 
-    // =====================================================
-    // PRIMARY KEY
-    // =====================================================
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    // =====================================================
-    // INVOICE INFORMATION
-    // =====================================================
 
     @Column(nullable = false, unique = true)
     private String gstInvoiceNo;

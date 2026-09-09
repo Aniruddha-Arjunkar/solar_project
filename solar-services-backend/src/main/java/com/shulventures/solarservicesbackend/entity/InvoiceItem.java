@@ -8,18 +8,9 @@ import java.math.BigDecimal;
 @Table(name = "invoice_items")
 public class InvoiceItem {
 
-    // =====================================================
-    // PRIMARY KEY
-    // =====================================================
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
-    // =====================================================
-    // INVOICE REFERENCE
-    // =====================================================
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "invoice_id", nullable = false)
